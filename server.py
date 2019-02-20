@@ -29,7 +29,14 @@ def add_question():
     return render_template('add-question.html', message=message, title=title, image=image)
 
 
+@app.route('/question/<int:question_id>/new-answer')
+def question_page(question_id):
 
+    my_q = data_manager.get_q_by_id(question_id)
+    my_a = data_manager.get_answer_by_q(question_id)
+
+
+    return render_template('q-and-a.html', question=my_q, answer=my_a)
 
 
 if __name__ == "__main__":

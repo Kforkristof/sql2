@@ -6,10 +6,11 @@
 <body>
     <h1>Add user story:</h1>
 
-    <form action='/question/<question_id>' method="get">
+    <form action='/question/{{ question['id'] }}' method="get">
 
-        {{ data }}
-
+    {% for i in data %}
+    <p>{{ i['message'] }}</p>
+    {% endfor %}
     </form>
 </body>
 
