@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head xmlns="http://www.w3.org/1999/html">
+    <meta charset="UTF-8">
+    <title>Add new story</title>
+    <link rel="stylesheet" type="text/css" href="/static/add_style.css">
+</head>
+<body>
+    <table align="center">
+        <tr>
+            <td><h1>Add user story:</h1></td>
+        </tr>
+
+    <form action='/add-question' method="post">
+
+        <tr>
+            <th><label for="title">Title:</label></th>
+        </tr>
+
+        <tr>
+            <th><input id="title" name="title" required size="100">{{  title  }}</th>
+        </tr>
+        <p>
+        <label for="message">Story:</label>
+        </p>
+
+        <tr>
+            <th><label for="message">Story:</label></th>
+        </tr>
+
+        <tr>
+            <th><textarea id="message" name="message" rows="10" cols=100" required>{{  message  }}</textarea></th>
+        </tr>
+
+        <tr>
+            <th><input type="submit" value="Submit"></th>
+        </tr>
+
+    </form>
+    </table>
+</body>
+</html>

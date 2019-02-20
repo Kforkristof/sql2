@@ -1,0 +1,53 @@
+<!DOCtype html>
+<html>
+<head>
+    <title>Q&A</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+    <h1>Question&Answers</h1>
+    <form action=http://0.0.0.0:5000/question/{{ question.id }}/new-answer"><button type="submit">Type Answer</button></form>
+    <div class="question-block">
+        <table>
+            <tr>
+                {% for i in questionheader %}
+                    <td>{{ i }}</td>
+                {% endfor %}
+            </tr>
+
+            <tr>
+                <form action="/question/{{ question.id }}/answer" method="POST"><td>{{ question.id }}</td></form>
+                <td>{{ question.submission_time }}</td>
+                <td>{{ question.view_number }}</td>
+                <td>{{ question.vote_number }}</td>
+                <td>{{ question.title }}</td>
+                <td>{{ question.message }}</td>
+                <td>{{ question.image }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="answerblock">
+        <table>
+            <tr>
+                {% for i in answerheader %}
+                    <td>{{ i }}</td>
+                {% endfor %}
+            </tr>
+
+            <tr>
+                <td>{{ answer.id }}</td>
+                <td>{{ answer.submission_time }}</td>
+
+                <td>{{ answer.vote_number }}</td>
+                <td>{{ answer.question_id }}</td>
+                <td>{{ answer.message }}</td>
+                <td>{{ answer.image }}</td>
+            </tr>
+
+        </table>
+    </div>
+</body>

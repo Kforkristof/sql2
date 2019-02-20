@@ -1,0 +1,39 @@
+<!DOCtype html>
+<html>
+<head>
+    <title>Home</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+    <table align="center">
+
+        <tr>
+            <td colspan="4"><h1>@AskMate</h1></td>
+        </tr>
+
+        <form action="/add-question">
+            <input type="submit" value="Add new question" />
+        </form>
+        <tr>
+            <th>Submission time</th>
+            <th>View number</th>
+            <th>Vote number</th>
+            <th>Title</th>
+        </tr>
+
+        {% for question in questions %}
+        <tr>
+            <td>{{ question.submission_time }}</td>
+            <td>{{ question.view_number }}</td>
+            <td>{{ question.vote_number }}</td>
+            <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+        </tr>
+        {% endfor %}
+
+
+    </table>
+</body>
+</html>
