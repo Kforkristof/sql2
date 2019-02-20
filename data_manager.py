@@ -72,3 +72,24 @@ def get_answer_by_q(cursor, q_id):
 
     toreturn = cursor.fetchall()
     return toreturn
+
+
+@connection.connection_handler
+def new_q_comment(cursor, comment, question_id):
+    realtime = time.time()
+    st = datetime.datetime.fromtimestamp(realtime).strftime('%Y-%m-%d %H:%M:%S')
+    cursor.execute("""
+    insert into comment (submission_time, question_id, message, edited_count)
+    values (%(submission_time)s, %(question_id)s, %(message)s, %(edited_count)s);""",
+                   {'submission_time': st, 'question_is': question_id, 'message': comment, 'edited_count': 0})
+    return cursor
+
+@connection.connection_handler
+def get_q_comments(cursor, question_id):
+    cursor.execute("""
+    select * from comment
+    where question_id = %(q_id)s;
+    """,
+                   {'q_id': question_id})
+    comments = cursor.fetchall()
+    return comments

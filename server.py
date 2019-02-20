@@ -29,14 +29,26 @@ def add_question():
     return render_template('add-question.html', message=message, title=title, image=image)
 
 
-@app.route('/question/<int:question_id>/new-answer')
+@app.route('/question/<int:question_id>')
 def question_page(question_id):
 
     my_q = data_manager.get_q_by_id(question_id)
     my_a = data_manager.get_answer_by_q(question_id)
+    question_comment = data_manager.get_q_comments(question_id)
 
 
-    return render_template('q-and-a.html', question=my_q, answer=my_a)
+    return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=question_comment)
+
+@app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
+def question_comment(question_id):
+    comment = request.form.get('comment')
+    if request.method == 'POST':
+        '''data_manager.new_q_comment(comment, question_id)'''
+        return redirect('/')
+    return render_template("question-comment.html", question_id=question_id)
+
+
+
 
 
 if __name__ == "__main__":

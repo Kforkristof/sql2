@@ -9,14 +9,18 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-    <h1>Question&Answers</h1>
-    <form action=http://0.0.0.0:5000/question/{{ question['id'] }}/new-answer"><button type="submit">Type Answer</button></form>
-    <div class="question-block">
-        <table>
+<h1>Question&Answers</h1>
+<form action="http://0.0.0.0:5000/question/{{ question['id'] }}/new-answer">
+    <button type="submit">Type Answer</button>
+</form>
+<div class="question-block">
+    <table>
 
 
-            <tr>
-                <form action="/question/{{ question['id'] }}/new-answer" method="POST"><td>{{ question.id }}</td></form>
+        <tr>
+            <form action="/question/{{ question['id'] }}/new-answer" method="POST">
+                <td>{{ question.id }}</td>
+            </form>
             {% for try in question %}
 
                 <td>{{ try['submission_time'] }}</td>
@@ -27,14 +31,30 @@
                 <td>{{ try['image'] }}</td>
             {% endfor %}
 
-            </tr>
-        </table>
-    </div>
-    <div class="answerblock">
-        <table>
+        </tr>
+    </table>
+</div>
+<form action="/question/{{ question[0]['id'] }}/question-comment">
+    <button type="submit">Add Comment</button>
+</form>
+<div id="question-comments">
+    <table>
+        <tr>{% for comment in question_comments %}
+            <td>{{ comment['id'] }}</td>
+            <td>{{ comment['submission_time'] }}</td>
+            <td>{{ comment['message'] }}</td>
+            <td>{{ comment['edited_count'] }}</td>
+            {%  endfor %}
 
 
-            <tr>
+        </tr>
+    </table>
+</div>
+<div class="answerblock">
+    <table>
+
+
+        <tr>
             {% for try2 in answer %}
                 <td>{{ try2['id'] }}</td>
                 <td>{{ try2['submission_time'] }}</td>
@@ -43,8 +63,8 @@
                 <td>{{ try2['question_id'] }}</td>
                 <td>{{ try2['message'] }}</td>
                 <td>{{ try2['image'] }}</td>
-            </tr>
+                </tr>
             {% endfor %}
-        </table>
-    </div>
+    </table>
+</div>
 </body>
