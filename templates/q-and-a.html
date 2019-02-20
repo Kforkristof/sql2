@@ -9,19 +9,22 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-<h1>Question&Answers</h1>
-<form action="http://0.0.0.0:5000/question/{{ question['id'] }}/new-answer">
-    <button type="submit">Type Answer</button>
-</form>
+                    {% for try in question %}
+    <h1>Question&Answers</h1>
+
+            <form action='/question/{{ try['id'] }}/new-answer'>
+                <input type="submit" value="Add new answer" /></form>
+
+
+
 <div class="question-block">
     <table>
 
 
         <tr>
-            <form action="/question/{{ question['id'] }}/new-answer" method="POST">
-                <td>{{ question.id }}</td>
-            </form>
-            {% for try in question %}
+            <form action='/question/{{ try['id'] }}' method="POST">
+                <td></td>
+
 
                 <td>{{ try['submission_time'] }}</td>
                 <td>{{ try['view_number'] }}</td>
@@ -34,9 +37,9 @@
         </tr>
     </table>
 </div>
-<form action="/question/{{ question[0]['id'] }}/question-comment">
-    <button type="submit">Add Comment</button>
-</form>
+<form action="/question/{{ question }}/question-comment">
+            <input type="submit" value="Add new question" />
+        </form>
 <div id="question-comments">
     <table>
         <tr>{% for comment in question_comments %}

@@ -1,15 +1,34 @@
 <!DOCTYPE html>
-<html>
-<head>
+<head xmlns="http://www.w3.org/1999/html">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/answer.css">
-    <title>ANSWER</title>
+    <title>Add new Answer</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-<h1>YOUR ANSWER</h1>
-<form action="{{ url_for("give_answer") }}" type="POST"><<textarea name="message" rows="10" cols=60"
-                                                                   required></textarea><input type="submit"
-                                                                                              value="Submit"></form>
+    <table align="center">
+        <tr>
+            <td><h1>Add new answer:</h1></td>
+        </tr>
+
+    <form action="/question/{{ question_id }}/new-answer" method="post">
+
+        <p>
+        <label for="message">Story:</label>
+        </p>
+
+        <tr>
+            <th><label for="message">Story:</label></th>
+        </tr>
+
+        <tr>
+            <th><textarea id="message" name="message" rows="10" cols=100" required></textarea></th>
+        </tr>
+
+        <tr>
+            <th><input type="submit" value="Submit"></th>
+        </tr>
+
+    </form>
+    </table>
 </body>
 </html>
