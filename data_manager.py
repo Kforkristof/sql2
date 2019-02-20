@@ -1,4 +1,7 @@
 import connection
+import time
+import datetime
+
 
 @connection.connection_handler
 def get_answers(cursor):
@@ -19,16 +22,21 @@ def get_questions(cursor):
 
     return questions
 
+
 @connection.connection_handler
 def new_question(cursor, title, message, image):
+    realtime = time.time()
+    st = datetime.datetime.fromtimestamp(realtime).strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute('''
-    INSERT INTO question (view_number, vote_number, title, message, image)
-    VALUES (%(view_number)s, %(vote_number)s, %(title)s, %(message)s,%(image)s);''',
-    {'view_number':0, 'vote_number':0, 'title':title, 'message':message, 'image':image})
+    INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
+    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s,%(image)s);''',
+                   {'submission_time': st, 'view_number': 0, 'vote_number': 0, 'title': title,
+                    'message': message, 'image': image})
 
-# SQL generates own ID
+    # SQL generates own ID
 
     return cursor
+
 
 @connection.connection_handler
 def get_q_by_id(cursor, my_id):
@@ -36,10 +44,11 @@ def get_q_by_id(cursor, my_id):
     SELECT * FROM question
     WHERE id=%(my_id)s
     ;''',
-    {'my_id':my_id})
+                   {'my_id': my_id})
 
     whatiwant = cursor.fetchall()
     return whatiwant
+
 
 @connection.connection_handler
 def get_a_by_id(cursor, my_id):
@@ -47,10 +56,11 @@ def get_a_by_id(cursor, my_id):
     SELECT * FROM answer
     WHERE id=%(my_id)s
     ;''',
-    {'my_id':my_id})
+                   {'my_id': my_id})
 
     whatiwant = cursor.fetchall()
     return whatiwant
+
 
 @connection.connection_handler
 def get_answer_by_q(cursor, q_id):
@@ -58,8 +68,7 @@ def get_answer_by_q(cursor, q_id):
     SELECT * FROM answer
     WHERE question_id = %(q_id)s;
     ''',
-    {'q_id':q_id})
+                   {'q_id': q_id})
 
     toreturn = cursor.fetchall()
     return toreturn
-
