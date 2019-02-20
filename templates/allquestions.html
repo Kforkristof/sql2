@@ -24,17 +24,17 @@
             <th>Title</th>
         </tr>
 
-        {% for i in range(5) %}
+        {% for question in questions %}
         <tr>
-            <td>{{ questions[i].submission_time }}</td>
-            <td>{{ questions[i].view_number }}</td>
-            <td>{{ questions[i].vote_number }}</td>
-            <td><a href="/question/{{ questions[i].id }}">{{ questions[i].title }}</a></td>
+            <td>{{ question.submission_time }}</td>
+            <td>{{ question.view_number }}</td>
+            <td>{{ question.vote_number }}</td>
+            <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
         </tr>
         {% endfor %}
-        <form action="/all-questions">
-        <input type="submit" value="Show All Questions" />
 
+        <form action="/">
+        <input type="submit" value="Return" />
         </form>
 
     </table>

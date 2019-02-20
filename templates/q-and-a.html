@@ -9,15 +9,18 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
+                    {% for try in question %}
     <h1>Question&Answers</h1>
-    <form action=http://0.0.0.0:5000/question/{{ question['id'] }}/new-answer"><button type="submit">Type Answer</button></form>
-    <div class="question-block">
+
+            <form action='/question/{{ try['id'] }}/new-answer'>
+                <input type="submit" value="Add new answer" /></form>
+
+
         <table>
 
-
             <tr>
-                <form action="/question/{{ question['id'] }}/new-answer" method="POST"><td>{{ question.id }}</td></form>
-            {% for try in question %}
+                <form action='/question/{{ try['id'] }}' method="POST"><td></td>
+
 
                 <td>{{ try['submission_time'] }}</td>
                 <td>{{ try['view_number'] }}</td>
@@ -25,7 +28,7 @@
                 <td>{{ try['title'] }}</td>
                 <td>{{ try['message'] }}</td>
                 <td>{{ try['image'] }}</td>
-            {% endfor %}
+                    {% endfor %}
 
             </tr>
         </table>
