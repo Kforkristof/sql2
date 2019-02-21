@@ -33,7 +33,7 @@ def new_question(cursor, title, message, image):
                    {'submission_time': st, 'view_number': 0, 'vote_number': 0, 'title': title,
                     'message': message, 'image': image})
 
-# SQL generates own ID
+    # SQL generates own ID
 
     return cursor
 
@@ -43,7 +43,7 @@ def new_answer(cursor, question_id, message, image):
     cursor.execute('''
     INSERT INTO answer (question_id, vote_number, message, image)
     VALUES (%(question_id)s, %(vote_number)s, %(message)s, %(image)s);''',
-    {'question_id':question_id, 'vote_number':0, 'message':message, 'image':image})
+                   {'question_id': question_id, 'vote_number': 0, 'message': message, 'image': image})
 
     return cursor
 
@@ -54,11 +54,10 @@ def get_q_by_id(cursor, my_id):
     SELECT * FROM question
     WHERE id=%(my_id)s
     ;''',
-    {'my_id':my_id})
+                   {'my_id': my_id})
 
     whatiwant = cursor.fetchall()
     return whatiwant
-
 
 
 @connection.connection_handler
@@ -79,11 +78,10 @@ def search(cursor, searching_for):
     SELECT * FROM question, answer
     WHERE title,message,image LIKE CONCAT('%' + %(searching_for)s + '%')
     ;''',
-                   {'searching_for':searching_for})
+                   {'searching_for': searching_for})
 
     result = cursor.fetchall()
     return result
-
 
 
 @connection.connection_handler
@@ -93,8 +91,9 @@ def new_q_comment(cursor, comment, question_id):
     cursor.execute("""
     insert into comment (submission_time, question_id, message, edited_count)
     values (%(submission_time)s, %(question_id)s, %(message)s, %(edited_count)s);""",
-                   {'submission_time': st, 'question_is': question_id, 'message': comment, 'edited_count': 0})
+                   {'submission_time': st, 'question_id': question_id, 'message': comment, 'edited_count': 0})
     return cursor
+
 
 @connection.connection_handler
 def get_q_comments(cursor, question_id):
@@ -105,3 +104,15 @@ def get_q_comments(cursor, question_id):
                    {'q_id': question_id})
     comments = cursor.fetchall()
     return comments
+
+
+@connection.connection_handler
+def get_a_comments(cursor, answer_id):
+    cursor.execute("""
+    select * from comment
+    where answer_id = %(a_id)s;
+    """,
+                   {'a_id': answer_id})
+    comments = cursor.fetchall()
+    return comments
+

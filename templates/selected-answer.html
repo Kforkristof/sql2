@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+ <div class="selected_answer">
+<table>
+
+    <tr>
+        <th>ID</th>
+        <th>SUBMISSION TIME</th>
+        <th>VIEW NUMBER</th>
+        <th>VOTE NUMBER</th>
+        <th>ANSWER</th>
+        <th>IMAGE</th>
+    </tr>
+    <tr>
+        <td>{{ answer[0]['id'] }}</td>
+        <td>{{ answer[0]['submission_time'] }}</td>
+        <td>{{ answer[0]['view_number'] }}</td>
+        <td>{{ answer[0]['vote_number'] }}</td>
+        <td>{{ answer[0]['message'] }}</td>
+        <td>{{ answer[0]['image'] }}</td>
+    </tr>
+</table>
+ </div>
+ <div class="answers_comments">
+     <table>
+         {% for comment in comments %}
+         <tr>
+             <td>{{ comment['message'] }}</td>
+         </tr>
+         {% endfor %}
+     </table>
+ </div>
+
+
+
+
+
+
+
+</body>
+</html>
