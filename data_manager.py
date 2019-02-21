@@ -1,12 +1,14 @@
 import connection
 import time
 import datetime
+from psycopg2 import sql
 
 
 @connection.connection_handler
 def get_answers(cursor):
     cursor.execute("""
-                    SELECT * FROM answer;
+                    SELECT * FROM answer
+                    ;
                    """)
     answers = cursor.fetchall()
 
@@ -14,10 +16,10 @@ def get_answers(cursor):
 
 
 @connection.connection_handler
-def get_questions(cursor):
-    cursor.execute("""
-                    SELECT * FROM question;
-                   """)
+def get_questions(cursor, base):
+    cursor.execute(
+        sql.SQL("select * from question ORDER BY {base} DESC").format(base=sql.Identifier(base)))
+
     questions = cursor.fetchall()
 
     return questions
@@ -93,7 +95,7 @@ def new_q_comment(cursor, comment, question_id):
     cursor.execute("""
     insert into comment (submission_time, question_id, message, edited_count)
     values (%(submission_time)s, %(question_id)s, %(message)s, %(edited_count)s);""",
-                   {'submission_time': st, 'question_is': question_id, 'message': comment, 'edited_count': 0})
+                   {'submission_time': st, 'question_id': question_id, 'message': comment, 'edited_count': 0})
     return cursor
 
 @connection.connection_handler
@@ -105,3 +107,14 @@ def get_q_comments(cursor, question_id):
                    {'q_id': question_id})
     comments = cursor.fetchall()
     return comments
+
+@connection.connection_handler
+def delete_q(cursor, question_id):
+    cursor.execute("""
+    DELETE FROM comment WHERE question_id=%(q_id)s;
+    DELETE FROM answer WHERE question_id=%(q_id)s;
+    DELETE FROM question WHERE id=%(q_id)s;
+    """,
+    {'q_id': question_id})
+
+    return cursor

@@ -11,10 +11,12 @@
 <body>
                     {% for try in question %}
     <h1>Question&Answers</h1>
+            <form action='/delete-question/{{ try['id'] }}'>
+                <input type="submit" value="Delete this question" /></form>
+
 
             <form action='/question/{{ try['id'] }}/new-answer'>
                 <input type="submit" value="Add new answer" /></form>
-
 
 
 <div class="question-block">
@@ -32,25 +34,26 @@
                 <td>{{ try['title'] }}</td>
                 <td>{{ try['message'] }}</td>
                 <td>{{ try['image'] }}</td>
-            {% endfor %}
+
 
         </tr>
     </table>
 </div>
-<form action="/question/{{ question }}/question-comment">
-            <input type="submit" value="Add new question" />
-        </form>
+          <form action='/question/{{ try['id'] }}/question-comment' method="POST">
+                <input type="submit" value="Add new comment" /></form>
+
 <div id="question-comments">
+                {% endfor %}
     <table>
-        <tr>{% for comment in question_comments %}
+    {% for comment in question_comments %}
+        <tr>
             <td>{{ comment['id'] }}</td>
             <td>{{ comment['submission_time'] }}</td>
             <td>{{ comment['message'] }}</td>
             <td>{{ comment['edited_count'] }}</td>
-            {%  endfor %}
-
 
         </tr>
+    {%  endfor %}
     </table>
 </div>
 <div class="answerblock">

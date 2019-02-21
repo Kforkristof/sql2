@@ -1,20 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Question comment</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head xmlns="http://www.w3.org/1999/html">
     <meta charset="UTF-8">
-
+    <title>Add new Answer</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-<h1>Comment</h1>
-<form action="/question/{{ question_id }}/question-comment" method="POST">
-    <textarea class="comment-box" name="comment" id="comment" rows="4" cols="46" minlength="10" autofocus>{{comment}}</textarea>
-    <div></div>
-    <input type="submit" value="Submit">
+    <table align="center">
 
-</form>
+        <tr>
+            <td><h1>Add new comment:</h1></td>
+        </tr>
+        {%  for q in question %}
+    <form action="/question/{{ q['id'] }}/question-comment" method="post">
+
+        <p>
+        <label for="comment">Story:</label>
+        </p>
+
+        <tr>
+            <th><label for="comment">Story:</label></th>
+        </tr>
+
+        <tr>
+            <th><textarea id="comment" name="comment" rows="10" cols=100" required></textarea></th>
+        </tr>
+
+        <tr>
+            <th><input type="submit" value="Submit"></th>
+        </tr>
+        {% endfor %}
+    </form>
+    </table>
 </body>
 </html>

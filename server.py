@@ -12,15 +12,16 @@ generated_ids = []
 
 @app.route('/')
 def home_page():
-    all_questions = data_manager.get_questions()
+    all_qs = data_manager.get_questions('submission_time')
 
-    return render_template('home.html', questions=all_questions)
+    return render_template('home.html', questions=all_qs)
+
 
 @app.route('/all-questions')
 def all_questions():
-    all_questions = data_manager.get_questions()
+    all_qs = data_manager.get_questions('submission_time')
 
-    return render_template('allquestions.html', questions=all_questions)
+    return render_template('allquestions.html', questions=all_qs)
 
 
 @app.route('/add-question', methods=['GET' , 'POST'])
@@ -43,19 +44,22 @@ def question_page(question_id):
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
     if request.method == "POST":
-        return render_template('question-comment.html')
-
+        return render_template('question-comment.html', question=my_q)
 
     return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=question_comment)
 
-@app.route('/question/<int:question_id>/question-comment')
+
+@app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
 def question_comment(question_id):
     comment = request.form.get('comment')
+    my_q = data_manager.get_q_by_id(question_id)
+    my_a = data_manager.get_answer_by_q(question_id)
+    if request.method == "POST":
+        data_manager.new_q_comment(comment, question_id)
 
-    return render_template("question-comment.html", question_id=question_id)
+        return redirect('/')
 
-
-    return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=comment)
+    return render_template("question-comment.html", question_id=question_id, question=my_q, answer=my_a, question_comments=comment)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
@@ -68,6 +72,17 @@ def give_answer(question_id):
         return redirect('/')
 
     return render_template('answer.html', message=my_answer, image=image, question_id=question_id)
+
+
+@app.route('/delete-question/<int:question_id>', methods=['GET', 'POST'])
+def delete_question(question_id):
+    if request.method == "GET":
+        data_manager.delete_q(question_id)
+        return redirect('/')
+
+    all_qs = data_manager.get_questions('submission_time')
+
+    return render_template('home.html', questions=all_qs)
 
 
 if __name__ == "__main__":
