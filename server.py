@@ -68,6 +68,7 @@ def give_answer(question_id):
     my_answer = request.form.get('message')
     image = request.form.get('image')
 
+
     if request.method == 'POST':
         data_manager.new_answer(question_id,my_answer,image)
         return redirect('/')
@@ -104,6 +105,20 @@ def answer_comment(answer_id):
     #    answer = data_manager.get_answer_by_q(question_id)
     #comments = data_manager.get_a_comments(answer_id)
     #return render_template("selected-answer.html", answer=answer, comments=comments)
+
+
+
+
+
+
+@app.route('/answer/<int:answer_id>/edit-answer', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    answer = data_manager.get_the_choosen_answer(answer_id)
+    if request.method == 'POST':
+        answer_message = request.form.get('edit-answer')
+        data_manager.editing_answer(answer_id, answer_message)
+        return redirect('/')
+    return render_template('edit_answer.html', answer=answer[0])
 
 
 

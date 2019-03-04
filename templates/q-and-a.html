@@ -26,9 +26,8 @@
 
     <tr>
     <form action='/question/{{ try['id'] }}' method="POST">
-    <td></td>
 
-
+                <td>{{ try['id'] }}</td>
                 <td>{{ try['submission_time'] }}</td>
                 <td>{{ try['view_number'] }}</td>
                 <td>{{ try['vote_number'] }}</td>
@@ -66,7 +65,7 @@
         <tr>
             {% for try2 in answer %}
                 <td>{{ try2['id'] }}</td>
-                <td>{{ try2['submission_time'] }}</td>
+                <td><form action="/answer/{{ try2['id'] }}/edit-answer"><input type="submit" value="{{ try2['submission_time'] }}"></form></td>
 
                 <td>{{ try2['vote_number'] }}</td>
                 <td>{{ try2['question_id'] }}</td>
