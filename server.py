@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, url_for
 import util
 import data_manager
 import connection
@@ -10,11 +10,38 @@ app = Flask(__name__)
 generated_ids = []
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home_page():
     all_qs = data_manager.get_questions('submission_time')
+    search_for = request.form.get('search')
+
+    if request.method == 'POST':
+        results = data_manager.search_for_q(search_for)
+
+        return render_template(url_for("search"), results=results, search_for=search_for)
+
 
     return render_template('home.html', questions=all_qs)
+
+
+@app.route('/ordered-home/<how>/desc')
+def order_home_desc(how):
+    all_qs = data_manager.get_questions(how)
+
+    return render_template('home.html', questions=all_qs)
+
+@app.route('/ordered-home/<how>/asc')
+def order_home_asc(how):
+    all_qs = data_manager.get_questions_asc(how)
+
+    return render_template('home.html', questions=all_qs)
+
+
+@app.route('/search/<search_for>')
+def search(search_for):
+    print(search_for)
+    results = data_manager.search_for_q(search_for)
+    return render_template('search.html', results=results)
 
 
 @app.route('/all-questions')
@@ -97,17 +124,6 @@ def answer_comment(answer_id):
         answer_comments = data_manager.get_a_comments()
         return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=comment, answer_comment=answer_comments)
     return render_template('answer_comment.html', answer_id)
-
-
-#@app.route('/answer/<int:answer[0]["question_id"]>/<int:answer[0]["id"]>')
-#def selected_answer(question_id, answer_id):
-    #    answer = data_manager.get_answer_by_q(question_id)
-    #comments = data_manager.get_a_comments(answer_id)
-    #return render_template("selected-answer.html", answer=answer, comments=comments)
-
-
-
-
 
 
 if __name__ == "__main__":

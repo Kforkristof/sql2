@@ -24,6 +24,15 @@ def get_questions(cursor, base):
 
     return questions
 
+@connection.connection_handler
+def get_questions_asc(cursor, base):
+    cursor.execute(
+        sql.SQL("select * from question ORDER BY {base} ASC").format(base=sql.Identifier(base)))
+
+    questions = cursor.fetchall()
+
+    return questions
+
 
 @connection.connection_handler
 def new_question(cursor, title, message, image):
@@ -42,6 +51,7 @@ def new_question(cursor, title, message, image):
 
 @connection.connection_handler
 def new_answer(cursor, question_id, message, image):
+
     cursor.execute('''
     INSERT INTO answer (question_id, vote_number, message, image)
     VALUES (%(question_id)s, %(vote_number)s, %(message)s, %(image)s);''',
@@ -76,12 +86,12 @@ def get_answer_by_q(cursor, q_id):
 
 
 @connection.connection_handler
-def search(cursor, searching_for):
+def search_for_q(cursor, search_for):
     cursor.execute('''
-    SELECT * FROM question, answer
-    WHERE title,message,image LIKE CONCAT('%' + %(searching_for)s + '%')
+    SELECT * FROM question
+    WHERE question.message LIKE CONCAT('%' + %(search_for)s + '%')
     ;''',
-                   {'searching_for':searching_for})
+                   {'searching_for' : search_for})
 
     result = cursor.fetchall()
     return result
