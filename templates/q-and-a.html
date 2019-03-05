@@ -9,7 +9,9 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
+
                     {% for try in question %}
+
     <h1>Question&Answers</h1>
             <form action='/delete-question/{{ try['id'] }}'>
                 <input type="submit" value="Delete this question" /></form>
@@ -25,16 +27,16 @@
 
 
     <tr>
-    <form action='/question/{{ try['id'] }}' method="POST">
 
 
                 <td>{{ try['id'] }}</td>
-                <td>{{ try['submission_time'] }}</td>
+                <td><form action="/question/{{ try['id'] }}/edit-question"><input type="submit" value="{{ try['submission_time'] }}"></form></td>
                 <td>{{ try['view_number'] }}</td>
                 <td>{{ try['vote_number'] }}</td>
                 <td>{{ try['title'] }}</td>
                 <td>{{ try['message'] }}</td>
                 <td>{{ try['image'] }}</td>
+
             {% endfor %}
 
 </tr>

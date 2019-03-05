@@ -90,7 +90,7 @@ def search_for_q(cursor, search_for):
     SELECT * FROM question
     WHERE question.message LIKE CONCAT('%' + %(search_for)s + '%')
     ;''',
-                   {'searching_for' : search_for})
+                   {'search_for' : search_for})
 
     result = cursor.fetchall()
     return result
@@ -150,4 +150,15 @@ def editing_answer(cursor, answer_id, answer):
     where id = %(ans_id)s;
     """,
                    {'ans': answer, 'ans_id': answer_id})
+    return cursor
+
+
+@connection.connection_handler
+def editing_question(cursor, question_id, quest):
+    cursor.execute("""
+    update question
+    set message = %(quest)s
+    where id = %(question_id)s;
+    """,
+                   {'quest': quest, 'question_id': question_id})
     return cursor

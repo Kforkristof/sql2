@@ -13,12 +13,12 @@ generated_ids = []
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
     all_qs = data_manager.get_questions('submission_time')
-    search_for = request.form.get('search')
 
     if request.method == 'POST':
+        search_for = request.form.get('search')
         results = data_manager.search_for_q(search_for)
 
-        return render_template(url_for("search"), results=results, search_for=search_for)
+        return render_template('/search/<search_for>', results=results, search_for=search_for)
 
 
     return render_template('home.html', questions=all_qs)
@@ -37,10 +37,11 @@ def order_home_asc(how):
     return render_template('home.html', questions=all_qs)
 
 
-@app.route('/search/<search_for>')
+@app.route('/search/<search_for>', methods=['GET', 'POST'])
 def search(search_for):
-    print(search_for)
+
     results = data_manager.search_for_q(search_for)
+
     return render_template('search.html', results=results)
 
 
@@ -126,17 +127,6 @@ def answer_comment(answer_id):
     return render_template('answer_comment.html', answer_id)
 
 
-#@app.route('/answer/<int:answer[0]["question_id"]>/<int:answer[0]["id"]>')
-#def selected_answer(question_id, answer_id):
-    #    answer = data_manager.get_answer_by_q(question_id)
-    #comments = data_manager.get_a_comments(answer_id)
-    #return render_template("selected-answer.html", answer=answer, comments=comments)
-
-
-
-
-
-
 @app.route('/answer/<int:answer_id>/edit-answer', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     answer = data_manager.get_the_choosen_answer(answer_id)
@@ -147,8 +137,16 @@ def edit_answer(answer_id):
     return render_template('edit_answer.html', answer=answer[0])
 
 
+@app.route('/question/<int:question_id>/edit-question', methods=['GET', 'POST'])
+def edit_question(question_id):
+    question = data_manager.get_q_by_id(question_id)
+    if request.method == 'POST':
+        question_message = request.form.get('edit-question')
+        data_manager.editing_question(question_id, question_message)
 
+        return redirect('/')
 
+    return render_template('edit-question.html', question=question[0])
 
 
 if __name__ == "__main__":
