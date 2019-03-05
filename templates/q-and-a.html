@@ -66,7 +66,7 @@
         <tr>
             {% for try2 in answer %}
                 <td>{{ try2['id'] }}</td>
-                <td>{{ try2['submission_time'] }}</td>
+                <td><form action="/answer/{{ try2['id'] }}/edit-answer"><input type="submit" value="{{ try2['submission_time'] }}"></form></td>
 
                 <td>{{ try2['vote_number'] }}</td>
                 <td>{{ try2['question_id'] }}</td>

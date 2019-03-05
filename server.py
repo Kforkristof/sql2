@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request
 import util
 import data_manager
 import connection
@@ -124,6 +124,31 @@ def answer_comment(answer_id):
         answer_comments = data_manager.get_a_comments()
         return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=comment, answer_comment=answer_comments)
     return render_template('answer_comment.html', answer_id)
+
+
+#@app.route('/answer/<int:answer[0]["question_id"]>/<int:answer[0]["id"]>')
+#def selected_answer(question_id, answer_id):
+    #    answer = data_manager.get_answer_by_q(question_id)
+    #comments = data_manager.get_a_comments(answer_id)
+    #return render_template("selected-answer.html", answer=answer, comments=comments)
+
+
+
+
+
+
+@app.route('/answer/<int:answer_id>/edit-answer', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    answer = data_manager.get_the_choosen_answer(answer_id)
+    if request.method == 'POST':
+        answer_message = request.form.get('edit-answer')
+        data_manager.editing_answer(answer_id, answer_message)
+        return redirect('/')
+    return render_template('edit_answer.html', answer=answer[0])
+
+
+
+
 
 
 if __name__ == "__main__":
