@@ -34,7 +34,6 @@ def order_home_asc(how):
 
 @app.route('/search', methods=['GET'])
 def search_route():
-
     search_string = request.args.get('search')
     results = data_manager.search_for_q(search_string)
 
@@ -61,14 +60,12 @@ def add_question():
     return render_template('add-question.html', message=message, title=title, image=image)
 
 
-@app.route('/question/<int:question_id>', methods=['GET','POST'])
+@app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def question_page(question_id):
-
     my_q = data_manager.get_q_by_id(question_id)
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
     data_manager.view_number_increase(question_id)
-
 
     if request.method == "POST":
         return render_template('question-comment.html', question=my_q)
@@ -86,7 +83,8 @@ def question_comment(question_id):
 
         return redirect('/')
 
-    return render_template("question-comment.html", question_id=question_id, question=my_q, answer=my_a, question_comments=comment)
+    return render_template("question-comment.html", question_id=question_id, question=my_q, answer=my_a,
+                           question_comments=comment)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
@@ -95,7 +93,7 @@ def give_answer(question_id):
     image = request.form.get('image')
 
     if request.method == 'POST':
-        data_manager.new_answer(question_id,my_answer,image)
+        data_manager.new_answer(question_id, my_answer, image)
         return redirect('/')
 
     return render_template('answer.html', message=my_answer, image=image, question_id=question_id)
@@ -121,7 +119,8 @@ def answer_comment(answer_id):
         my_a = data_manager.get_answer_by_q(answer_id)
         comment = data_manager.get_q_comments(answer_id)
         answer_comments = data_manager.get_a_comments()
-        return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=comment, answer_comment=answer_comments)
+        return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=comment,
+                               answer_comment=answer_comments)
     return render_template('answer_comment.html', answer_id)
 
 

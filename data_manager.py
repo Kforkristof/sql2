@@ -24,6 +24,7 @@ def get_questions_desc(cursor, base):
 
     return questions
 
+
 @connection.connection_handler
 def get_questions_asc(cursor, base):
     cursor.execute(
@@ -90,11 +91,10 @@ def search_for_q(cursor, search_for):
     SELECT * FROM question
     WHERE question.message LIKE CONCAT('%%' , %(search_for)s , '%%')
     ;''',
-                   {'search_for' : search_for})
+                   {'search_for': search_for})
 
     result = cursor.fetchall()
     return result
-
 
 
 @connection.connection_handler
@@ -171,7 +171,6 @@ def view_number_increase(cursor, question_id):
                    {'vn': current_view_number, 'id': question_id})
 
     return cursor
-
 
 
 @connection.connection_handler

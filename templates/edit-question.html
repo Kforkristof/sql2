@@ -9,21 +9,22 @@
 </head>
 <body>
 <h1 id="edit_question">Edit question</h1>
-<div id="edit_question"><form method="POST">
+<div id="edit_question">
+    <form method="POST">
 
         <p>
-        <label for="edit-question">Write your question:</label>
+            <label for="edit-question">Write your question:</label>
         </p>
 
 
-
-            <textarea id="edit-question" name="edit-question" rows="15" cols=100" required>{{ question["message"] }}</textarea>
-
-
-
-            <input type="submit" value="Submit">
+        <textarea id="edit-question" name="edit-question" rows="15" cols=100"
+                  required>{{ question["message"] }}</textarea>
 
 
-    </form></div>
+        <input type="submit" value="Submit">
+
+
+    </form>
+</div>
 </body>
 </html>
