@@ -151,3 +151,22 @@ def editing_answer(cursor, answer_id, answer):
     """,
                    {'ans': answer, 'ans_id': answer_id})
     return cursor
+
+@connection.connection_handler
+def view_number_increase(cursor, question_id):
+    cursor.execute("""
+    select view_number
+    from question
+    where id = %(q_id)s;
+    """,
+                   {'q_id': question_id})
+    initial_view_number = cursor.fetchall()
+    current_view_number = initial_view_number[0]['view_number'] + 1
+    cursor.execute("""
+    update question
+    set view_number = %(vn)s
+    where id = %(id)s;
+    """,
+                   {'vn': current_view_number, 'id': question_id})
+    return cursor
+
