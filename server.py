@@ -12,23 +12,18 @@ generated_ids = []
 
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
-    all_qs = data_manager.get_questions('submission_time')
+    all_qs = data_manager.get_questions_desc('submission_time')
+    search_for = request.form.get('search')
 
-    if request.method == 'POST':
-        search_for = request.form.get('search')
-        results = data_manager.search_for_q(search_for)
-
-        return render_template('/search/<search_for>', results=results, search_for=search_for)
-
-
-    return render_template('home.html', questions=all_qs)
+    return render_template('home.html', questions=all_qs, search_for=search_for)
 
 
 @app.route('/ordered-home/<how>/desc')
 def order_home_desc(how):
-    all_qs = data_manager.get_questions(how)
+    all_qs = data_manager.get_questions_desc(how)
 
     return render_template('home.html', questions=all_qs)
+
 
 @app.route('/ordered-home/<how>/asc')
 def order_home_asc(how):
@@ -37,17 +32,18 @@ def order_home_asc(how):
     return render_template('home.html', questions=all_qs)
 
 
-@app.route('/search/<search_for>', methods=['GET', 'POST'])
-def search(search_for):
+@app.route('/search', methods=['GET'])
+def search_route():
 
-    results = data_manager.search_for_q(search_for)
+    search_string = request.args.get('search')
+    results = data_manager.search_for_q(search_string)
 
-    return render_template('search.html', results=results)
+    return render_template('search.html', results=results, search_for=search_string)
 
 
 @app.route('/all-questions')
 def all_questions():
-    all_qs = data_manager.get_questions('submission_time')
+    all_qs = data_manager.get_questions_desc('submission_time')
 
     return render_template('allquestions.html', questions=all_qs)
 
@@ -76,7 +72,6 @@ def question_page(question_id):
 
     if request.method == "POST":
         return render_template('question-comment.html', question=my_q)
-
 
     return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=question_comment)
 
@@ -112,7 +107,7 @@ def delete_question(question_id):
         data_manager.delete_q(question_id)
         return redirect('/')
 
-    all_qs = data_manager.get_questions('submission_time')
+    all_qs = data_manager.get_questions_desc('submission_time')
 
     return render_template('home.html', questions=all_qs)
 

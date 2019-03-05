@@ -16,7 +16,7 @@ def get_answers(cursor):
 
 
 @connection.connection_handler
-def get_questions(cursor, base):
+def get_questions_desc(cursor, base):
     cursor.execute(
         sql.SQL("select * from question ORDER BY {base} DESC").format(base=sql.Identifier(base)))
 
@@ -88,7 +88,7 @@ def get_answer_by_q(cursor, q_id):
 def search_for_q(cursor, search_for):
     cursor.execute('''
     SELECT * FROM question
-    WHERE question.message LIKE CONCAT('%' + %(search_for)s + '%')
+    WHERE question.message LIKE CONCAT('%%' , %(search_for)s , '%%')
     ;''',
                    {'search_for' : search_for})
 
@@ -152,6 +152,7 @@ def editing_answer(cursor, answer_id, answer):
                    {'ans': answer, 'ans_id': answer_id})
     return cursor
 
+
 @connection.connection_handler
 def view_number_increase(cursor, question_id):
     cursor.execute("""
@@ -168,6 +169,7 @@ def view_number_increase(cursor, question_id):
     where id = %(id)s;
     """,
                    {'vn': current_view_number, 'id': question_id})
+
     return cursor
 
 
