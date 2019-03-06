@@ -8,31 +8,27 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-    <table align="center">
-        <form action='/search/<search_for>' method="POST">
-        <tr>
-            <td colspan="4"><h1>Search results for </h1></td>
-        </tr>
+<table align="center">
+    <tr>
+        <td colspan="4"><h1>Search results for "{{ search_for }}"</h1></td>
+    </tr>
 
-        <tr>
-            <th>Submission time</th>
-            <th>View number</th>
-            <th>Vote number</th>
-            <th>Title</th>
-        </tr>
+    <tr>
+        <th>Title</th>
+        <th>View number</th>
+        <th>Vote number</th>
+        <th>Submission time</th>
+    </tr>
 
-        {% for question in results %}
+    {% for question in results %}
         <tr>
-            <td>{{ question.submission_time }}</td>
+            <td>{{ question.title }}</td>
             <td>{{ question.view_number }}</td>
             <td>{{ question.vote_number }}</td>
+            <td>{{ question.submission_time }}</td>
         </tr>
-        {% endfor %}
+    {% endfor %}
 
-        <form action="/">
-        <input type="submit" value="Return" />
-        </form>
-
-    </table>
+</table>
 </body>
 </html>

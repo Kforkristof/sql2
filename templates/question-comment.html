@@ -5,16 +5,16 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-    <table align="center">
+<table align="center">
 
-        <tr>
-            <td><h1>Add new comment:</h1></td>
-        </tr>
-        {%  for q in question %}
-    <form action="/question/{{ q['id'] }}/question-comment" method="post">
+    <tr>
+        <td><h1>Add new comment:</h1></td>
+    </tr>
+    {% for q in question %}
+        <form action="/question/{{ q['id'] }}/question-comment" method="post">
 
         <p>
-        <label for="comment">Story:</label>
+            <label for="comment">Story:</label>
         </p>
 
         <tr>
@@ -28,8 +28,8 @@
         <tr>
             <th><input type="submit" value="Submit"></th>
         </tr>
-        {% endfor %}
+    {% endfor %}
     </form>
-    </table>
+</table>
 </body>
 </html>

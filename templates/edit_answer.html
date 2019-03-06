@@ -9,21 +9,36 @@
 </head>
 <body>
 <h1 id="edit_answer">Edit answer</h1>
-<div id="edit_answer_box"><form method="POST">
+<div id="edit_answer_box">
+    <form method="POST">
 
         <p>
-        <label for="edit-answer">Write your answer:</label>
+            <label for="edit-answer">Write your answer:</label>
         </p>
 
 
-
-            <textarea id="edit-answer" name="edit-answer" rows="15" cols=100" required>{{ answer["message"] }}</textarea>
-
+        <textarea id="edit-answer" name="edit-answer" rows="15" cols=100" required>{{ answer["message"] }}</textarea>
 
 
-            <input type="submit" value="Submit">
+        <input type="submit" value="Submit">
 
 
-    </form></div>
+    </form>
+</div>
+
+<div id="answer-comments">
+    <form action="/answer/{{ answer.id }}/edit-answer/new-comment"><input type="submit" value="Add comment"></form>
+    <table>
+        <tr>
+            <th id="answer-comments-label">Submission time</th>
+            <th>Comments</th>
+        </tr>
+        {% for comment in commentss %}
+            <tr>
+                <td>{{ comment.submission_time }}</td>
+                <td>{{ comment.message }}</td>
+
+            </tr>{% endfor %}</table>
+</div>
 </body>
 </html>
