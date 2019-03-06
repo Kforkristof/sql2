@@ -22,7 +22,7 @@
 
     {% for question in results %}
         <tr>
-            <td>{{ question.title }}</td>
+            <td><a href="/question/{{ question.id }}"> {{ question.title }}</a></td>
             <td>{{ question.view_number }}</td>
             <td>{{ question.vote_number }}</td>
             <td>{{ question.submission_time }}</td>

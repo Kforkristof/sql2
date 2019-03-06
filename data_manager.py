@@ -88,8 +88,14 @@ def get_answer_by_q(cursor, q_id):
 @connection.connection_handler
 def search_for_q(cursor, search_for):
     cursor.execute('''
-    SELECT * FROM question
-    WHERE question.message LIKE CONCAT('%%' , %(search_for)s , '%%')
+        SELECT
+            question.id, question.submission_time, question.view_number,
+            question.vote_number, question.title, question.message, question.image            
+        FROM question
+        JOIN answer ON question.id=answer.question_id
+        WHERE question.message ILIKE CONCAT('%%' , %(search_for)s , '%%')
+            OR answer.message ILIKE CONCAT('%%' , %(search_for)s , '%%')
+ 
     ;''',
                    {'search_for': search_for})
 
@@ -132,7 +138,7 @@ def delete_q(cursor, question_id):
 
 # These two scope below for the answer and answer updating
 @connection.connection_handler
-def get_the_choosen_answer(cursor, answer_id):
+def get_the_chosen_answer(cursor, answer_id):
     cursor.execute("""
     select * from answer
     where id = %(answer_i)s;

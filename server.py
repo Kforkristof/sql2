@@ -126,7 +126,7 @@ def answer_comment(answer_id):
 
 @app.route('/answer/<int:answer_id>/edit-answer', methods=['GET', 'POST'])
 def edit_answer(answer_id):
-    answer = data_manager.get_the_choosen_answer(answer_id)
+    answer = data_manager.get_the_chosen_answer(answer_id)
     if request.method == 'POST':
         answer_message = request.form.get('edit-answer')
         data_manager.editing_answer(answer_id, answer_message)
