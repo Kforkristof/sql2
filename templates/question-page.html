@@ -4,14 +4,14 @@
     <title>Add new story</title>
 </head>
 <body>
-    <h1>Add user story:</h1>
+<h1>Add user story:</h1>
 
-    <form action='/question/{{ question['id'] }}' method="get">
+<form action='/question/{{ question['id'] }}' method="get">
 
     {% for i in data %}
-    <p>{{ i['message'] }}</p>
+        <p>{{ i['message'] }}</p>
     {% endfor %}
-    </form>
+</form>
 </body>
 
 </html>

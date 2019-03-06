@@ -12,23 +12,18 @@ generated_ids = []
 
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
-    all_qs = data_manager.get_questions('submission_time')
+    all_qs = data_manager.get_questions_desc('submission_time')
     search_for = request.form.get('search')
 
-    if request.method == 'POST':
-        results = data_manager.search_for_q(search_for)
-
-        return render_template(url_for("search"), results=results, search_for=search_for)
-
-
-    return render_template('home.html', questions=all_qs)
+    return render_template('home.html', questions=all_qs, search_for=search_for)
 
 
 @app.route('/ordered-home/<how>/desc')
 def order_home_desc(how):
-    all_qs = data_manager.get_questions(how)
+    all_qs = data_manager.get_questions_desc(how)
 
     return render_template('home.html', questions=all_qs)
+
 
 @app.route('/ordered-home/<how>/asc')
 def order_home_asc(how):
@@ -37,16 +32,17 @@ def order_home_asc(how):
     return render_template('home.html', questions=all_qs)
 
 
-@app.route('/search/<search_for>')
-def search(search_for):
-    print(search_for)
-    results = data_manager.search_for_q(search_for)
-    return render_template('search.html', results=results)
+@app.route('/search', methods=['GET'])
+def search_route():
+    search_string = request.args.get('search')
+    results = data_manager.search_for_q(search_string)
+
+    return render_template('search.html', results=results, search_for=search_string)
 
 
 @app.route('/all-questions')
 def all_questions():
-    all_qs = data_manager.get_questions('submission_time')
+    all_qs = data_manager.get_questions_desc('submission_time')
 
     return render_template('allquestions.html', questions=all_qs)
 
@@ -64,18 +60,15 @@ def add_question():
     return render_template('add-question.html', message=message, title=title, image=image)
 
 
-@app.route('/question/<int:question_id>', methods=['GET','POST'])
+@app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def question_page(question_id):
-
     my_q = data_manager.get_q_by_id(question_id)
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
     data_manager.view_number_increase(question_id)
 
-
     if request.method == "POST":
         return render_template('question-comment.html', question=my_q)
-
 
     return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=question_comment)
 
@@ -90,7 +83,8 @@ def question_comment(question_id):
 
         return redirect('/')
 
-    return render_template("question-comment.html", question_id=question_id, question=my_q, answer=my_a, question_comments=comment)
+    return render_template("question-comment.html", question_id=question_id, question=my_q, answer=my_a,
+                           question_comments=comment)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
@@ -99,7 +93,7 @@ def give_answer(question_id):
     image = request.form.get('image')
 
     if request.method == 'POST':
-        data_manager.new_answer(question_id,my_answer,image)
+        data_manager.new_answer(question_id, my_answer, image)
         return redirect('/')
 
     return render_template('answer.html', message=my_answer, image=image, question_id=question_id)
@@ -111,7 +105,7 @@ def delete_question(question_id):
         data_manager.delete_q(question_id)
         return redirect('/')
 
-    all_qs = data_manager.get_questions('submission_time')
+    all_qs = data_manager.get_questions_desc('submission_time')
 
     return render_template('home.html', questions=all_qs)
 
@@ -125,19 +119,9 @@ def answer_comment(answer_id):
         my_a = data_manager.get_answer_by_q(answer_id)
         comment = data_manager.get_q_comments(answer_id)
         answer_comments = data_manager.get_a_comments()
-        return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=comment, answer_comment=answer_comments)
+        return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=comment,
+                               answer_comment=answer_comments)
     return render_template('answer_comment.html', answer_id)
-
-
-#@app.route('/answer/<int:answer[0]["question_id"]>/<int:answer[0]["id"]>')
-#def selected_answer(question_id, answer_id):
-    #    answer = data_manager.get_answer_by_q(question_id)
-    #comments = data_manager.get_a_comments(answer_id)
-    #return render_template("selected-answer.html", answer=answer, comments=comments)
-
-
-
-
 
 
 @app.route('/answer/<int:answer_id>/edit-answer', methods=['GET', 'POST'])
@@ -169,8 +153,16 @@ def add_new_answer_comment(answer_id):
 
 
 
+@app.route('/question/<int:question_id>/edit-question', methods=['GET', 'POST'])
+def edit_question(question_id):
+    question = data_manager.get_q_by_id(question_id)
+    if request.method == 'POST':
+        question_message = request.form.get('edit-question')
+        data_manager.editing_question(question_id, question_message)
 
+        return redirect('/')
 
+    return render_template('edit-question.html', question=question[0])
 
 
 if __name__ == "__main__":

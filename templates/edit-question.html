@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Question</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<h1 id="edit_question">Edit question</h1>
+<div id="edit_question">
+    <form method="POST">
+
+        <p>
+            <label for="edit-question">Write your question:</label>
+        </p>
+
+
+        <textarea id="edit-question" name="edit-question" rows="15" cols=100"
+                  required>{{ question["message"] }}</textarea>
+
+
+        <input type="submit" value="Submit">
+
+
+    </form>
+</div>
+</body>
+</html>
