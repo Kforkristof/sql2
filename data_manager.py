@@ -151,3 +151,15 @@ def editing_answer(cursor, answer_id, answer):
     """,
                    {'ans': answer, 'ans_id': answer_id})
     return cursor
+
+
+@connection.connection_handler
+def basic_question_tags(cursor, tag_type):
+    cursor.execute("""SELECT tag.* 
+                        FROM tag
+                        join question_tag
+                          on guestion_tag.question_id = tag.id;""",
+                   {'tag_type': tag_type})
+    tags = cursor.fetchall()
+
+    return tags
