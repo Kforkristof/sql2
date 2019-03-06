@@ -128,7 +128,6 @@ def answer_comment(answer_id):
 def edit_answer(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
     answer = data_manager.get_the_chosen_answer(answer_id)
-    print(comments)
     if request.method == 'POST':
         answer_message = request.form.get('edit-answer')
         data_manager.editing_answer(answer_id, answer_message)
@@ -149,10 +148,6 @@ def add_new_answer_comment(answer_id):
     return render_template('add-answer-comment.html')
 
 
-
-
-
-
 @app.route('/question/<int:question_id>/edit-question', methods=['GET', 'POST'])
 def edit_question(question_id):
     question = data_manager.get_q_by_id(question_id)
@@ -160,7 +155,7 @@ def edit_question(question_id):
         question_message = request.form.get('edit-question')
         data_manager.editing_question(question_id, question_message)
 
-        return redirect('/')
+        return render_template('edit-question.html', question=question[0])
 
     return render_template('edit-question.html', question=question[0])
 
