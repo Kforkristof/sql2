@@ -188,3 +188,35 @@ def editing_question(cursor, question_id, quest):
     """,
                    {'quest': quest, 'question_id': question_id})
     return cursor
+
+@connection.connection_handler
+def get_answer_comments(cursor, answer_id):
+    cursor.execute("""
+    select comment.submission_time, comment.message
+    from comment
+    where comment.answer_id = %(id)s;
+    """,
+                   {'id': answer_id})
+    answer_comments = cursor.fetchall()
+    return answer_comments
+
+#new answer comment
+@connection.connection_handler
+def new_comment(cursor, id, new_a_comment):
+    st = util.get_submission_time()
+    edited_count = 0
+    cursor.execute("""
+    select id, question_id
+    from answer
+    where id = %(a_id)s;
+    """,
+                  {'a_id': id})
+    qid_and_aid = cursor.fetchall()
+    ids = qid_and_aid[0]
+    cursor.execute("""
+    insert into comment(question_id, answer_id, message, submission_time, edited_count)
+    values (null, %(ans_id)s, %(message)s, %(submission_t)s, %(edited_c)s);
+    """,
+                   {'ans_id': ids['id'], 'message': new_a_comment, 'submission_t': st, 'edited_c': edited_count})
+    return cursor
+

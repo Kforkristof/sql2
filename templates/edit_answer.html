@@ -25,5 +25,20 @@
 
     </form>
 </div>
+
+<div id="answer-comments">
+    <form action="/answer/{{ answer.id }}/edit-answer/new-comment"><input type="submit" value="Add comment"></form>
+    <table>
+        <tr>
+            <th id="answer-comments-label">Submission time</th>
+            <th>Comments</th>
+        </tr>
+        {% for comment in commentss %}
+            <tr>
+                <td>{{ comment.submission_time }}</td>
+                <td>{{ comment.message }}</td>
+
+            </tr>{% endfor %}</table>
+</div>
 </body>
 </html>

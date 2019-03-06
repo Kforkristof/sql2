@@ -9,9 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-
 {% for try in question %}
-
     <h1>Question&Answers</h1>
     <form action='/delete-question/{{ try['id'] }}'>
         <input type="submit" value="Delete this question"/></form>
@@ -24,34 +22,45 @@
 
     <div class="question-block">
     <table>
-
+    <tr>
+        <th>ID</th>
+        <th>Time</th>
+        <th>Viewed</th>
+        <th>Vote</th>
+        <th>Title</th>
+        <th>Message</th>
+        <th>Image</th>
+    </tr>
 
     <tr>
+    <form action='/question/{{ try['id'] }}' method="POST">
 
 
     <td>{{ try['id'] }}</td>
-    <td>
-        <form action="/question/{{ try['id'] }}/edit-question"><input type="submit"
-                                                                      value="{{ try['submission_time'] }}"></form>
-    </td>
+    <td>{{ try['submission_time'] }}</td>
     <td>{{ try['view_number'] }}</td>
     <td>{{ try['vote_number'] }}</td>
     <td>{{ try['title'] }}</td>
     <td>{{ try['message'] }}</td>
     <td>{{ try['image'] }}</td>
-
 {% endfor %}
 
 </tr>
 </table>
-</div>
+</div><h3>Question comments:</h3>
 <form action="/question/{{ question['id'] }}/question-comment">
     <input type="submit" value="Add new comment"/>
 </form>
 <div id="question-comments">
 
     <table>
-        {% for comment in question_comments %}
+
+            <tr>
+                <th>ID</th>
+                <th>Time</th>
+                <th>Comment</th>
+                <th>Edited counter</th></tr>
+            {% for comment in question_comments %}
             <tr>
                 <td>{{ comment['id'] }}</td>
                 <td>{{ comment['submission_time'] }}</td>
@@ -64,11 +73,20 @@
     </table>
 </div>
 <div class="answerblock">
+    <h2>Answers:</h2>
     <table>
-
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Vote</th>
+            <th>Question id</th>
+            <th>Answer</th>
+            <th>Image</th>
+        </tr>
+{% for try2 in answer %}
 
         <tr>
-            {% for try2 in answer %}
+
                 <td>{{ try2['id'] }}</td>
                 <td>
                     <form action="/answer/{{ try2['id'] }}/edit-answer"><input type="submit"
