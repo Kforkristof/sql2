@@ -155,7 +155,7 @@ def edit_question(question_id):
         question_message = request.form.get('edit-question')
         data_manager.editing_question(question_id, question_message)
 
-        return render_template('edit-question.html', question=question[0])
+        return redirect('/')
 
     return render_template('edit-question.html', question=question[0])
 

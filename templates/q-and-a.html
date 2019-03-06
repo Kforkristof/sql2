@@ -36,7 +36,7 @@
 
     <td>{{ try['id'] }}</td>
     <td>
-        <form action="/question/{{ try['id'] }}/edit-question" method="POST"><input type="submit"
+        <form action="/question/{{ try['id'] }}/edit-question" method="GET"><input type="submit"
                                                                       value="{{ try['submission_time'] }}"></form>
     </td>
     <td>{{ try['view_number'] }}</td>
