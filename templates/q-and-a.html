@@ -37,13 +37,15 @@
 
 
     <td>{{ try['id'] }}</td>
-    <td>{{ try['submission_time'] }}</td>
+    <td>
+        <form action="/question/{{ try['id'] }}/edit-question" method="GET"><input type="submit"
+                                                                      value="{{ try['submission_time'] }}"></form>
+    </td>
     <td>{{ try['view_number'] }}</td>
     <td>{{ try['vote_number'] }}</td>
     <td>{{ try['title'] }}</td>
     <td>{{ try['message'] }}</td>
     <td>{{ try['image'] }}</td>
-
 {% endfor %}
 
 </tr>
@@ -56,12 +58,13 @@
 
     <table>
 
-            <tr>
-                <th>ID</th>
-                <th>Time</th>
-                <th>Comment</th>
-                <th>Edited counter</th></tr>
-            {% for comment in question_comments %}
+        <tr>
+            <th>ID</th>
+            <th>Time</th>
+            <th>Comment</th>
+            <th>Edited counter</th>
+        </tr>
+        {% for comment in question_comments %}
             <tr>
                 <td>{{ comment['id'] }}</td>
                 <td><form action="/comment/{{ comment['id'] }}/edit-commit"><input type="submit"
@@ -87,9 +90,9 @@
             <th>Answer</th>
             <th>Image</th>
         </tr>
-{% for try2 in answer %}
+        {% for try2 in answer %}
 
-        <tr>
+            <tr>
 
                 <td>{{ try2['id'] }}</td>
                 <td>

@@ -88,8 +88,15 @@ def get_answer_by_q(cursor, q_id):
 @connection.connection_handler
 def search_for_q(cursor, search_for):
     cursor.execute('''
-    SELECT * FROM question
-    WHERE question.message LIKE CONCAT('%%' , %(search_for)s , '%%')
+        SELECT
+            DISTINCT(question.id), question.submission_time, question.view_number,
+            question.vote_number, question.title, question.message, question.image            
+        FROM question
+        LEFT OUTER JOIN answer ON question.id=answer.question_id
+        WHERE question.message ILIKE CONCAT('%%' , %(search_for)s , '%%')
+            OR answer.message ILIKE CONCAT('%%' , %(search_for)s , '%%')
+            OR question.title ILIKE CONCAT('%%' , %(search_for)s , '%%')
+ 
     ;''',
                    {'search_for': search_for})
 
@@ -165,12 +172,20 @@ def view_number_increase(cursor, question_id):
     current_view_number = initial_view_number[0]['view_number'] + 1
     cursor.execute("""
     update question
-    set view_number = %(vn)s
+    set view_number = view_number + 1
     where id = %(id)s;
     """,
-                   {'vn': current_view_number, 'id': question_id})
+                   {'id': question_id})
 
-    return cursor
+
+@connection.connection_handler
+def vote_up(cursor, question_id):
+    cursor.execute("""
+    UPDATE question
+    SET question.vote_number = vote_number + 1
+    WHERE id = %(question_id)s
+    ;""",
+                   {'question_id': question_id})
 
 
 @connection.connection_handler
@@ -194,7 +209,8 @@ def get_answer_comments(cursor, answer_id):
     answer_comments = cursor.fetchall()
     return answer_comments
 
-#new answer comment
+
+# new answer comment
 @connection.connection_handler
 def new_comment(cursor, id, new_a_comment):
     st = util.get_submission_time()
@@ -204,7 +220,7 @@ def new_comment(cursor, id, new_a_comment):
     from answer
     where id = %(a_id)s;
     """,
-                  {'a_id': id})
+                   {'a_id': id})
     qid_and_aid = cursor.fetchall()
     ids = qid_and_aid[0]
     cursor.execute("""
