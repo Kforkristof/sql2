@@ -226,3 +226,12 @@ def new_comment(cursor, id, new_a_comment):
     values (null, %(ans_id)s, %(message)s, %(submission_t)s, %(edited_c)s);
     """,
                    {'ans_id': ids['id'], 'message': new_a_comment, 'submission_t': st, 'edited_c': edited_count})
+
+@connection.connection_handler
+def delete(cursor, id):
+    cursor.execute("""
+    delete from comment
+    where id = %(cid)s;
+    """,
+                   {'cid': id})
+    return cursor
