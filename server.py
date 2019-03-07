@@ -158,6 +158,7 @@ def edit_question(question_id):
 
     return render_template('edit-question.html', question=question[0])
 
+
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):
     if request.method == "GET":
@@ -166,14 +167,13 @@ def delete(id):
 
     return redirect('/')
 
+
 @app.route('/delete-answer/<int:id>', methods=['GET', 'POST'])
 def delete_answer(id):
     if request.method == 'GET':
         data_manager.delete_a(id)
         return redirect('/')
     return redirect('/')
-
-
 
 
 @app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
@@ -191,7 +191,6 @@ def tags():
     if request.method == 'POST':
         tag = request.form.get( 'tags' )
         data_manager.add_tags(tag)
-
 
         return redirect('/')
 

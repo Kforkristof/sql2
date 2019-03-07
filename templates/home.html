@@ -10,22 +10,36 @@
 <body>
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <form class="search" method='GET' action="{{ url_for('search_route') }}">
-    <input type="text" placeholder="Search.." name="search">
-    <button type="submit"><i class="fa fa-search"></i></button>
+    <div class="row">
+        <ul class="main-nav">
+            <header>
+                <li>
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </li>
+            </header>
+        </ul>
+    </div>
 </form>
 
 <table align="center">
-
     <tr>
         <td colspan="6"><h1>@AskMate</h1></td>
     </tr>
 
-    <form action="/add-question">
-        <input type="submit" value="Add new question"/>
-    </form>
+        <div class="row">
+            <ul class="main-nav">
+                <header>
+                    <form action="/add-question">
+                        <li><input type="submit" value="ADD NEW QUESTION"/></li>
+                    </form>
+                </header>
+            </ul>
+        </div>
+
+
     <tr>
         <th>Submission time
             <form action="/ordered-home/submission_time/desc">
@@ -77,10 +91,17 @@
                 <form action=""></form></td>
         </tr>
     {% endfor %}
-    <form action="/all-questions">
-        <input type="submit" value="Show All Questions"/>
 
-    </form>
+        <div class="row">
+            <ul class="main-nav">
+                <header>
+                    <form action="/all-questions">
+                        <li><input type="submit" value="SHOW ALL QUESTION"/></li>
+                    </form>
+                </header>
+            </ul>
+        </div>
+
 
 </table>
 </body>
