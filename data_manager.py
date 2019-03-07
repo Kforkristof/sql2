@@ -169,14 +169,13 @@ def vote_up(cursor, question_id):
     SET vote_number = vote_number + 1
     WHERE id = %(question_id)s
     ;""",
-                   {'question_id': question_id}) \
- \
-    @ connection.connection_handler
+                   {'question_id': question_id})
 
 
+@connection.connection_handler
 def vote_down(cursor, question_id):
     cursor.execute("""
-    UPDATE question                                                                             
+    UPDATE question
     SET vote_number = vote_number - 1
     WHERE id = %(question_id)s
     ;""",

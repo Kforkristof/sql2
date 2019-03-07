@@ -8,37 +8,38 @@ from datetime import datetime
 app = Flask(__name__)
 
 
+@app.route('/all-questions')
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
-
-    all_qs = data_manager.get_questions_desc('submission_time')
     search_for = request.form.get('search')
+    all_qs = data_manager.get_questions_desc('submission_time')
+    if request.path == '/':
+        return render_template('home.html', questions=all_qs)
 
-    return render_template('home.html', questions=all_qs, search_for=search_for)
+    if request.path == '/all-questions':
+        return render_template('allquestions.html', questions=all_qs, search_for=search_for)
 
 
 @app.route('/vote/<question_id>/<up_or_down>', methods=['GET', 'POST'])
 def voting(up_or_down, question_id):
     if up_or_down == 'up':
         data_manager.vote_up(question_id)
-        return redirect('/')
+        return redirect('/all-questions')
     if up_or_down == 'down':
         data_manager.vote_down(question_id)
-        return redirect('/')
-
-
-@app.route('/ordered-home/<how>/desc')
-def order_home_desc(how):
-    all_qs = data_manager.get_questions_desc(how)
-
-    return render_template('home.html', questions=all_qs)
+        return redirect('/all-questions')
 
 
 @app.route('/ordered-home/<how>/asc')
-def order_home_asc(how):
-    all_qs = data_manager.get_questions_asc(how)
+@app.route('/ordered-home/<how>/desc')
+def ordered_home(how):
+    if request.path == '/ordered-home/' + how + '/asc':
+        all_qs = data_manager.get_questions_asc(how)
+        return render_template('allquestions.html', questions=all_qs)
 
-    return render_template('home.html', questions=all_qs)
+    if request.path == '/ordered-home/' + how + '/desc':
+        all_qs = data_manager.get_questions_desc(how)
+        return render_template('allquestions.html', questions=all_qs)
 
 
 @app.route('/search', methods=['GET'])
@@ -47,13 +48,6 @@ def search_route():
     results = data_manager.search_for_q(search_string)
 
     return render_template('search.html', results=results, search_for=search_string)
-
-
-@app.route('/all-questions')
-def all_questions():
-    all_qs = data_manager.get_questions_desc('submission_time')
-
-    return render_template('allquestions.html', questions=all_qs)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -143,7 +137,7 @@ def edit_answer(answer_id):
         return redirect('/')
     if comments:
         return render_template('edit_answer.html', answer=answer[0], commentss=comments)
-    return render_template('edit_answer.html', answer = answer[0])
+    return render_template('edit_answer.html', answer=answer[0])
 
 
 @app.route('/answer/<int:answer_id>/edit-answer/new-comment', methods=['GET', 'POST'])
