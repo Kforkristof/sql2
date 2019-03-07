@@ -135,7 +135,7 @@ def edit_answer(answer_id):
         return redirect('/')
     if comments:
         return render_template('edit_answer.html', answer=answer[0], commentss=comments)
-    return render_template('edit_answer.html', answer = answer[0])
+    return render_template('edit_answer.html', answer=answer[0])
 
 
 @app.route('/answer/<int:answer_id>/edit-answer/new-comment', methods=['GET', 'POST'])
@@ -149,10 +149,6 @@ def add_new_answer_comment(answer_id):
     return render_template('add-answer-comment.html')
 
 
-
-
-
-
 @app.route('/question/<int:question_id>/edit-question', methods=['GET', 'POST'])
 def edit_question(question_id):
     question = data_manager.get_q_by_id(question_id)
@@ -163,6 +159,25 @@ def edit_question(question_id):
         return redirect('/')
 
     return render_template('edit-question.html', question=question[0])
+
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+def delete(id):
+    if request.method == "GET":
+        data_manager.delete(id)
+        return redirect('/')
+
+    return redirect('/')
+
+
+
+@app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
+def edit_comment(id):
+    initial_comment = data_manager.get_comment(id)
+    if request.method == 'POST':
+        new_comment = request.form.get('edit-comment')
+        data_manager.editing_comment(id, new_comment)
+        return redirect('/')
+    return render_template('edit-comment.html', initial_comment=initial_comment[0])
 
 
 if __name__ == "__main__":

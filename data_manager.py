@@ -186,7 +186,7 @@ def editing_question(cursor, question_id, quest):
 @connection.connection_handler
 def get_answer_comments(cursor, answer_id):
     cursor.execute("""
-    select comment.submission_time, comment.message
+    select comment.submission_time, comment.message, comment.id
     from comment
     where comment.answer_id = %(id)s;
     """,
@@ -214,3 +214,32 @@ def new_comment(cursor, id, new_a_comment):
                    {'ans_id': ids['id'], 'message': new_a_comment, 'submission_t': st, 'edited_c': edited_count})
     return cursor
 
+
+@connection.connection_handler
+def get_comment(cursor, id):
+    cursor.execute("""
+    select *
+    from comment
+    where id = %(comm_id)s;
+    """,
+                   {'comm_id':id})
+    comment = cursor.fetchall()
+    return comment
+
+
+@connection.connection_handler
+def editing_comment(cursor, id, comment):
+    cursor.execute("""
+    update comment
+    set message = %(mess)s, edited_count = edited_count + 1
+    where id = %(c_id)s;
+    """,
+                   {'mess': comment, 'c_id': id})
+    return cursor
+
+@connection.connection_handler
+def delete(cursor, c_id):
+    cursor.execute("""
+    delete from comment where id = %(id)s;
+    """,
+                   {'id': c_id})
