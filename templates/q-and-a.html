@@ -9,13 +9,13 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-{% for try in question %}
+{% for question in questions %}
     <h1>Question&Answers</h1>
-    <form action='/delete-question/{{ try['id'] }}'>
+    <form action='/delete-question/{{ question['id'] }}'>
         <input type="submit" value="Delete this question"/></form>
 
 
-    <form action='/question/{{ try['id'] }}/new-answer'>
+    <form action='/question/{{ question['id'] }}/new-answer'>
         <input type="submit" value="Add new answer"/></form>
 
 
@@ -34,16 +34,17 @@
 
     <tr>
 
-    <td>{{ try['id'] }}</td>
+    <td>{{ question['id'] }}</td>
     <td>
-        <form action="/question/{{ try['id'] }}/edit-question" method="GET"><input type="submit"
-                                                                      value="{{ try['submission_time'] }}"></form>
+        <form action="/question/{{ question['id'] }}/edit-question" method="GET"><input type="submit"
+                                                                                        value="{{ question['submission_time'] }}">
+        </form>
     </td>
-    <td>{{ try['view_number'] }}</td>
-    <td>{{ try['vote_number'] }}</td>
-    <td>{{ try['title'] }}</td>
-    <td>{{ try['message'] }}</td>
-    <td>{{ try['image'] }}</td>
+    <td>{{ question['view_number'] }}</td>
+    <td>{{ question['vote_number'] }}</td>
+    <td>{{ question['title'] }}</td>
+    <td>{{ question['message'] }}</td>
+    <td>{{ question['image'] }}</td>
 {% endfor %}
 
 </tr>
@@ -83,21 +84,21 @@
             <th>Answer</th>
             <th>Image</th>
         </tr>
-        {% for try2 in answer %}
+        {% for answer in answers %}
 
             <tr>
 
-                <td>{{ try2['id'] }}</td>
+                <td>{{ answer['id'] }}</td>
                 <td>
-                    <form action="/answer/{{ try2['id'] }}/edit-answer"><input type="submit"
-                                                                               value="{{ try2['submission_time'] }}">
+                    <form action="/answer/{{ answer['id'] }}/edit-answer"><input type="submit"
+                                                                                 value="{{ answer['submission_time'] }}">
                     </form>
                 </td>
 
-                <td>{{ try2['vote_number'] }}</td>
-                <td>{{ try2['question_id'] }}</td>
-                <td>{{ try2['message'] }}</td>
-                <td>{{ try2['image'] }}</td>
+                <td>{{ answer['vote_number'] }}</td>
+                <td>{{ answer['question_id'] }}</td>
+                <td>{{ answer['message'] }}</td>
+                <td>{{ answer['image'] }}</td>
             </tr>
         {% endfor %}
     </table>

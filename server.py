@@ -2,7 +2,6 @@ from flask import Flask, render_template, redirect, request
 import util
 import data_manager
 import connection
-import csv
 from datetime import datetime
 
 app = Flask(__name__)
@@ -71,9 +70,9 @@ def question_page(question_id):
     data_manager.view_number_increase(question_id)
 
     if request.method == "POST":
-        return render_template('question-comment.html', question=my_q)
+        return render_template('question-comment.html', questions=my_q)
 
-    return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=question_comment)
+    return render_template('q-and-a.html', questions=my_q, answers=my_a, question_comments=question_comment)
 
 
 @app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
@@ -122,7 +121,7 @@ def answer_comment(answer_id):
         my_a = data_manager.get_answer_by_q(answer_id)
         comment = data_manager.get_q_comments(answer_id)
         answer_comments = data_manager.get_a_comments()
-        return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=comment,
+        return render_template('q-and-a.html', questions=my_q, answers=my_a, question_comments=comment,
                                answer_comment=answer_comments)
     return render_template('answer_comment.html', answer_id)
 
