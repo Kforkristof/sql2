@@ -33,18 +33,13 @@
         </tr>
 
         <tr>
-        <th><input id="tags" name="tags" required size="100"></th>
+            <th><input id="tags" name="tags" required size="100"></th>
         </tr>
 
         <tr>
             <th><input type="submit" value="Submit"></th>
         </tr>
-    </form>
 
-    <form action="/add-question" method="POST">
-            {% for tag in all_tag %}
-            <p>{{ tag.name }}</p>
-            {% endfor %}
     </form>
     </table>
 </body>

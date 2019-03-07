@@ -1,9 +1,5 @@
 from flask import Flask, render_template, redirect, request
-import util
 import data_manager
-import connection
-import csv
-from datetime import datetime
 
 app = Flask(__name__)
 
@@ -54,6 +50,8 @@ def add_question():
     image = request.form.get('image')
     if request.method == 'POST':
         data_manager.new_question(title, message, image)
+        tag = request.form.get( 'tags' )
+        data_manager.add_tags( tag )
 
         return redirect('/')
 
@@ -182,10 +180,14 @@ def edit_comment(id):
 
 @app.route('/add-question', methods=['POST', 'GET'])
 def tags():
-    tag = request.form.get('tags')
     if request.method == 'POST':
-        all_tag = data_manager.show_all_tag()
-    return render_template('add-question.html', all_tag=all_tag, tag=tag)
+        tag = request.form.get( 'tags' )
+        data_manager.add_tags(tag)
+
+
+        return redirect('/')
+
+    return render_template('add-question.html')
 
 
 if __name__ == "__main__":

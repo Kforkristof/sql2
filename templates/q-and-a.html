@@ -18,11 +18,9 @@
         <input type="submit" value="Add new answer"/></form>
 
 
-
     <div class="question-block">
     <table>
     <tr>
-        <th>ID</th>
         <th>Time</th>
         <th>Viewed</th>
         <th>Vote</th>
@@ -35,7 +33,6 @@
 
 
 
-    <td>{{ try['id'] }}</td>
     <td>
         <form action="/question/{{ try['id'] }}/edit-question" method="GET"><input type="submit"
                                                                       value="{{ try['submission_time'] }}"></form>
@@ -82,7 +79,6 @@
     <h2>Answers:</h2>
     <table>
         <tr>
-            <th>Id</th>
             <th>Date</th>
             <th>Vote</th>
             <th>Question id</th>
@@ -93,7 +89,6 @@
 
             <tr>
 
-                <td>{{ try2['id'] }}</td>
                 <td>
                     <form action="/answer/{{ try2['id'] }}/edit-answer"><input type="submit"
                                                                                value="{{ try2['submission_time'] }}">
