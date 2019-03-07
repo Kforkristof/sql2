@@ -140,7 +140,7 @@ def edit_answer(answer_id):
 
 @app.route('/answer/<int:answer_id>/edit-answer/new-comment', methods=['GET', 'POST'])
 def add_new_answer_comment(answer_id):
-    answer = data_manager.get_the_chosen_answer(answer_id)
+    answer = data_manager.get_the_choosen_answer(answer_id)
 
     if request.method == 'POST':
         new_a_comment = request.form.get('new_answer_comment')

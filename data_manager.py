@@ -235,3 +235,25 @@ def delete(cursor, id):
     """,
                    {'cid': id})
     return cursor
+
+@connection.connection_handler
+def get_comment(cursor, id):
+    cursor.execute("""
+    select *
+    from comment
+    where id = %(comm_id)s;
+    """,
+                   {'comm_id':id})
+    comment = cursor.fetchall()
+    return comment
+
+
+@connection.connection_handler
+def editing_comment(cursor, id, comment):
+    cursor.execute("""
+    update comment
+    set message = %(mess)s, edited_count = edited_count + 1
+    where id = %(c_id)s;
+    """,
+                   {'mess': comment, 'c_id': id})
+    return cursor
