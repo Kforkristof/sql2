@@ -19,7 +19,6 @@ def get_answers(cursor):
 def get_questions_desc(cursor, base):
     cursor.execute(
         sql.SQL("select * from question ORDER BY {base} DESC").format(base=sql.Identifier(base)))
-
     questions = cursor.fetchall()
 
     return questions
@@ -29,7 +28,6 @@ def get_questions_desc(cursor, base):
 def get_questions_asc(cursor, base):
     cursor.execute(
         sql.SQL("select * from question ORDER BY {base} ASC").format(base=sql.Identifier(base)))
-
     questions = cursor.fetchall()
 
     return questions
@@ -46,6 +44,8 @@ def new_question(cursor, title, message, image):
 
     # SQL generates own ID
 
+    return cursor
+
 
 @connection.connection_handler
 def new_answer(cursor, question_id, message, image):
@@ -55,6 +55,8 @@ def new_answer(cursor, question_id, message, image):
     VALUES (%(question_id)s, %(vote_number)s, %(message)s, %(image)s, %(submission_time)s);''',
                    {'question_id': question_id, 'vote_number': 0, 'message': message, 'image': image,
                     'submission_time': submission_time})
+
+    return cursor
 
 
 @connection.connection_handler
@@ -107,6 +109,7 @@ def new_q_comment(cursor, comment, question_id):
     insert into comment (submission_time, question_id, message, edited_count)
     values (%(submission_time)s, %(question_id)s, %(message)s, %(edited_count)s);""",
                    {'submission_time': st, 'question_id': question_id, 'message': comment, 'edited_count': 0})
+    return cursor
 
 
 @connection.connection_handler
@@ -129,10 +132,12 @@ def delete_q(cursor, question_id):
     """,
                    {'q_id': question_id})
 
+    return cursor
+
 
 # These two scope below for the answer and answer updating
 @connection.connection_handler
-def get_the_chosen_answer(cursor, answer_id):
+def get_the_choosen_answer(cursor, answer_id):
     cursor.execute("""
     select * from answer
     where id = %(answer_i)s;
@@ -150,26 +155,27 @@ def editing_answer(cursor, answer_id, answer):
     where id = %(ans_id)s;
     """,
                    {'ans': answer, 'ans_id': answer_id})
+    return cursor
 
 
 @connection.connection_handler
 def view_number_increase(cursor, question_id):
     cursor.execute("""
+    select view_number
+    from question
+    where id = %(q_id)s;
+    """,
+                   {'q_id': question_id})
+    initial_view_number = cursor.fetchall()
+    current_view_number = initial_view_number[0]['view_number'] + 1
+    cursor.execute("""
     update question
-    set view_number = view_number + 1
+    set view_number = %(vn)s
     where id = %(id)s;
     """,
-                   {'id': question_id})
+                   {'vn': current_view_number, 'id': question_id})
 
-
-@connection.connection_handler
-def vote_up(cursor, question_id):
-    cursor.execute("""
-    UPDATE question
-    SET question.vote_number = vote_number + 1
-    WHERE id = %(question_id)s
-    ;""",
-                   {'question_id': question_id})
+    return cursor
 
 
 @connection.connection_handler
@@ -180,7 +186,7 @@ def editing_question(cursor, question_id, quest):
     where id = %(question_id)s;
     """,
                    {'quest': quest, 'question_id': question_id})
-
+    return cursor
 
 @connection.connection_handler
 def get_answer_comments(cursor, answer_id):
@@ -193,8 +199,7 @@ def get_answer_comments(cursor, answer_id):
     answer_comments = cursor.fetchall()
     return answer_comments
 
-
-# new answer comment
+#new answer comment
 @connection.connection_handler
 def new_comment(cursor, id, new_a_comment):
     st = util.get_submission_time()
@@ -204,7 +209,7 @@ def new_comment(cursor, id, new_a_comment):
     from answer
     where id = %(a_id)s;
     """,
-                   {'a_id': id})
+                  {'a_id': id})
     qid_and_aid = cursor.fetchall()
     ids = qid_and_aid[0]
     cursor.execute("""
@@ -212,3 +217,14 @@ def new_comment(cursor, id, new_a_comment):
     values (null, %(ans_id)s, %(message)s, %(submission_t)s, %(edited_c)s);
     """,
                    {'ans_id': ids['id'], 'message': new_a_comment, 'submission_t': st, 'edited_c': edited_count})
+    return cursor
+
+@connection.connection_handler
+def show_all_tag(cursor):
+    cursor.execute("""SELECT tag.name 
+                        FROM tag
+                        JOIN question
+                          ON tag.id = question.id;""")
+    tags = cursor.fetchall()
+
+    return tags

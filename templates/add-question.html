@@ -19,9 +19,6 @@
         <tr>
             <th><input id="title" name="title" required size="100"></th>
         </tr>
-        <p>
-            <label for="message">Story:</label>
-        </p>
 
         <tr>
             <th><label for="message">Story:</label></th>
@@ -32,10 +29,23 @@
         </tr>
 
         <tr>
-            <th><input type="submit" value="Submit"></th>
+            <th><label for="tags">Tags:</label></th>
         </tr>
 
+        <tr>
+        <th><input id="tags" name="tags" required size="100"></th>
+        </tr>
 
+        <tr>
+            <th><input type="submit" value="Submit"></th>
+        </tr>
+    </form>
+
+    <form action="/add-question" method="POST">
+            {% for tag in all_tag %}
+            <p>{{ tag.name }}</p>
+            {% endfor %}
+    </form>
     </table>
 </body>
 </html>

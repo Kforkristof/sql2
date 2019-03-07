@@ -127,7 +127,8 @@ def answer_comment(answer_id):
 @app.route('/answer/<int:answer_id>/edit-answer', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
-    answer = data_manager.get_the_chosen_answer(answer_id)
+    answer = data_manager.get_the_choosen_answer(answer_id)
+    print(comments)
     if request.method == 'POST':
         answer_message = request.form.get('edit-answer')
         data_manager.editing_answer(answer_id, answer_message)
@@ -158,6 +159,14 @@ def edit_question(question_id):
         return redirect('/')
 
     return render_template('edit-question.html', question=question[0])
+
+
+@app.route('/add-question', methods=['POST', 'GET'])
+def tags():
+    tag = request.form.get('tags')
+    if request.method == 'POST':
+        all_tag = data_manager.show_all_tag()
+    return render_template('add-question.html', all_tag=all_tag, tag=tag)
 
 
 if __name__ == "__main__":
