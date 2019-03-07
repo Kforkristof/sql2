@@ -29,7 +29,7 @@
         <th>Vote</th>
         <th>Title</th>
         <th>Message</th>
-        <th>Image</th>
+        <th>Tags</th>
     </tr>
 
     <tr>
@@ -44,13 +44,15 @@
     <td>{{ question['vote_number'] }}</td>
     <td>{{ question['title'] }}</td>
     <td>{{ question['message'] }}</td>
-    <td>{{ question['image'] }}</td>
+    <td>{{ question['name'] }}</td>
 {% endfor %}
 
 </tr>
 </table>
 </div><h3>Question comments:</h3>
-
+<form action="/question/{{ questions['id'] }}/question-comment">
+    <input type="submit" value="Add new comment"/>
+</form>
 <div id="question-comments">
 
     <table>
@@ -64,9 +66,12 @@
         {% for comment in question_comments %}
             <tr>
                 <td>{{ comment['id'] }}</td>
-                <td>{{ comment['submission_time'] }}</td>
+                <td><form action="/comment/{{ comment['id'] }}/edit-commit"><input type="submit"
+                                                                               value="{{ comment['submission_time'] }}">
+                    </form></td>
                 <td>{{ comment['message'] }}</td>
                 <td>{{ comment['edited_count'] }}</td>
+                <td><form action="/delete/{{ comment.id }}"><button type="submit" value="delete">delete</button></form></td></tr>
 
 
             </tr>
@@ -88,7 +93,7 @@
 
             <tr>
 
-                <td>{{ answer['id'] }}</td>
+                <td>{{ try2['id'] }}</td>
                 <td>
                     <form action="/answer/{{ answer['id'] }}/edit-answer"><input type="submit"
                                                                                  value="{{ answer['submission_time'] }}">
@@ -99,8 +104,9 @@
                 <td>{{ answer['question_id'] }}</td>
                 <td>{{ answer['message'] }}</td>
                 <td>{{ answer['image'] }}</td>
-            </tr>
-        {% endfor %}
+                <td><form action="/delete/{{ answer.id }}"><button type="submit" value="delete">delete</button></form></td>
+                </tr>
+            {% endfor %}
     </table>
 </div>
 </body>

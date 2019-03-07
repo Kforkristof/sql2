@@ -64,9 +64,9 @@
             </form>
         </th>
         <th>Vote</th>
+        <th>Tags</th>
 
     </tr>
-
 
     {% for question in questions %}
         <tr>
@@ -82,9 +82,11 @@
                     <input type="submit" value=&#128078 id="down"/>
                 </form>
             </td>
-        </tr>
-    {% endfor %}
+            {% if question.name %}<td>{{ question.name }}</td>{% endif %}
 
+                <form action=""></form></td>
+    {% endfor %}
+        </tr>
     <form action="/">
         <input type="submit" value="Return"/>
     </form>

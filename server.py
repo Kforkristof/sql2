@@ -6,6 +6,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+generated_ids = []
 
 @app.route('/all-questions')
 @app.route('/', methods=['GET', 'POST'])
@@ -56,6 +57,8 @@ def add_question():
     image = request.form.get('image')
     if request.method == 'POST':
         data_manager.new_question(title, message, image)
+        tag = request.form.get( 'tags' )
+        data_manager.add_tags( tag )
 
         return redirect('/')
 
@@ -129,7 +132,8 @@ def answer_comment(answer_id):
 @app.route('/answer/<int:answer_id>/edit-answer', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
-    answer = data_manager.get_the_chosen_answer(answer_id)
+    answer = data_manager.get_the_choosen_answer(answer_id)
+    print(comments)
     if request.method == 'POST':
         answer_message = request.form.get('edit-answer')
         data_manager.editing_answer(answer_id, answer_message)
@@ -160,6 +164,37 @@ def edit_question(question_id):
         return redirect('/')
 
     return render_template('edit-question.html', question=question[0])
+
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+def delete(id):
+    if request.method == "GET":
+        data_manager.delete(id)
+        return redirect('/')
+
+    return redirect('/')
+
+
+
+@app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
+def edit_comment(id):
+    initial_comment = data_manager.get_comment(id)
+    if request.method == 'POST':
+        new_comment = request.form.get('edit-comment')
+        data_manager.editing_comment(id, new_comment)
+        return redirect('/')
+    return render_template('edit-comment.html', initial_comment=initial_comment[0])
+
+
+@app.route('/add-question', methods=['POST', 'GET'])
+def tags():
+    if request.method == 'POST':
+        tag = request.form.get( 'tags' )
+        data_manager.add_tags(tag)
+
+
+        return redirect('/')
+
+    return render_template('add-question.html')
 
 
 if __name__ == "__main__":

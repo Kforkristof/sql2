@@ -26,16 +26,18 @@
         <th>View number</th>
         <th>Vote number</th>
         <th>Title</th>
+        <th>Tag</th>
     </tr>
 
-    {% for i in range(5) %}
+    {% for question in questions %}
         <tr>
-            <td>{{ questions[i].submission_time }}</td>
-            <td>{{ questions[i].view_number }}</td>
-            <td>{{ questions[i].vote_number }}
+            <td>{{ question.submission_time }}</td>
+            <td>{{ question.view_number }}</td>
+            <td>{{ question.vote_number }}</td>
+            <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+            {% if question.name %}<td>{{ question.name }}</td>{% endif %}
 
-            </td>
-            <td><a href="/question/{{ questions[i].id }}">{{ questions[i].title }}</a></td>
+                <form action=""></form></td>
         </tr>
     {% endfor %}
     <form action="/all-questions">

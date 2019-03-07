@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Answer</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<h1 id="edit_comment">Edit comment</h1>
+<div id="edit_comment_box">
+    <form method="POST">
+
+        <p>
+            <label for="edit-comment">Write your comment:</label>
+        </p>
+
+
+        <textarea id="edit-comment" name="edit-comment" rows="10" cols=100" required>{{ initial_comment["message"] }}</textarea>
+
+
+        <input type="submit" value="Submit">
+
+
+    </form>
+</div>

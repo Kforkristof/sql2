@@ -32,13 +32,19 @@
         <tr>
             <th id="answer-comments-label">Submission time</th>
             <th>Comments</th>
-        </tr>
-        {% for comment in commentss %}
-            <tr>
-                <td>{{ comment.submission_time }}</td>
-                <td>{{ comment.message }}</td>
 
-            </tr>{% endfor %}</table>
+            </tr>{% for comment in commentss %}<tr>
+
+                    <td>
+                        <form action="/comment/{{ comment.id }}/edit-commit"><input type="submit"
+                                                                                       value="{{ comment.submission_time }}">
+                        </form>
+                    </td>
+
+                    <td>{{ comment.message }}</td>
+                    <td><form action="/delete/{{ comment.id }}"><button type="submit" value="delete">delete</button></form></td>
+
+                    </tr>{% endfor %}</table>
 </div>
 </body>
 </html>
