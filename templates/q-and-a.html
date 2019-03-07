@@ -99,7 +99,7 @@
                 <td>{{ try2['question_id'] }}</td>
                 <td>{{ try2['message'] }}</td>
                 <td>{{ try2['image'] }}</td>
-                <td><form action="/delete/{{ try2.id }}"><button type="submit" value="delete">delete</button></form></td>
+                <td><form action="/delete-answer/{{ try2.id }}"><button type="submit" value="delete">delete</button></form></td>
                 </tr>
             {% endfor %}
     </table>

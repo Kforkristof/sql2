@@ -166,6 +166,14 @@ def delete(id):
 
     return redirect('/')
 
+@app.route('/delete-answer/<int:id>', methods=['GET', 'POST'])
+def delete_answer(id):
+    if request.method == 'GET':
+        data_manager.delete_a(id)
+        return redirect('/')
+    return redirect('/')
+
+
 
 
 @app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])

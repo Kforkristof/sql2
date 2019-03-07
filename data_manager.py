@@ -262,6 +262,15 @@ def delete(cursor, id):
     return cursor
 
 @connection.connection_handler
+def delete_a(cursor, aid):
+    cursor.execute("""
+    DELETE FROM comment WHERE answer_id=%(id)s;
+    delete from answer
+    where id = %(id)s;
+    """,
+                   {'id': aid})
+
+@connection.connection_handler
 def get_comment(cursor, id):
     cursor.execute("""
     select *
