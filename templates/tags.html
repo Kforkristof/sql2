@@ -1,0 +1,25 @@
+{% extends 'add-question.html' %}
+
+{% block content %}
+<body>
+    <table>
+        <form action="/add-question" method="POST">
+                <p>ADD Tags:</p>
+                <p><input type="submit"></p>
+            <tr>
+                <p><td><input type="checkbox" name="tag" value="#Python"> #Python</td></p>
+                <p><td><input type="checkbox" name="tag" value="basics"> #Basics</td></p>
+            </tr>
+            <tr>
+                <p><td><input type="checkbox" name="tag" value="#JavaScript"> #JavaScript</td></p>
+                <p><td><input type="checkbox" name="tag" value="#HTML"> #HTML</td></p>
+            </tr>
+            <tr>
+                <p><td><input type="checkbox" name="tag" value="#SQL"> #SQL</td></p>
+                <p><td><input type="checkbox" name="tag" value="#Ajax"> #Ajax</td></p>
+            </tr>
+        </form>
+    </table>
+
+</body>
+{% endblock %}

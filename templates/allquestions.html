@@ -22,9 +22,11 @@
         <th>View number</th>
         <th>Vote number</th>
         <th>Title</th>
+        <th>Tags</th>
     </tr>
 
     {% for question in questions %}
+
         <tr>
             <td>{{ question.submission_time }}</td>
             <td>{{ question.view_number }}</td>
