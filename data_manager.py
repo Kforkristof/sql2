@@ -166,7 +166,18 @@ def view_number_increase(cursor, question_id):
 def vote_up(cursor, question_id):
     cursor.execute("""
     UPDATE question
-    SET question.vote_number = vote_number + 1
+    SET vote_number = vote_number + 1
+    WHERE id = %(question_id)s
+    ;""",
+                   {'question_id': question_id}) \
+ \
+    @ connection.connection_handler
+
+
+def vote_down(cursor, question_id):
+    cursor.execute("""
+    UPDATE question                                                                             
+    SET vote_number = vote_number - 1
     WHERE id = %(question_id)s
     ;""",
                    {'question_id': question_id})

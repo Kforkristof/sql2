@@ -7,15 +7,24 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-generated_ids = []
-
 
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
+
     all_qs = data_manager.get_questions_desc('submission_time')
     search_for = request.form.get('search')
 
     return render_template('home.html', questions=all_qs, search_for=search_for)
+
+
+@app.route('/vote/<question_id>/<up_or_down>', methods=['GET', 'POST'])
+def voting(up_or_down, question_id):
+    if up_or_down == 'up':
+        data_manager.vote_up(question_id)
+        return redirect('/')
+    if up_or_down == 'down':
+        data_manager.vote_down(question_id)
+        return redirect('/')
 
 
 @app.route('/ordered-home/<how>/desc')

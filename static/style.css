@@ -1,69 +1,62 @@
 
-        body
-            {
-            font-family: sans-serif;
-            background-image: url(http://www.planwallpaper.com/static/images/6909249-black-hd-background.jpg);
-            background-size: cover;
-            background-attachment: fixed;
-            }
+body {
+    font-family: sans-serif;
+    background-image: url(http://www.planwallpaper.com/static/images/6909249-black-hd-background.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
 
-        table
-        {
-            width: 100%;
-        }
+table {
+    width: 100%;
+}
 
-        table, th, td
-        {
-            border: 5px solid black;
-            border-collapse: collapse;
-            opacity: 0.75;
-        }
+table, th, td {
+    border: 5px solid black;
+    border-collapse: collapse;
+    opacity: 0.75;
+}
 
-        th, td
-        {
-            padding: 5px;
-            text-align: center;
-        }
+th, td {
+    padding: 5px;
+    text-align: center;
+}
 
-        th
-        {
-            background-color: #a70000;
-            color: white;
-        }
+th {
+    background-color: #a70000;
+    color: white;
+}
 
-        tr:nth-child(even)
-        {
-            background-color: #e8e8e8;
-        }
+tr:nth-child(even) {
+    background-color: #e8e8e8;
+}
 
-        tr:nth-child(odd)
-        {
-            background-color: white;
-        }
+tr:nth-child(odd) {
+    background-color: white;
+}
 
-        i {
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
+i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
 }
 
 .right {
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
 }
 
 .left {
-  transform: rotate(135deg);
-  -webkit-transform: rotate(135deg);
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
 }
 
-.up {
-  transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
+#up {
+    float: left
+
 }
 
-.down {
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
+#down {
+    float: right
+
 }

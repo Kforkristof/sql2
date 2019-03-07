@@ -65,16 +65,25 @@
             </form>
         </th>
         <th>Vote</th>
+
     </tr>
 
     {% for i in range(5) %}
         <tr>
             <td>{{ questions[i].submission_time }}</td>
             <td>{{ questions[i].view_number }}</td>
-            <td>{{ questions[i].vote_number }}</td>
+            <td>{{ questions[i].vote_number }}
+
+            </td>
             <td><a href="/question/{{ questions[i].id }}">{{ questions[i].title }}</a></td>
             <td>
-                <form action=""></form></td>
+                <form action="/vote/{{ questions[i].id }}/up">
+                    <input type="submit" value=&#128077 id="up"/>
+                </form>
+                <form action="/vote/{{ questions[i].id }}/down">
+                    <input type="submit" value=&#128078 id="down"/>
+                </form>
+            </td>
         </tr>
     {% endfor %}
     <form action="/all-questions">
