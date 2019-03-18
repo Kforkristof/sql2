@@ -1,31 +1,45 @@
 from flask import Flask, render_template, redirect, request
+import util
 import data_manager
+import connection
+from datetime import datetime
 
 app = Flask(__name__)
 
 generated_ids = []
 
-
+@app.route('/all-questions')
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
+    search_for = request.form.get('search')
     all_qs = data_manager.get_questions_desc('submission_time')
+    if request.path == '/':
+        return render_template('home.html', questions=all_qs)
+
+    if request.path == '/all-questions':
+        return render_template('allquestions.html', questions=all_qs, search_for=search_for)
 
 
-    return render_template('home.html', questions=all_qs)
-
-
-@app.route('/ordered-home/<how>/desc')
-def order_home_desc(how):
-    all_qs = data_manager.get_questions_desc(how)
-
-    return render_template('home.html', questions=all_qs)
+@app.route('/vote/<question_id>/<up_or_down>', methods=['GET', 'POST'])
+def voting(up_or_down, question_id):
+    if up_or_down == 'up':
+        data_manager.vote_up(question_id)
+        return redirect('/all-questions')
+    elif up_or_down == 'down':
+        data_manager.vote_down(question_id)
+        return redirect('/all-questions')
 
 
 @app.route('/ordered-home/<how>/asc')
-def order_home_asc(how):
-    all_qs = data_manager.get_questions_asc(how)
+@app.route('/ordered-home/<how>/desc')
+def ordered_home(how):
+    if request.path == '/ordered-home/' + how + '/asc':
+        all_qs = data_manager.get_questions_asc(how)
+        return render_template('allquestions.html', questions=all_qs)
 
-    return render_template('home.html', questions=all_qs)
+    if request.path == '/ordered-home/' + how + '/desc':
+        all_qs = data_manager.get_questions_desc(how)
+        return render_template('allquestions.html', questions=all_qs)
 
 
 @app.route('/search', methods=['GET'])
@@ -74,9 +88,9 @@ def question_page(question_id):
     data_manager.view_number_increase(question_id)
 
     if request.method == "POST":
-        return render_template('question-comment.html', question=my_q)
+        return render_template('question-comment.html', questions=my_q)
 
-    return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=question_comment)
+    return render_template('q-and-a.html', questions=my_q, answers=my_a, question_comments=question_comment)
 
 
 @app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
@@ -125,7 +139,7 @@ def answer_comment(answer_id):
         my_a = data_manager.get_answer_by_q(answer_id)
         comment = data_manager.get_q_comments(answer_id)
         answer_comments = data_manager.get_a_comments()
-        return render_template('q-and-a.html', question=my_q, answer=my_a, question_comments=comment,
+        return render_template('q-and-a.html', questions=my_q, answers=my_a, question_comments=comment,
                                answer_comment=answer_comments)
     return render_template('answer_comment.html', answer_id)
 
@@ -186,7 +200,7 @@ def delete_answer(id):
 
 @app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
 def edit_comment(id):
-    initial_comment = data_manager.get_comment(id)
+    initial_comment = data_manager.get_q_comments(id)
     if request.method == 'POST':
         new_comment = request.form.get('edit-comment')
         data_manager.editing_comment(id, new_comment)

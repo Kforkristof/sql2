@@ -1,4 +1,5 @@
 import connection
+
 from psycopg2 import sql
 import util
 
@@ -131,7 +132,6 @@ def get_q_comments(cursor, question_id):
 def delete_q(cursor, question_id):
     cursor.execute("""
     DELETE FROM comment WHERE question_id=%(q_id)s;
-    
     DELETE FROM answer WHERE question_id=%(q_id)s;
     DELETE FROM question WHERE id=%(q_id)s;
     """,
@@ -185,7 +185,17 @@ def view_number_increase(cursor, question_id):
 def vote_up(cursor, question_id):
     cursor.execute("""
     UPDATE question
-    SET question.vote_number = vote_number + 1
+    SET vote_number = vote_number + 1
+    WHERE id = %(question_id)s
+    ;""",
+                   {'question_id': question_id})
+
+
+@connection.connection_handler
+def vote_down(cursor, question_id):
+    cursor.execute("""
+    UPDATE question
+    SET vote_number = vote_number - 1
     WHERE id = %(question_id)s
     ;""",
                    {'question_id': question_id})
@@ -240,6 +250,7 @@ def add_tags(cursor, tag):
     cursor.execute("""INSERT INTO tag(name)
                         VALUES (%(tag)s);""",
                    {'tag': tag})
+    return cursor
 
 
 @connection.connection_handler
@@ -268,7 +279,6 @@ def delete(cursor, id):
     """,
                    {'cid': id})
     return cursor
-
 
 @connection.connection_handler
 def delete_a(cursor, aid):

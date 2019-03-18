@@ -7,9 +7,16 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
+<body>
 
-    <body>
-        <table align="center">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<form class="search" method='GET' action="{{ url_for('search_route') }}">
+    <input type="text" placeholder="Search.." name="search">
+    <button type="submit"><i class="fa fa-search"></i></button>
+</form>
+
+<table align="center">
 
         <tr>
             <td colspan="6"><h1>@AskMate</h1></td>
@@ -25,11 +32,46 @@
             </div>
         </form>
     <tr>
-        <th>Submission time</th>
-        <th>View number</th>
-        <th>Vote number</th>
-        <th>Title</th>
+        <th>Submission time
+            <form action="/ordered-home/submission_time/desc">
+                <input type="submit" value="DESC"/>
+            </form>
+            <form action="/ordered-home/submission_time/asc">
+                <input type="submit" value="ASC"/>
+            </form>
+        </th>
+
+
+        <th>View number
+            <form action="/ordered-home/view_number/desc">
+                <input type="submit" value="DESC"/>
+            </form>
+            <form action="/ordered-home/view_number/asc">
+                <input type="submit" value="ASC"/>
+            </form>
+        </th>
+
+        <th>Vote number
+            <form action="/ordered-home/vote_number/desc">
+                <input type="submit" value="DESC"/>
+            </form>
+            <form action="/ordered-home/vote_number/asc">
+                <input type="submit" value="ASC"/>
+            </form>
+        </th>
+
+        <th>Title
+            <form action="/ordered-home/title/desc">
+                <input type="submit" value="DESC"/>
+            </form>
+
+            <form action="/ordered-home/title/asc">
+                <input type="submit" value="ASC"/>
+            </form>
+        </th>
+        <th>Vote</th>
         <th>Tags</th>
+
     </tr>
 
     {% for question in questions %}
@@ -38,12 +80,19 @@
             <td>{{ question.view_number }}</td>
             <td>{{ question.vote_number }}</td>
             <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+            <td>
+                <form action="/vote/{{ question.id }}/up">
+                    <input type="submit" value=&#128077 id="up"/>
+                </form>
+                <form action="/vote/{{ question.id }}/down">
+                    <input type="submit" value=&#128078 id="down"/>
+                </form>
+            </td>
             {% if question.name %}<td>{{ question.name }}</td>{% endif %}
 
                 <form action=""></form></td>
-        </tr>
     {% endfor %}
-
+        </tr>
     <form action="/">
         <div class="row">
             <ul class="main-nav">
@@ -56,6 +105,6 @@
         </div>
     </form>
 
-        </table>
-    </body>
+</table>
+</body>
 </html>
