@@ -8,22 +8,36 @@
 
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
-<body>
-{% for question in questions %}
-    <h1>Question&Answers</h1>
-    <form action='/delete-question/{{ question['id'] }}'>
-        <input type="submit" value="Delete this question"/></form>
 
+    <body>
+        <h1>Question&Answers</h1>
 
-    <form action='/question/{{ question['id'] }}/new-answer'>
-        <input type="submit" value="Add new answer"/></form>
+        {% for try in question %}
 
+            <form action='/delete-question/{{ try['id'] }}'>
+                <div class="row">
+                    <ul class="main-nav">
+                    <header>
+                        <li><input type="submit" value="DELETE QUESTION"/></li>
+                    </header>
+                </ul>
+            </div>
+        </form>
+
+    <form action='/question/{{ try['id'] }}/new-answer'>
+    <div class="row">
+            <ul class="main-nav">
+                <header>
+                    <li><input type="submit" value="NEW ANSWER"/></li>
+                </header>
+            </ul>
+        </div>
+    </form>
 
 
     <div class="question-block">
     <table>
     <tr>
-        <th>ID</th>
         <th>Time</th>
         <th>Viewed</th>
         <th>Vote</th>
@@ -34,25 +48,31 @@
 
     <tr>
 
-    <td>{{ question['id'] }}</td>
     <td>
-        <form action="/question/{{ question['id'] }}/edit-question" method="GET"><input type="submit"
-                                                                                        value="{{ question['submission_time'] }}">
-        </form>
+        <form action="/question/{{ try['id'] }}/edit-question" method="GET"><input type="submit"
+                                                                      value="{{ try['submission_time'] }}"></form>
     </td>
-    <td>{{ question['view_number'] }}</td>
-    <td>{{ question['vote_number'] }}</td>
-    <td>{{ question['title'] }}</td>
-    <td>{{ question['message'] }}</td>
-    <td>{{ question['name'] }}</td>
+    <td>{{ try['view_number'] }}</td>
+    <td>{{ try['vote_number'] }}</td>
+    <td>{{ try['title'] }}</td>
+    <td>{{ try['message'] }}</td>
+    <td>{{ try['image'] }}</td>
 {% endfor %}
 
 </tr>
 </table>
 </div><h3>Question comments:</h3>
-<form action="/question/{{ questions['id'] }}/question-comment">
-    <input type="submit" value="Add new comment"/>
+
+<form action="/question/{{ question[0]['id'] }}/question-comment">
+    <div class="row">
+        <ul class="main-nav">
+            <header>
+                <li><input type="submit" value="NEW COMMENT"/></li>
+            </header>
+        </ul>
+    </div>
 </form>
+
 <div id="question-comments">
 
     <table>
@@ -72,41 +92,35 @@
                 <td>{{ comment['message'] }}</td>
                 <td>{{ comment['edited_count'] }}</td>
                 <td><form action="/delete/{{ comment.id }}"><button type="submit" value="delete">delete</button></form></td></tr>
-
-
             </tr>
         {% endfor %}
+
     </table>
 </div>
 <div class="answerblock">
+
     <h2>Answers:</h2>
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>Date</th>
-            <th>Vote</th>
-            <th>Question id</th>
-            <th>Answer</th>
-            <th>Image</th>
-        </tr>
-        {% for answer in answers %}
-
+        <table>
             <tr>
+                <th>Date</th>
+                <th>Vote</th>
+                <th>Question id</th>
+                <th>Answer</th>
+                <th>Delete</th>
 
-                <td>{{ try2['id'] }}</td>
-                <td>
-                    <form action="/answer/{{ answer['id'] }}/edit-answer"><input type="submit"
-                                                                                 value="{{ answer['submission_time'] }}">
-                    </form>
-                </td>
+            </tr>
 
-                <td>{{ answer['vote_number'] }}</td>
-                <td>{{ answer['question_id'] }}</td>
-                <td>{{ answer['message'] }}</td>
-                <td>{{ answer['image'] }}</td>
-                <td><form action="/delete/{{ answer.id }}"><button type="submit" value="delete">delete</button></form></td>
+            {% for try2 in answer %}
+                <tr>
+                    <td>
+                        <form action="/answer/{{ try2['id'] }}/edit-answer"><input type="submit" value="{{ try2['submission_time'] }}"></form>
+                    </td>
+                    <td>{{ try2['vote_number'] }}</td>
+                    <td>{{ try2['question_id'] }}</td>
+                    <td>{{ try2['message'] }}</td>
+                    <td><form action="/delete-answer/{{ try2.id }}"><button type="submit" value="delete">delete</button></form></td>
                 </tr>
             {% endfor %}
-    </table>
-</div>
+        </table>
+    </div>
 </body>

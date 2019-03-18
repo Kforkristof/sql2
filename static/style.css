@@ -1,62 +1,114 @@
 
-body {
-    font-family: sans-serif;
-    background-image: url(http://www.planwallpaper.com/static/images/6909249-black-hd-background.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-}
+        body
+            {
+            font-family: sans-serif;
+            background-image: url(https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+            background-size: cover;
+            background-attachment: fixed;
+            }
 
-table {
-    width: 100%;
-}
+        table
+        {
+            width: 100%;
+        }
 
-table, th, td {
-    border: 5px solid black;
-    border-collapse: collapse;
-    opacity: 0.75;
-}
+        table, th, td
+        {
+            border: 5px solid black;
+            border-collapse: collapse;
+            opacity: 0.75;
+        }
 
-th, td {
-    padding: 5px;
-    text-align: center;
-}
+        th, td
+        {
+            padding: 5px;
+            text-align: center;
+        }
 
-th {
-    background-color: #a70000;
-    color: white;
-}
+        th
+        {
+            background-color: #a70000;
+            color: white;
+        }
 
-tr:nth-child(even) {
-    background-color: #e8e8e8;
-}
+        tr:nth-child(even)
+        {
+            background-color: #e8e8e8;
+        }
 
-tr:nth-child(odd) {
-    background-color: white;
-}
+        tr:nth-child(odd)
+        {
+            background-color: white;
+        }
 
-i {
-    border: solid black;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-}
+        i
+        {
+            border: solid black;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 3px;
+        }
 
-.right {
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-}
+        .right
+        {
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+        }
 
-.left {
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
-}
+        .left
+        {
+            transform: rotate(135deg);
+            -webkit-transform: rotate(135deg);
+        }
 
-#up {
-    float: left
+        .up
+        {
+            transform: rotate(-135deg);
+            -webkit-transform: rotate(-135deg);
+        }
 
-}
+        .down
+        {
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+        }
 
-#down {
-    float: right
+         .main-nav
+        {
+            float: right;
+            list-style: none;
+            margin-top: 25px;
+        }
 
-}
+        .main-nav li
+        {
+            display: inline-block;
+        }
+
+        .main-nav li input
+        {
+            color: black;
+            text-decoration: none;
+            padding: 10px 25px;
+            font-family: "Roboto", sans-serif;
+        }
+
+        .main-nav li input:hover
+        {
+            border: 1px solid white;
+        }
+
+        body
+        {
+            font-family: monospace;
+        }
+
+        .upvote
+        {
+            background:url(/home/lazoli95/Codecool/Python/sql2/static/like.png);
+            border:0;
+            display:block;
+            height:Change_TO_backgroundimageheight;
+            width: Change_To_backgroundimageWidth;
+        }
+

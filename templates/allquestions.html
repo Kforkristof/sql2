@@ -18,13 +18,19 @@
 
 <table align="center">
 
-    <tr>
-        <td colspan="4"><h1>@AskMate</h1></td>
-    </tr>
+        <tr>
+            <td colspan="6"><h1>@AskMate</h1></td>
+        </tr>
 
-    <form action="/add-question">
-        <input type="submit" value="Add new question"/>
-    </form>
+        <form action="/add-question">
+            <div class="row">
+                <ul class="main-nav">
+                    <header>
+                        <li><input type="submit" value="Add new question"/></li>
+                    </header>
+                </ul>
+            </div>
+        </form>
     <tr>
         <th>Submission time
             <form action="/ordered-home/submission_time/desc">
@@ -87,8 +93,18 @@
                 <form action=""></form></td>
     {% endfor %}
         </tr>
+    {% endfor %}
+
     <form action="/">
-        <input type="submit" value="Return"/>
+        <div class="row">
+            <ul class="main-nav">
+                <header>
+                    <li>
+                        <input type="submit" value="Return"/>
+                    </li>
+                </header>
+            </ul>
+        </div>
     </form>
 
 </table>

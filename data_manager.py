@@ -1,5 +1,4 @@
 import connection
-
 from psycopg2 import sql
 import util
 
@@ -53,9 +52,6 @@ def new_question(cursor, title, message, image):
     VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s,%(image)s);''',
                    {'submission_time': st, 'view_number': 0, 'vote_number': 0, 'title': title,
                     'message': message, 'image': image})
-
-    # SQL generates own ID
-
     return cursor
 
 
@@ -67,7 +63,6 @@ def new_answer(cursor, question_id, message, image):
     VALUES (%(question_id)s, %(vote_number)s, %(message)s, %(image)s, %(submission_time)s);''',
                    {'question_id': question_id, 'vote_number': 0, 'message': message, 'image': image,
                     'submission_time': submission_time})
-
     return cursor
 
 
@@ -78,7 +73,6 @@ def get_q_by_id(cursor, my_id):
     WHERE id=%(my_id)s
     ;''',
                    {'my_id': my_id})
-
     whatiwant = cursor.fetchall()
     return whatiwant
 
@@ -90,7 +84,6 @@ def get_answer_by_q(cursor, q_id):
     WHERE question_id = %(q_id)s;
     ''',
                    {'q_id': q_id})
-
     toreturn = cursor.fetchall()
     return toreturn
 
@@ -109,7 +102,6 @@ def search_for_q(cursor, search_for):
  
     ;''',
                    {'search_for': search_for})
-
     result = cursor.fetchall()
     return result
 
@@ -259,9 +251,6 @@ def add_tags(cursor,tag):
     return cursor
 
 
-
-
-
 @connection.connection_handler
 def delete(cursor, id):
     cursor.execute("""
@@ -269,4 +258,35 @@ def delete(cursor, id):
     where id = %(cid)s;
     """,
                    {'cid': id})
+    return cursor
+
+@connection.connection_handler
+def delete_a(cursor, aid):
+    cursor.execute("""
+    DELETE FROM comment WHERE answer_id=%(id)s;
+    delete from answer
+    where id = %(id)s;
+    """,
+                   {'id': aid})
+
+@connection.connection_handler
+def get_comment(cursor, id):
+    cursor.execute("""
+    select *
+    from comment
+    where id = %(comm_id)s;
+    """,
+                   {'comm_id':id})
+    comment = cursor.fetchall()
+    return comment
+
+
+@connection.connection_handler
+def editing_comment(cursor, id, comment):
+    cursor.execute("""
+    update comment
+    set message = %(mess)s, edited_count = edited_count + 1
+    where id = %(c_id)s;
+    """,
+                   {'mess': comment, 'c_id': id})
     return cursor
