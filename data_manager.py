@@ -18,11 +18,11 @@ def get_answers(cursor):
 def get_questions_desc(cursor, base):
     cursor.execute(
         sql.SQL("select question.*, tag.name "
-                "from question "
+                "from tag "
                 "join question_tag "
-                "on question.id = question_tag.question_id "
-                "left join tag"
-                " on question_tag.tag_id = tag.id "
+                "on tag.id = question_tag.tag_id "
+                "right join question"
+                " on question_tag.question_id = question.id "
                 "ORDER BY {base} DESC").format(base=sql.Identifier(base)))
     questions = cursor.fetchall()
 
@@ -33,11 +33,11 @@ def get_questions_desc(cursor, base):
 def get_questions_asc(cursor, base):
     cursor.execute(
         sql.SQL("select question.*, tag.name "
-                "from question "
+                "from tag "
                 "join question_tag "
-                "on question.id = question_tag.question_id "
-                "left join tag"
-                " on question_tag.tag_id = tag.id " 
+                "on tag.id = question_tag.tag_id "
+                "right join question"
+                " on question_tag.question_id = question.id "
                 "ORDER BY {base} ASC").format(base=sql.Identifier(base)))
     questions = cursor.fetchall()
 
@@ -45,13 +45,13 @@ def get_questions_asc(cursor, base):
 
 
 @connection.connection_handler
-def new_question(cursor, title, message, image):
+def new_question(cursor, title, message):
     st = util.get_submission_time()
     cursor.execute('''
-    INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s,%(image)s);''',
+    INSERT INTO question (submission_time, view_number, vote_number, title, message)
+    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s);''',
                    {'submission_time': st, 'view_number': 0, 'vote_number': 0, 'title': title,
-                    'message': message, 'image': image})
+                    'message': message})
     return cursor
 
 
@@ -131,6 +131,7 @@ def get_q_comments(cursor, question_id):
 def delete_q(cursor, question_id):
     cursor.execute("""
     DELETE FROM comment WHERE question_id=%(q_id)s;
+    
     DELETE FROM answer WHERE question_id=%(q_id)s;
     DELETE FROM question WHERE id=%(q_id)s;
     """,
@@ -233,13 +234,31 @@ def new_comment(cursor, id, new_a_comment):
     return cursor
 
 
+# neccesary to write into the question_tag table
 @connection.connection_handler
-def add_tags(cursor,tag):
+def add_tags(cursor, tag):
     cursor.execute("""INSERT INTO tag(name)
                         VALUES (%(tag)s);""",
                    {'tag': tag})
-    return cursor
 
+
+@connection.connection_handler
+def get_latest_tag_id(cursor):
+    cursor.execute("""
+    SELECT id
+    FROM tag
+    ORDER BY id DESC
+    LIMIT 1""")
+    id = cursor.fetchall()
+    return  id
+
+@connection.connection_handler
+def write_record_to_the_question_tag(cursor, q_id, t_id):
+    cursor.execute("""
+        INSERT INTO question_tag(question_id, tag_id)
+        VALUES (%(qid)s, %(tag_id)s);
+        """,
+                   {'qid': q_id, 'tag_id': t_id})
 
 @connection.connection_handler
 def delete(cursor, id):
@@ -250,6 +269,7 @@ def delete(cursor, id):
                    {'cid': id})
     return cursor
 
+
 @connection.connection_handler
 def delete_a(cursor, aid):
     cursor.execute("""
@@ -259,6 +279,7 @@ def delete_a(cursor, aid):
     """,
                    {'id': aid})
 
+
 @connection.connection_handler
 def get_comment(cursor, id):
     cursor.execute("""
@@ -266,7 +287,7 @@ def get_comment(cursor, id):
     from comment
     where id = %(comm_id)s;
     """,
-                   {'comm_id':id})
+                   {'comm_id': id})
     comment = cursor.fetchall()
     return comment
 
@@ -280,3 +301,23 @@ def editing_comment(cursor, id, comment):
     """,
                    {'mess': comment, 'c_id': id})
     return cursor
+
+
+@connection.connection_handler
+def get_latest_question_id(cursor):
+    cursor.execute("""
+    select id
+    from question
+    
+    order by id desc
+    limit 1""")
+
+    question_id = cursor.fetchall()
+    return question_id
+
+@connection.connection_handler
+def delete_the_wrong_tags(cursor):
+    cursor.execute("""
+    delete from tag
+    where id = 4 or id = 5 or id = 6 or id = 7 or id = 8 or id = 9""")
+

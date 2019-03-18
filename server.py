@@ -9,9 +9,9 @@ generated_ids = []
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
     all_qs = data_manager.get_questions_desc('submission_time')
-    search_for = request.form.get('search')
 
-    return render_template('home.html', questions=all_qs, search_for=search_for)
+
+    return render_template('home.html', questions=all_qs)
 
 
 @app.route('/ordered-home/<how>/desc')
@@ -45,17 +45,25 @@ def all_questions():
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
-    message = request.form.get('message')
-    title = request.form.get('title')
-    image = request.form.get('image')
+
+
     if request.method == 'POST':
-        data_manager.new_question(title, message, image)
-        tag = request.form.get( 'tags' )
-        data_manager.add_tags( tag )
+        message = request.form.get('message')
+        title = request.form.get('title')
+
+        tag = request.form.get('tags')
+
+        data_manager.new_question(title, message)
+
+        question_id = data_manager.get_latest_question_id()
+
+        data_manager.add_tags(tag)
+        latest_tag_id = data_manager.get_latest_tag_id()
+        data_manager.write_record_to_the_question_tag(question_id[0]['id'], latest_tag_id[0]['id'])
 
         return redirect('/')
 
-    return render_template('add-question.html', message=message, title=title, image=image)
+    return render_template('add-question.html')
 
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
@@ -195,6 +203,11 @@ def tags():
         return redirect('/')
 
     return render_template('add-question.html')
+
+@app.route('/deltag')
+def deltag():
+    data_manager.delete_the_wrong_tags()
+    return redirect('/')
 
 
 if __name__ == "__main__":
