@@ -2,6 +2,7 @@ import random
 import string
 import time
 import datetime
+import bcrypt
 
 
 def random_id_generator(size, chars=string.ascii_uppercase + string.digits):
@@ -26,4 +27,11 @@ def get_submission_time():
     return st
 
 
-print(get_submission_time())
+def hash_password(plain_text_password):
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)

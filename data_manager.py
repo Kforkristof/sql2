@@ -38,7 +38,7 @@ def get_questions_asc(cursor, base):
                 "join question_tag "
                 "on question.id = question_tag.question_id "
                 "left join tag"
-                " on question_tag.tag_id = tag.id " 
+                " on question_tag.tag_id = tag.id "
                 "ORDER BY {base} ASC").format(base=sql.Identifier(base)))
     questions = cursor.fetchall()
 
@@ -252,7 +252,7 @@ def new_comment(cursor, id, new_a_comment):
 
 
 @connection.connection_handler
-def add_tags(cursor,tag):
+def add_tags(cursor, tag):
     cursor.execute("""INSERT INTO tag(name)
                         VALUES (%(tag)s);""",
                    {'tag': tag})
@@ -268,6 +268,7 @@ def delete(cursor, id):
                    {'cid': id})
     return cursor
 
+
 @connection.connection_handler
 def delete_a(cursor, aid):
     cursor.execute("""
@@ -277,6 +278,7 @@ def delete_a(cursor, aid):
     """,
                    {'id': aid})
 
+
 @connection.connection_handler
 def get_comment(cursor, id):
     cursor.execute("""
@@ -284,17 +286,29 @@ def get_comment(cursor, id):
     from comment
     where id = %(comm_id)s;
     """,
-                   {'comm_id':id})
+                   {'comm_id': id})
     comment = cursor.fetchall()
     return comment
 
 
 @connection.connection_handler
 def editing_comment(cursor, id, comment):
-    cursor.execute("""
+    st = util.get_submission_time()
+    cursor.execute("""    
+
     update comment
     set message = %(mess)s, edited_count = edited_count + 1
     where id = %(c_id)s;
     """,
                    {'mess': comment, 'c_id': id})
     return cursor
+
+
+@connection.connection_handler
+def register(cursor, sess_id, plain_password):
+    hashed_pw = util.hash_password(plain_password)
+    st = util.get_submission_time()
+    cursor.execute("""
+    INSERT INTO sessions
+    VALUES (%(id)s, %(register_time)s, 0, %(h_pw)s);
+    """, {'id': sess_id, 'register_time': st, 'h_pw': hashed_pw})
