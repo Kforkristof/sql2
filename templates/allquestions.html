@@ -84,7 +84,7 @@
                 <form action="/vote/{{ question.id }}/up">
                     <input type="submit" value=&#128077 id="up"/>
                 </form>
-                <form action="/vote/{{ questions.id }}/down">
+                <form action="/vote/{{ question.id }}/down">
                     <input type="submit" value=&#128078 id="down"/>
                 </form>
             </td>
@@ -93,8 +93,6 @@
                 <form action=""></form></td>
     {% endfor %}
         </tr>
-    {% endfor %}
-
     <form action="/">
         <div class="row">
             <ul class="main-nav">

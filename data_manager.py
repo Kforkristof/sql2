@@ -1,4 +1,5 @@
 import connection
+
 from psycopg2 import sql
 import util
 
@@ -52,6 +53,9 @@ def new_question(cursor, title, message, image):
     VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s,%(image)s);''',
                    {'submission_time': st, 'view_number': 0, 'vote_number': 0, 'title': title,
                     'message': message, 'image': image})
+
+    # SQL generates own ID
+
     return cursor
 
 
@@ -63,6 +67,7 @@ def new_answer(cursor, question_id, message, image):
     VALUES (%(question_id)s, %(vote_number)s, %(message)s, %(image)s, %(submission_time)s);''',
                    {'question_id': question_id, 'vote_number': 0, 'message': message, 'image': image,
                     'submission_time': submission_time})
+
     return cursor
 
 
@@ -73,6 +78,7 @@ def get_q_by_id(cursor, my_id):
     WHERE id=%(my_id)s
     ;''',
                    {'my_id': my_id})
+
     whatiwant = cursor.fetchall()
     return whatiwant
 
@@ -84,6 +90,7 @@ def get_answer_by_q(cursor, q_id):
     WHERE question_id = %(q_id)s;
     ''',
                    {'q_id': q_id})
+
     toreturn = cursor.fetchall()
     return toreturn
 
@@ -102,6 +109,7 @@ def search_for_q(cursor, search_for):
  
     ;''',
                    {'search_for': search_for})
+
     result = cursor.fetchall()
     return result
 

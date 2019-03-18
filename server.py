@@ -25,7 +25,7 @@ def voting(up_or_down, question_id):
     if up_or_down == 'up':
         data_manager.vote_up(question_id)
         return redirect('/all-questions')
-    if up_or_down == 'down':
+    elif up_or_down == 'down':
         data_manager.vote_down(question_id)
         return redirect('/all-questions')
 
@@ -185,7 +185,7 @@ def delete_answer(id):
 
 @app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
 def edit_comment(id):
-    initial_comment = data_manager.get_comment(id)
+    initial_comment = data_manager.get_q_comments(id)
     if request.method == 'POST':
         new_comment = request.form.get('edit-comment')
         data_manager.editing_comment(id, new_comment)
