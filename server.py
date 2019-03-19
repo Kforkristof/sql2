@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 generated_ids = []
 
+
 @app.route('/all-questions')
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
@@ -57,8 +58,8 @@ def add_question():
     image = request.form.get('image')
     if request.method == 'POST':
         data_manager.new_question(title, message, image)
-        tag = request.form.get( 'tags' )
-        data_manager.add_tags( tag )
+        tag = request.form.get('tags')
+        data_manager.add_tags(tag)
 
         return redirect('/')
 
@@ -196,7 +197,7 @@ def edit_comment(id):
 @app.route('/add-question', methods=['POST', 'GET'])
 def tags():
     if request.method == 'POST':
-        tag = request.form.get( 'tags' )
+        tag = request.form.get('tags')
         data_manager.add_tags(tag)
 
         return redirect('/')
@@ -209,10 +210,11 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         pw = request.form.get('pw')
-
-        data_manager.register(username, pw)
-
-        return redirect('/')
+        if data_manager.check_existing_username(username) is None:
+            data_manager.register(username, pw)
+            return redirect('/')
+        else:
+            return redirect('/')
 
     return render_template('regitry.html')
 

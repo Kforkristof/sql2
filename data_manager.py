@@ -312,3 +312,15 @@ def register(cursor, sess_id, plain_password):
     INSERT INTO sessions
     VALUES (%(id)s, %(register_time)s, 0, %(h_pw)s);
     """, {'id': sess_id, 'register_time': st, 'h_pw': hashed_pw})
+
+
+@connection.connection_handler
+def check_existing_username(cursor, username):
+    cursor.execute("""
+    SELECT * FROM sessions
+    WHERE id = %(username)s;
+    """,
+                   {'username': username})
+    result = cursor.fetchall()
+
+    return result
