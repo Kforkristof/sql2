@@ -74,8 +74,18 @@ def get_q_by_id(cursor, my_id):
     WHERE id=%(my_id)s
     ;''',
                    {'my_id': my_id})
-    whatiwant = cursor.fetchall()
-    return whatiwant
+
+    question = cursor.fetchall()
+    cursor.execute("""
+    select tag.name as tagname
+    from tag
+    join question_tag on tag.id = question_tag.tag_id
+    where question_tag.question_id = %(id)s;
+    """,
+                   {'id': my_id})
+
+    tag = cursor.fetchall()
+    return question, tag
 
 
 @connection.connection_handler

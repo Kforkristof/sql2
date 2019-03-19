@@ -82,15 +82,15 @@ def add_question():
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def question_page(question_id):
-    my_q = data_manager.get_q_by_id(question_id)
+    question, tag  = data_manager.get_q_by_id(question_id)
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
     data_manager.view_number_increase(question_id)
 
     if request.method == "POST":
-        return render_template('question-comment.html', questions=my_q)
+        return render_template('question-comment.html', questions=question, )
 
-    return render_template('q-and-a.html', questions=my_q, answers=my_a, question_comments=question_comment)
+    return render_template('q-and-a.html',tag=tag[0], questions=question, answers=my_a, question_comments=question_comment)
 
 
 @app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
