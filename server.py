@@ -204,6 +204,19 @@ def tags():
     return render_template('add-question.html')
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        pw = request.form.get('pw')
+
+        data_manager.register(username, pw)
+
+        return redirect('/')
+
+    return render_template('regitry.html')
+
+
 if __name__ == "__main__":
     app.run(
         host='0.0.0.0',
