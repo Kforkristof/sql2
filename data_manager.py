@@ -128,12 +128,22 @@ def new_q_comment(cursor, comment, question_id):
 
 
 @connection.connection_handler
-def get_q_comments(cursor, question_id):
+def get_q_comments(cursor, q_id):
     cursor.execute("""
     select * from comment
-    where question_id = %(q_id)s;
+    where question_id = %(_id)s;
     """,
-                   {'q_id': question_id})
+                   {'_id': q_id})
+    comments = cursor.fetchall()
+    return comments
+
+@connection.connection_handler
+def get_tag(cursor, _id):
+    cursor.execute("""
+    select * from comment
+    where id = %(_id)s;
+    """,
+                   {'_id': _id})
     comments = cursor.fetchall()
     return comments
 
