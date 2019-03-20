@@ -30,18 +30,31 @@
 
         .th
         {
-            background-color: #a70000;
+            background-color: grey;
             color: white;
+
         }
 
         tr:nth-child(even)
         {
-            background-color: #e8e8e8;
+            font-size: large;
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
+            -webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         tr:nth-child(odd)
         {
-            background-color: white;
+            font-size: large;
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
+            -webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         i
