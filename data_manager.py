@@ -359,8 +359,8 @@ def register(cursor, sess_id, plain_password):
 @connection.connection_handler
 def check_existing_username(cursor, username):
     cursor.execute("""
-    SELECT * FROM sessions
-    WHERE id = %(username)s;
+    SELECT sessions.id FROM sessions
+    WHERE sessions.id = %(username)s;
     """,
                    {'username': username})
     result = cursor.fetchall()

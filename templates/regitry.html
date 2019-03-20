@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head xmlns="http://www.w3.org/1999/html">
+    <meta charset="UTF-8">
+    <title>Login / Register</title>
+    <link rel="stylesheet" type="text/css" href="/static/add_style.css">
+
+</head>
+<body>
+<table align="left">
+    <tr>
+        <td><h1>Existing user:</h1></td>
+    </tr>
+
+
+    <tr>
+        <th><label for="title">Username:</label></th>
+    </tr>
+
+    <tr>
+        <th><input id="title" name="title" required size="60"></th>
+    </tr>
+
+    <tr>
+        <th><label for="message">Password:</label></th>
+    </tr>
+
+    <tr>
+        <th><input type="password" id="ss" name="ss"></th>
+    </tr>
+
+    <tr>
+        <th><input type="submit" value="Submit"></th>
+    </tr>
+
+</table>
+
+{% if taken==True %}
+    <script type="text/javascript">
+        console.alert('This username is already taken');
+    </script>
+{% endif %}
+<form action="{{ url_for('register') }}" method="POST">
+    <table align="right">
+        <tr>
+            <td><h1>Register a new user:</h1></td>
+        </tr>
+
+
+        <tr>
+            <th><label for="username">Username:</label></th>
+        </tr>
+
+        <tr>
+            <th><input id="username" name="username" required size="60"></th>
+        </tr>
+
+        <tr>
+            <th><label for="pw">Password:</label></th>
+        </tr>
+
+        <tr>
+            <th><input type="password" id="pw" name="pw"></th>
+        </tr>
+        <tr>
+            <th><input type="submit" value="Submit"></th>
+        </tr>
+
+    </table>
+</form>
+</body>
+</html>

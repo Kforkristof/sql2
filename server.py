@@ -87,7 +87,7 @@ def question_page(question_id):
     data_manager.view_number_increase(question_id)
 
     if request.method == "POST":
-        return render_template('question-comment.html', questions=question, )
+        return render_template('question-comment.html', questions=question[0], )
 
     return render_template('q-and-a.html', tag=tag[0], questions=question, answers=my_a,
                            question_comments=question_comment)
@@ -201,11 +201,13 @@ def delete_answer(id):
 @app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
 def edit_comment(id):
     initial_comment = data_manager.get_q_comments(id)
+    print(initial_comment)
+    print(id)
     if request.method == 'POST':
         new_comment = request.form.get('edit-comment')
         data_manager.editing_comment(id, new_comment)
         return redirect('/')
-    return render_template('edit-comment.html', initial_comment=initial_comment[0])
+    return render_template('edit-comment.html', initial_comment=initial_comment)
 
 
 @app.route('/add-question', methods=['POST', 'GET'])
@@ -227,16 +229,16 @@ def deltag():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    username = request.form.get('username')
+    pw = request.form.get('pw')
     if request.method == 'POST':
-        username = request.form.get('username')
-        pw = request.form.get('pw')
-        if data_manager.check_existing_username(username) is None:
+        if data_manager.check_existing_username(username) == username:
+            return render_template('regitry.html', taken=True)
+        else:
             data_manager.register(username, pw)
             return redirect('/')
-        else:
-            return redirect('/')
 
-    return render_template('regitry.html')
+    return render_template('regitry.html', taken=True)
 
 
 if __name__ == "__main__":
