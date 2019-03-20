@@ -6,13 +6,13 @@
     <link rel="stylesheet" type="text/css" href="/static/add_style.css">
 
 </head>
-    <body>
+    <body><form action='/add-question' method="post">
         <table align="center">
             <tr>
                 <td><h1>Add user story:</h1></td>
             </tr>
 
-            <form action='/add-question' method="post">
+
 
             <tr>
                 <th><label for="title">Title:</label></th>
@@ -42,8 +42,9 @@
                 <th><input type="submit" value="Submit"></th>
             </tr>
 
-            </form>
-        </table>
+
+        </table></form>
+
     <form action="/deltag"><input type="submit" value="del tag with id=4,5,6,7,8,9"></form>
     </body>
 </html>

@@ -4,14 +4,14 @@
     <title>Add new Answer</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
-<body>
+<body><form action="/question/{{ q['id'] }}/question-comment" method="post">
 <table align="center">
 
     <tr>
         <td><h1>Add new comment:</h1></td>
     </tr>
-    {% for q in question %}
-        <form action="/question/{{ q['id'] }}/question-comment" method="post">
+
+
 
         <p>
             <label for="comment">Story:</label>
@@ -28,8 +28,8 @@
         <tr>
             <th><input type="submit" value="Submit"></th>
         </tr>
-    {% endfor %}
-    </form>
-</table>
+
+
+</table></form>
 </body>
 </html>

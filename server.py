@@ -81,8 +81,11 @@ def add_question():
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def question_page(question_id):
     question, tag  = data_manager.get_q_by_id(question_id)
+    print('tag', tag)
+    print('question', question)
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
+    print('This is the question comments: ',)
     data_manager.view_number_increase(question_id)
 
     if request.method == "POST":
@@ -95,14 +98,15 @@ def question_page(question_id):
 def question_comment(question_id):
     comment = request.form.get('comment')
     my_q = data_manager.get_q_by_id(question_id)
+    print(my_q[0][0])
     my_a = data_manager.get_answer_by_q(question_id)
     if request.method == "POST":
         data_manager.new_q_comment(comment, question_id)
 
         return redirect('/')
 
-    return render_template("question-comment.html", question_id=question_id, question=my_q, answer=my_a,
-                           question_comments=comment)
+    return render_template("question-comment.html", q=my_q[0][0])
+
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
@@ -198,7 +202,9 @@ def delete_answer(id):
 
 @app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
 def edit_comment(id):
-    initial_comment = data_manager.get_q_comments(id)
+    print(id)
+    initial_comment = data_manager.get_tag(id)
+    print(initial_comment)
     if request.method == 'POST':
         new_comment = request.form.get('edit-comment')
         data_manager.editing_comment(id, new_comment)
