@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 generated_ids = []
 
+
 @app.route('/all-questions')
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
@@ -59,8 +60,6 @@ def all_questions():
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
-
-
     if request.method == 'POST':
         message = request.form.get('message')
         title = request.form.get('title')
@@ -82,7 +81,7 @@ def add_question():
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def question_page(question_id):
-    question, tag  = data_manager.get_q_by_id(question_id)
+    question, tag = data_manager.get_q_by_id(question_id)
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
     data_manager.view_number_increase(question_id)
@@ -90,7 +89,8 @@ def question_page(question_id):
     if request.method == "POST":
         return render_template('question-comment.html', questions=question, )
 
-    return render_template('q-and-a.html',tag=tag[0], questions=question, answers=my_a, question_comments=question_comment)
+    return render_template('q-and-a.html', tag=tag[0], questions=question, answers=my_a,
+                           question_comments=question_comment)
 
 
 @app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
@@ -211,12 +211,13 @@ def edit_comment(id):
 @app.route('/add-question', methods=['POST', 'GET'])
 def tags():
     if request.method == 'POST':
-        tag = request.form.get( 'tags' )
+        tag = request.form.get('tags')
         data_manager.add_tags(tag)
 
         return redirect('/')
 
     return render_template('add-question.html')
+
 
 @app.route('/deltag')
 def deltag():
