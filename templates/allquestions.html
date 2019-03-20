@@ -1,110 +1,93 @@
 <!DOCtype html>
 <html>
 <head>
-    <title>Home</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <title>Home</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<form class="search" method='GET' action="{{ url_for('search_route') }}">
-    <input type="text" placeholder="Search.." name="search">
-    <button type="submit"><i class="fa fa-search"></i></button>
-</form>
-
-<table align="center">
-
-        <tr>
-            <td colspan="6"><h1>@AskMate</h1></td>
-        </tr>
-
-        <form action="/add-question">
-            <div class="row">
-                <ul class="main-nav">
-                    <header>
-                        <li><input type="submit" value="Add new question"/></li>
-                    </header>
-                </ul>
-            </div>
-        </form>
-    <tr>
-        <th>Submission time
-            <form action="/ordered-home/submission_time/desc">
-                <input type="submit" value="DESC"/>
-            </form>
-            <form action="/ordered-home/submission_time/asc">
-                <input type="submit" value="ASC"/>
-            </form>
-        </th>
-
-
-        <th>View number
-            <form action="/ordered-home/view_number/desc">
-                <input type="submit" value="DESC"/>
-            </form>
-            <form action="/ordered-home/view_number/asc">
-                <input type="submit" value="ASC"/>
-            </form>
-        </th>
-
-        <th>Vote number
-            <form action="/ordered-home/vote_number/desc">
-                <input type="submit" value="DESC"/>
-            </form>
-            <form action="/ordered-home/vote_number/asc">
-                <input type="submit" value="ASC"/>
-            </form>
-        </th>
-
-        <th>Title
-            <form action="/ordered-home/title/desc">
-                <input type="submit" value="DESC"/>
-            </form>
-
-            <form action="/ordered-home/title/asc">
-                <input type="submit" value="ASC"/>
-            </form>
-        </th>
-        <th>Vote</th>
-        <th>Tags</th>
-
-    </tr>
-
-    {% for question in questions %}
-        <tr>
-            <td>{{ question.submission_time }}</td>
-            <td>{{ question.view_number }}</td>
-            <td>{{ question.vote_number }}</td>
-            <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
-            <td>
-                <form action="/vote/{{ question.id }}/up">
-                    <input type="submit" value=&#128077 id="up"/>
+    <header>
+        <div>
+            <ul>
+                <form class="search" method='GET' action="{{ url_for('search_route') }}">
+                    <li class="search_button"><input type="text" placeholder="Search.." name="search"></li>
+                    <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
-                <form action="/vote/{{ question.id }}/down">
-                    <input type="submit" value=&#128078 id="down"/>
-                </form>
-            </td>
-            {% if question.name %}<td>{{ question.name }}</td>{% endif %}
 
-                <form action=""></form></td>
-    {% endfor %}
-        </tr>
-    <form action="/">
-        <div class="row">
-            <ul class="main-nav">
-                <header>
-                    <li>
-                        <input type="submit" value="Return"/>
-                    </li>
-                </header>
+                <form action="/add-question">
+                    <li><a href="http://127.0.0.1:5000/add-question?">Add Question</a></li>
+                </form>
+
+                <form action="/">
+                    <li><a href="http://127.0.0.1:5000/home">Return Home</a></li>
+                </form>
             </ul>
         </div>
-    </form>
+<table align="center">
+        <div class="sortbuttons_and_table">
+            <tr>
+                <td>Submission time
+                    <form action="/ordered-home/submission_time/desc">
+                        <input type="submit" value="DESC"/>
+                    </form>
+                    <form action="/ordered-home/submission_time/asc">
+                        <input type="submit" value="ASC"/>
+                    </form>
+                </td>
 
-</table>
+                <td>View number
+                    <form action="/ordered-home/view_number/desc">
+                        <input type="submit" value="DESC"/>
+                    </form>
+                    <form action="/ordered-home/view_number/asc">
+                        <input type="submit" value="ASC"/>
+                    </form>
+                </td>
+
+                <td>Vote number
+                    <form action="/ordered-home/vote_number/desc">
+                        <input type="submit" value="DESC"/>
+                    </form>
+                    <form action="/ordered-home/vote_number/asc">
+                        <input type="submit" value="ASC"/>
+                    </form>
+                </td>
+
+                <td>Title
+                    <form action="/ordered-home/title/desc">
+                        <input type="submit" value="DESC"/>
+                    </form>
+
+                    <form action="/ordered-home/title/asc">
+                        <input type="submit" value="ASC"/>
+                    </form>
+                </td>
+                <td>Vote</td>
+                <td>Tags</td>
+            </tr>
+
+            {% for question in questions %}
+                <tr>
+                    <td>{{ question.submission_time }}</td>
+                    <td>{{ question.view_number }}</td>
+                    <td>{{ question.vote_number }}</td>
+                    <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+                    <td>
+                        <form action="/vote/{{ question.id }}/up">
+                            <input type="submit" value=&#128077 id="up"/>
+                        </form>
+                        <form action="/vote/{{ question.id }}/down">
+                            <input type="submit" value=&#128078 id="down"/>
+                        </form>
+                    </td>
+                    {% if question.name %}<td>{{ question.name }}</td>{% endif %}
+
+                        <form action=""></form></td>
+            {% endfor %}
+                </tr>
+        </div>
+    </table>
+    </header>
+
 </body>
 </html>

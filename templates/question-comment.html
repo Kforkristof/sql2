@@ -4,24 +4,32 @@
     <title>Add new Answer</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
-<body>
-
-<form action="/question/{{ question_id }}/question-comment" method="post">
+<body><form action="/question/{{ q['id'] }}/question-comment" method="post">
 <table align="center">
 
     <tr>
         <td><h1>Add new comment:</h1></td>
     </tr>
-    <tr>
-        <th><textarea id="comment" name="comment" rows="10" cols=100" required></textarea></th>
-    </tr>
 
-    <tr>
-        <th><input type="submit" value="Submit"></th>
-    </tr>
 
-</table>
-</form>
 
+        <p>
+            <label for="comment">Story:</label>
+        </p>
+
+        <tr>
+            <th><label for="comment">Story:</label></th>
+        </tr>
+
+        <tr>
+            <th><textarea id="comment" name="comment" rows="10" cols=100" required></textarea></th>
+        </tr>
+
+        <tr>
+            <th><input type="submit" value="Submit"></th>
+        </tr>
+
+
+</table></form>
 </body>
 </html>

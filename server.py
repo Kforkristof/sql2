@@ -8,7 +8,6 @@ app = Flask(__name__)
 
 generated_ids = []
 
-
 @app.route('/all-questions')
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
@@ -60,6 +59,8 @@ def all_questions():
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
+
+
     if request.method == 'POST':
         message = request.form.get('message')
         title = request.form.get('title')
@@ -81,16 +82,15 @@ def add_question():
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def question_page(question_id):
-    question, tag = data_manager.get_q_by_id(question_id)
+    question, tag  = data_manager.get_q_by_id(question_id)
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
     data_manager.view_number_increase(question_id)
 
     if request.method == "POST":
-        return render_template('question-comment.html', questions=question[0], )
+        return render_template('question-comment.html', questions=question, )
 
-    return render_template('q-and-a.html', tag=tag[0], questions=question, answers=my_a,
-                           question_comments=question_comment)
+    return render_template('q-and-a.html',tag=tag[0], questions=question, answers=my_a, question_comments=question_comment)
 
 
 @app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
@@ -103,8 +103,8 @@ def question_comment(question_id):
 
         return redirect('/')
 
-    return render_template("question-comment.html", question_id=question_id, question=my_q, answer=my_a,
-                           question_comments=comment)
+    return render_template("question-comment.html", q=my_q[0][0])
+
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
@@ -201,19 +201,17 @@ def delete_answer(id):
 @app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
 def edit_comment(id):
     initial_comment = data_manager.get_q_comments(id)
-    print(initial_comment)
-    print(id)
     if request.method == 'POST':
         new_comment = request.form.get('edit-comment')
         data_manager.editing_comment(id, new_comment)
         return redirect('/')
-    return render_template('edit-comment.html', initial_comment=initial_comment)
+    return render_template('edit-comment.html', initial_comment=initial_comment[0])
 
 
 @app.route('/add-question', methods=['POST', 'GET'])
 def tags():
     if request.method == 'POST':
-        tag = request.form.get('tags')
+        tag = request.form.get( 'tags' )
         data_manager.add_tags(tag)
 
         return redirect('/')
@@ -221,10 +219,9 @@ def tags():
     return render_template('add-question.html')
 
 
-@app.route('/deltag')
-def deltag():
-    data_manager.delete_the_wrong_tags()
-    return redirect('/')
+@app.route('/home')
+def home():
+    return render_template('main_home.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
