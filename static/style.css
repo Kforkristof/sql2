@@ -2,30 +2,33 @@
         body
             {
             font-family: sans-serif;
-            background-image: url(https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+            background-image: url("https://wallpaperplay.com/walls/full/1/c/7/71467.jpg");
             background-size: cover;
             background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+
             }
 
         table
         {
-            width: 100%;
+            width: auto;
         }
 
-        table, th, td
+        .sortbuttons_and_table ul li
         {
             border: 5px solid black;
             border-collapse: collapse;
             opacity: 0.75;
         }
 
-        th, td
+        .sortbuttons_and_table ul li
         {
             padding: 5px;
             text-align: center;
         }
 
-        th
+        .th
         {
             background-color: #a70000;
             color: white;
@@ -103,12 +106,77 @@
             font-family: monospace;
         }
 
-        .upvote
-        {
-            background:url(/home/lazoli95/Codecool/Python/sql2/static/like.png);
-            border:0;
-            display:block;
-            height:Change_TO_backgroundimageheight;
-            width: Change_To_backgroundimageWidth;
+        header{
+            background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url("https://wallpaperplay.com/walls/full/1/c/7/71467.jpg");
+            height: 100vh;
+            background-size: auto;
+            background-position: center;
         }
 
+        ul{
+            float: right;
+            list-style-type: none;
+            margin-top: 25px;
+        }
+
+        ul li{
+           display: inline-block;
+        }
+
+        ul li a{
+            text-decoration: none;
+            color: white;
+            padding: 20px 40px;
+            border: 1px solid transparent;
+            transition: 0.8s ease;
+            text-transform: capitalize;
+            text-transform: uppercase;
+        }
+
+        ul li a:hover{
+            background-color: white;
+            color: #000;
+        }
+        ul li.active a{
+            background-color: white;
+            color: #000000;
+        }
+        .logo {
+            position: absolute;
+            top: 4%;
+            left: 4%;
+            transform: translate(-50%,-50%);
+            text-shadow: 5px 5px black;
+            border: outset;
+        }
+
+        .logo h1{
+            color: white;
+            font-size: 30px;
+        }
+
+        ul li a{
+            float: right;
+            list-style-type: none;
+            margin-top: 25px;
+        }
+
+        ul li input{
+            text-decoration: none;
+            color: white;
+            padding: 20px 40px;
+            border: 1px solid transparent;
+            transition: 0.8s ease;
+            text-transform: capitalize;
+            text-transform: uppercase;
+        }
+
+        ul li input:hover{
+            background-color: white;
+            color: #000;
+        }
+        ul li.search_button input{
+            background-color: -moz-default-background-color;
+            color: #000000;
+            border-bottom-color: black;
+        }

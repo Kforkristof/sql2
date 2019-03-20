@@ -59,8 +59,6 @@ def all_questions():
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
-
-
     if request.method == 'POST':
         message = request.form.get('message')
         title = request.form.get('title')
@@ -218,10 +216,10 @@ def tags():
 
     return render_template('add-question.html')
 
-@app.route('/deltag')
-def deltag():
-    data_manager.delete_the_wrong_tags()
-    return redirect('/')
+
+@app.route('/home')
+def home():
+    return render_template('main_home.html')
 
 
 if __name__ == "__main__":
