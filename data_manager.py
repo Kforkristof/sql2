@@ -139,6 +139,7 @@ def get_q_comments(cursor, q_id):
     comments = cursor.fetchall()
     return comments
 
+
 @connection.connection_handler
 def get_tag(cursor, _id):
     cursor.execute("""
@@ -282,7 +283,8 @@ def get_latest_tag_id(cursor):
     ORDER BY id DESC
     LIMIT 1""")
     id = cursor.fetchall()
-    return  id
+    return id
+
 
 @connection.connection_handler
 def write_record_to_the_question_tag(cursor, q_id, t_id):
@@ -291,6 +293,7 @@ def write_record_to_the_question_tag(cursor, q_id, t_id):
         VALUES (%(qid)s, %(tag_id)s);
         """,
                    {'qid': q_id, 'tag_id': t_id})
+
 
 @connection.connection_handler
 def delete(cursor, id):
@@ -301,6 +304,7 @@ def delete(cursor, id):
                    {'cid': id})
     return cursor
 
+
 @connection.connection_handler
 def delete_a(cursor, aid):
     cursor.execute("""
@@ -309,6 +313,7 @@ def delete_a(cursor, aid):
     where id = %(id)s;
     """,
                    {'id': aid})
+
 
 @connection.connection_handler
 def get_comment(cursor, id):
@@ -347,13 +352,12 @@ def get_latest_question_id(cursor):
     question_id = cursor.fetchall()
     return question_id
 
+
 @connection.connection_handler
 def delete_the_wrong_tags(cursor):
     cursor.execute("""
     delete from tag
     where id = 4 or id = 5 or id = 6 or id = 7 or id = 8 or id = 9""")
-
-
 
 
 @connection.connection_handler
@@ -373,6 +377,27 @@ def check_existing_username(cursor, username):
     WHERE sessions.id = %(username)s;
     """,
                    {'username': username})
-    result = cursor.fetchall()
+    result = cursor.fetchone()
+    return result
 
+
+@connection.connection_handler
+def get_usernames(cursor):
+    cursor.execute("""
+    SELECT sessions.id FROM sessions
+    ;""")
+
+    result = cursor.fetchall()
+    return result
+
+
+@connection.connection_handler
+def get_user_hash(cursor, user_id):
+    cursor.execute("""
+    SELECT hashed_pw FROM sessions
+    WHERE id = %(id)s;
+    """,
+                   {'id': user_id})
+
+    result = cursor.fetchone()
     return result

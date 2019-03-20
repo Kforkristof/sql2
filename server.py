@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, session, url_for, escape
 import util
 import data_manager
 import connection
@@ -6,7 +6,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-generated_ids = []
+app.secret_key = b'420hoki420/'
+
 
 @app.route('/all-questions')
 @app.route('/', methods=['GET', 'POST'])
@@ -59,8 +60,6 @@ def all_questions():
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
-
-
     if request.method == 'POST':
         message = request.form.get('message')
         title = request.form.get('title')
@@ -82,7 +81,7 @@ def add_question():
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def question_page(question_id):
-    question, tag  = data_manager.get_q_by_id(question_id)
+    question, tag = data_manager.get_q_by_id(question_id)
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
     data_manager.view_number_increase(question_id)
@@ -90,7 +89,8 @@ def question_page(question_id):
     if request.method == "POST":
         return render_template('question-comment.html', questions=question, )
 
-    return render_template('q-and-a.html',tag=tag[0], questions=question, answers=my_a, question_comments=question_comment)
+    return render_template('q-and-a.html', tag=tag[0], questions=question, answers=my_a,
+                           question_comments=question_comment)
 
 
 @app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
@@ -104,7 +104,6 @@ def question_comment(question_id):
         return redirect('/')
 
     return render_template("question-comment.html", q=my_q[0][0])
-
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
@@ -211,7 +210,7 @@ def edit_comment(id):
 @app.route('/add-question', methods=['POST', 'GET'])
 def tags():
     if request.method == 'POST':
-        tag = request.form.get( 'tags' )
+        tag = request.form.get('tags')
         data_manager.add_tags(tag)
 
         return redirect('/')
@@ -229,13 +228,41 @@ def register():
     username = request.form.get('username')
     pw = request.form.get('pw')
     if request.method == 'POST':
-        if data_manager.check_existing_username(username) == username:
-            return render_template('regitry.html', taken=True)
-        else:
+        validity = data_manager.check_existing_username(username)
+        if validity is None:
             data_manager.register(username, pw)
             return redirect('/')
 
-    return render_template('regitry.html', taken=True)
+        else:
+            if data_manager.check_existing_username(username)['id'] == username:
+                return render_template('regitry.html', taken=True)
+            else:
+                data_manager.register(username, pw)
+                return redirect('/')
+
+    return render_template('regitry.html', taken=False)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = request.form.get('login_username')
+        plain_password = request.form.get('login_password')
+        if (data_manager.check_existing_username(user)['id'] == user) \
+                and (util.verify_password(plain_password,
+                                          data_manager.get_user_hash(user)['hashed_pw']) is True):
+            session['username'] = user
+            return render_template('home.html')
+        else:
+            return render_template('home.html')
+
+    return render_template('regitry.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return render_template('home.html')
 
 
 if __name__ == "__main__":
