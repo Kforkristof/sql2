@@ -85,11 +85,13 @@ def question_page(question_id):
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
     data_manager.view_number_increase(question_id)
+    if tag:
+        tag = tag[0]
 
     if request.method == "POST":
         return render_template('question-comment.html', questions=question, )
 
-    return render_template('q-and-a.html', tag=tag[0], questions=question, answers=my_a,
+    return render_template('q-and-a.html', tag=tag, questions=question, answers=my_a,
                            question_comments=question_comment)
 
 
@@ -147,7 +149,6 @@ def answer_comment(answer_id):
 def edit_answer(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
     answer = data_manager.get_the_choosen_answer(answer_id)
-    print(comments)
     if request.method == 'POST':
         answer_message = request.form.get('edit-answer')
         data_manager.editing_answer(answer_id, answer_message)
