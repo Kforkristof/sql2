@@ -11,6 +11,10 @@ function edit_question_f() {
 }
 </script>
 <body>
+<script>function add_answer_f() {
+document.getElementById("false_a").innerHTML = alert("Not logged in!");}
+function edit_answer_f () {document.getElementById('edit_answer_false').innerHTML = alert('Not Allowed!');}
+</script>
     <header>
         <div class="page_name">
             <h1>Question&Answers</h1>
@@ -31,9 +35,10 @@ function edit_question_f() {
                     <li><a href="http://127.0.0.1:5000/question/2/question-comment?">Add new Comment</a></li>
                 </form>
 
-                <form action='/question/{{ question['id'] }}/new-answer'>
-                    <li><a href="http://127.0.0.1:5000/question/2/new-answer?">Add new Answer</a></li>
-                </form>
+                    {% if session.username %}
+                    <li><a href="http://127.0.0.1:5000/question/{{ question.id }}/new-answer?">Add new Answer</a></li>{% else %}
+                <li><input id="false_a" type="button" onclick="add_answer_f()" value="Add new Answer"> </li>{% endif %}
+
             </ul>
         </div>
 
@@ -108,10 +113,10 @@ function edit_question_f() {
             </tr>
 
             {% for answer in answers %}
-            <tr>
+            <tr>{% if session.username == answer.session_id %}
                 <td><form action="/answer/{{ answer['id'] }}/edit-answer">
                         <input type="submit" value="{{ answer['submission_time'] }}">
-                    </form></td>
+                    </form></td>{% else %}<td><input type="submit" id="edit_answer_false" onclick="edit_answer_f()" value="{{ answer.submission_time }}"></td>{% endif %}
                 <td>{{ answer['vote_number'] }}</td>
                 <td>{{ answer['question_id'] }}</td>
                 <td>{{ answer['message'] }}</td>
