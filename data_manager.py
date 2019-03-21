@@ -133,10 +133,11 @@ def new_q_comment(cursor, comment, question_id):
 def get_q_comments(cursor, q_id):
     cursor.execute("""
     select * from comment
-    where question_id = %(_id)s;
+    where id = %(_id)s;
     """,
                    {'_id': q_id})
     comments = cursor.fetchall()
+    print(comments)
     return comments
 
 
