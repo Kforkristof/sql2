@@ -64,6 +64,7 @@ def new_answer(cursor, question_id, message, image):
     VALUES (%(question_id)s, %(vote_number)s, %(message)s, %(image)s, %(submission_time)s);''',
                    {'question_id': question_id, 'vote_number': 0, 'message': message, 'image': image,
                     'submission_time': submission_time})
+
     return cursor
 
 
@@ -113,6 +114,7 @@ def search_for_q(cursor, search_for):
  
     ;''',
                    {'search_for': search_for})
+
     result = cursor.fetchall()
     return result
 
@@ -136,6 +138,7 @@ def get_q_comments(cursor, q_id):
                    {'_id': q_id})
     comments = cursor.fetchall()
     return comments
+
 
 @connection.connection_handler
 def get_tag(cursor, _id):
@@ -264,7 +267,6 @@ def new_comment(cursor, id, new_a_comment):
     return cursor
 
 
-# neccesary to write into the question_tag table
 @connection.connection_handler
 def add_tags(cursor, tag):
     cursor.execute("""INSERT INTO tag(name)
@@ -281,7 +283,8 @@ def get_latest_tag_id(cursor):
     ORDER BY id DESC
     LIMIT 1""")
     id = cursor.fetchall()
-    return  id
+    return id
+
 
 @connection.connection_handler
 def write_record_to_the_question_tag(cursor, q_id, t_id):
@@ -291,6 +294,7 @@ def write_record_to_the_question_tag(cursor, q_id, t_id):
         """,
                    {'qid': q_id, 'tag_id': t_id})
 
+
 @connection.connection_handler
 def delete(cursor, id):
     cursor.execute("""
@@ -299,6 +303,7 @@ def delete(cursor, id):
     """,
                    {'cid': id})
     return cursor
+
 
 @connection.connection_handler
 def delete_a(cursor, aid):
@@ -324,7 +329,9 @@ def get_comment(cursor, id):
 
 @connection.connection_handler
 def editing_comment(cursor, id, comment):
-    cursor.execute("""
+    st = util.get_submission_time()
+    cursor.execute("""    
+
     update comment
     set message = %(mess)s, edited_count = edited_count + 1
     where id = %(c_id)s;
@@ -345,9 +352,52 @@ def get_latest_question_id(cursor):
     question_id = cursor.fetchall()
     return question_id
 
+
 @connection.connection_handler
 def delete_the_wrong_tags(cursor):
     cursor.execute("""
     delete from tag
     where id = 4 or id = 5 or id = 6 or id = 7 or id = 8 or id = 9""")
 
+
+@connection.connection_handler
+def register(cursor, sess_id, plain_password):
+    hashed_pw = util.hash_password(plain_password)
+    st = util.get_submission_time()
+    cursor.execute("""
+    INSERT INTO sessions
+    VALUES (%(id)s, %(register_time)s, 0, %(h_pw)s);
+    """, {'id': sess_id, 'register_time': st, 'h_pw': hashed_pw})
+
+
+@connection.connection_handler
+def check_existing_username(cursor, username):
+    cursor.execute("""
+    SELECT sessions.id FROM sessions
+    WHERE sessions.id = %(username)s;
+    """,
+                   {'username': username})
+    result = cursor.fetchone()
+    return result
+
+
+@connection.connection_handler
+def get_usernames(cursor):
+    cursor.execute("""
+    SELECT sessions.id FROM sessions
+    ;""")
+
+    result = cursor.fetchall()
+    return result
+
+
+@connection.connection_handler
+def get_user_hash(cursor, user_id):
+    cursor.execute("""
+    SELECT hashed_pw FROM sessions
+    WHERE id = %(id)s;
+    """,
+                   {'id': user_id})
+
+    result = cursor.fetchone()
+    return result
