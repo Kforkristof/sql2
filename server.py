@@ -267,6 +267,7 @@ def logout():
     session.pop('username', None)
     return render_template('main_home.html')
 
+
 @app.route('/users')
 def users():
     all_user = data_manager.get_all_user()

@@ -51,14 +51,19 @@
                 </tr>
 
                 <tr>
+                    {% if session.username == question.session_id %}
                     <td><form action="/question/{{ question['id'] }}/edit-question" method="GET">
                             <input type="submit" value="{{ question['submission_time'] }}">
                         </form></td>
+                    {% else %}
+                    <td><input type="submit" id="edit-question-false" onclick="edit_question_f()" value="{{ question.submission_time }}"></td>
+                    {% endif %}
                     <td>{{ question['view_number'] }}</td>
                     <td>{{ question['vote_number'] }}</td>
                     <td>{{ question['title'] }}</td>
                     <td>{{ question['message'] }}</td>
                     <td>{{ tag['tagname'] }}</td>
+
                     <td><form action='/delete-question/{{ question['id'] }}'>
                             <input class="trash" type="submit" value="&#128465;"/>
                         </form></td>

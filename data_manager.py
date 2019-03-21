@@ -444,11 +444,9 @@ def get_loggeduser_q_a_for_c(cursor, name):
       comment.question_id is not Null
         THEN
           question.message
-    
     ELSE
       answer.message
       END AS locale
-  
 FROM
   answer
     join comment
@@ -470,16 +468,3 @@ FROM
     return message, comments
 
 
-@connection.connection_handler
-def bind_question(cursor, question, question_id, username):
-    cursor.execute("""
-                   INSERT INTO question (submission_time, 
-                                        view_number, 
-                                        vote_number, 
-                                        title, 
-                                        message,
-                                        session_id)  
-                   VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(session_id)s)
-                   """,
-                   {'question': question, 'question_id': question_id, 'username': username})
-    return cursor
