@@ -46,13 +46,13 @@ def get_questions_asc(cursor, base):
 
 
 @connection.connection_handler
-def new_question(cursor, title, message):
+def new_question(cursor, title, message, session_id, user):
     st = util.get_submission_time()
     cursor.execute('''
-    INSERT INTO question (submission_time, view_number, vote_number, title, message)
-    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s);''',
+    INSERT INTO question (submission_time, view_number, vote_number, title, message, session_id)
+    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(session_id)s);''',
                    {'submission_time': st, 'view_number': 0, 'vote_number': 0, 'title': title,
-                    'message': message})
+                    'message': message, 'session_id': session_id, 'user': user})
     return cursor
 
 
@@ -131,21 +131,10 @@ def new_q_comment(cursor, comment, question_id, user):
 
 
 @connection.connection_handler
-def get_comment_by_id(cursor, id):
-    cursor.execute("""
-    select * from comment
-    where id = %(_id)s;
-    """,
-                   {'_id': id})
-    comments = cursor.fetchall()
-    return comments
-
-
-@connection.connection_handler
 def get_q_comments(cursor, q_id):
     cursor.execute("""
     select * from comment
-    where question_id = %(_id)s;
+    where id = %(_id)s;
     """,
                    {'_id': q_id})
     comments = cursor.fetchall()
@@ -455,11 +444,9 @@ def get_loggeduser_q_a_for_c(cursor, name):
       comment.question_id is not Null
         THEN
           question.message
-    
     ELSE
       answer.message
       END AS locale
-  
 FROM
   answer
     join comment
@@ -480,26 +467,4 @@ FROM
 
     return message, comments
 
-
-@connection.connection_handler
-def get_all_user(cursor):
-    cursor.execute("""
-    select * from sessions""")
-
-    users = cursor.fetchall()
-    return users
-
-
-
-@connection.connection_handler
-def bind_question(cursor, username):
-    cursor.execute("""
-                   SELECT question.submission_time, question.title FROM question
-                   JOIN sessions
-                   ON sessions.id=question.id
-                   WHERE sessions.id = %(username)s;
-                   """,
-                   {'username': username})
-    result = cursor.fetchone()
-    return result
 

@@ -267,13 +267,12 @@ def logout():
     session.pop('username', None)
     return render_template('main_home.html')
 
+
 @app.route('/users')
 def users():
     all_user = data_manager.get_all_user()
     print(all_user)
     return render_template('list_users.html', session=all_user)
-
-
 
 
 if __name__ == "__main__":

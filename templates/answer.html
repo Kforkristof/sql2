@@ -4,31 +4,37 @@
     <title>Add new Answer</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
-<body>
-<table align="center">
-    <tr>
-        <td><h1>Add new answer:</h1></td>
-    </tr>
+    <body>
+        <header>
+            <table align="center">
+                <div>
+                    <ul>
+                        <li><a href="http://127.0.0.1:5000/all-questions?">Return Questions</a></li>
+                        <li><a href="http://127.0.0.1:5000/home">Back Home</a></li>
+                    </ul>
+                </div>
 
-    <form action="/question/{{ question_id }}/new-answer" method="post">
+                <div class="logo">
+                    <h1>@AskMate</h1>
+                </div>
 
-        <p>
-            <label for="message">Story:</label>
-        </p>
+                <div>
+                    <tr>
+                        <td><h1>Add new answer:</h1></td>
+                    </tr>
 
-        <tr>
-            <th><label for="message">Story:</label></th>
-        </tr>
+                    <form action="/question/{{ question_id }}/new-answer" method="post">
 
-        <tr>
-            <th><textarea id="message" name="message" rows="10" cols=100" required></textarea></th>
-        </tr>
+                        <tr>
+                            <th><textarea id="message" name="message" rows="10" cols=100" required></textarea></th>
+                        </tr>
 
-        <tr>
-            <th><input type="submit" value="Submit"></th>
-        </tr>
-
-    </form>
-</table>
-</body>
+                        <tr>
+                            <th><input type="submit" value="Submit"></th>
+                        </tr>
+                    </form>
+                </div>
+            </table>
+        </header>
+    </body>
 </html>

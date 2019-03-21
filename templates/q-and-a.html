@@ -6,6 +6,10 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
+<script>function add_answer_f() {
+document.getElementById("false_a").innerHTML = alert("Not logged in!");}
+function edit_answer_f () {document.getElementById('edit_answer_false').innerHTML = alert('Not Allowed!');}
+</script>
     <header>
         <div class="page_name">
             <h1>Question&Answers</h1>
@@ -32,9 +36,10 @@
                     <li><a href="http://127.0.0.1:5000/question/2/question-comment?">Add new Comment</a></li>
                 </form>
 
-                <form action='/question/{{ question['id'] }}/new-answer'>
-                    <li><a href="http://127.0.0.1:5000/question/2/new-answer?">Add new Answer</a></li>
-                </form>
+                    {% if session.username %}
+                    <li><a href="http://127.0.0.1:5000/question/{{ question.id }}/new-answer?">Add new Answer</a></li>{% else %}
+                <li><input id="false_a" type="button" onclick="add_answer_f()" value="Add new Answer"> </li>{% endif %}
+
             </ul>
         </div>
 
@@ -51,14 +56,19 @@
                 </tr>
 
                 <tr>
+                    {% if session.username == question.session_id %}
                     <td><form action="/question/{{ question['id'] }}/edit-question" method="GET">
                             <input type="submit" value="{{ question['submission_time'] }}">
                         </form></td>
+                    {% else %}
+                    <td><input type="submit" id="edit-question-false" onclick="edit_question_f()" value="{{ question.submission_time }}"></td>
+                    {% endif %}
                     <td>{{ question['view_number'] }}</td>
                     <td>{{ question['vote_number'] }}</td>
                     <td>{{ question['title'] }}</td>
                     <td>{{ question['message'] }}</td>
                     <td>{{ tag['tagname'] }}</td>
+
                     <td><form action='/delete-question/{{ question['id'] }}'>
                             <input class="trash" type="submit" value="&#128465;"/>
                         </form></td>
@@ -103,10 +113,10 @@
             </tr>
 
             {% for answer in answers %}
-            <tr>
+            <tr>{% if session.username == answer.session_id %}
                 <td><form action="/answer/{{ answer['id'] }}/edit-answer">
                         <input type="submit" value="{{ answer['submission_time'] }}">
-                    </form></td>
+                    </form></td>{% else %}<td><input type="submit" id="edit_answer_false" onclick="edit_answer_f()" value="{{ answer.submission_time }}"></td>{% endif %}
                 <td>{{ answer['vote_number'] }}</td>
                 <td>{{ answer['question_id'] }}</td>
                 <td>{{ answer['message'] }}</td>
