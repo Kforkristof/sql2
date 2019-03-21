@@ -225,8 +225,8 @@ def home():
 
 
 @app.route('/userpage/<name>')
-def userpage():
-    name = session['username']
+def userpage(name):
+
     questions = data_manager.get_loggeduser_q(name)
     answer_q, answers = data_manager.get_loggeduser_a_q(name)
     q_or_a, comments = data_manager.get_loggeduser_q_a_for_c(name)
@@ -275,6 +275,12 @@ def login():
 def logout():
     session.pop('username', None)
     return render_template('home.html')
+
+@app.route('/users')
+def users():
+    all_user = data_manager.get_all_user()
+    print(all_user)
+    return render_template('list_users.html', session=all_user)
 
 
 

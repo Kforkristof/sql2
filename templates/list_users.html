@@ -7,7 +7,7 @@
     <meta name="description" content="user_page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-
+<body><div id="center">{% for user in session %}
+    <ul><li class="listuser">{{ user.id }} :</li><li class="listuser"> {{ user.registration_time }}</li></ul>{% endfor %}</div>
 </body>
 </html>

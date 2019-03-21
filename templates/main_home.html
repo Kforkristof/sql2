@@ -7,20 +7,25 @@
 </head>
 <body>
 <script type="text/javascript">function alertuser() {
-    document.getElementById("userpage_false").innerHTML = alert('You are not logged in!');}</script>
-    <header>
-        <div class="main">
-            <ul>
-                <li class="active"><a href="http://127.0.0.1:5000/home">Home</a></li>
-                <li><a href="http://127.0.0.1:5000/all-questions?">Questions</a></li>
-                <li><a href="">Login/Register</a></li>
-                {% if session.username %}<li><a href="http://127.0.0.1:5000/userpage/{{ session.username }}">Your Page</a></li>{% else %}<li><a id="userpage_false"  onclick="alertuser()" href="http://127.0.0.1:5000/home">Your Page</a></li>{% endif %}
-            </ul>
-        </div>
+    document.getElementById("userpage_false").innerHTML = alert('You are not logged in!');
+}</script>
+<header>
+    <div class="main">
+        <ul>
+            <li class="active"><a href="http://127.0.0.1:5000/home">Home</a></li>
+            <li><a href="http://127.0.0.1:5000/all-questions?">Questions</a></li>
+            <li><a href="">Login/Register</a></li>
+            {% if session.username %}
+                <li><a href="http://127.0.0.1:5000/userpage/{{ session.username }}">Your Page</a></li>{% else %}
+                <li><a id="userpage_false" onclick="alertuser()" href="http://127.0.0.1:5000/home">Your Page</a>
+                </li>{% endif %}
+        <li><a href="http://127.0.0.1:5000/users">Users</a></li>
+        </ul>
+    </div>
 
-        <div class="logo">
-            <h1>@AskMate</h1>
-        </div>
-    </header>
+    <div class="logo">
+        <h1>@AskMate</h1>
+    </div>
+</header>
 </body>
 </html>
