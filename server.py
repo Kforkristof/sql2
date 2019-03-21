@@ -10,7 +10,6 @@ app.secret_key = b'420hoki420/'
 
 
 @app.route('/all-questions')
-@app.route('/', methods=['GET', 'POST'])
 def home_page():
     search_for = request.form.get('search')
     all_qs = data_manager.get_questions_desc('submission_time')
@@ -219,6 +218,7 @@ def tags():
     return render_template('add-question.html')
 
 
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/home')
 def home():
     return render_template('main_home.html')
