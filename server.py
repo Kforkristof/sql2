@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, session, url_for, escape
 import util
 import data_manager
 import connection
@@ -6,7 +6,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-generated_ids = []
+app.secret_key = b'420hoki420/'
+
 
 @app.route('/all-questions')
 @app.route('/', methods=['GET', 'POST'])
@@ -80,25 +81,24 @@ def add_question():
 
 @app.route('/question/<int:question_id>', methods=['GET', 'POST'])
 def question_page(question_id):
-    question, tag  = data_manager.get_q_by_id(question_id)
-    print('tag', tag)
-    print('question', question)
+    question, tag = data_manager.get_q_by_id(question_id)
     my_a = data_manager.get_answer_by_q(question_id)
     question_comment = data_manager.get_q_comments(question_id)
-    print('This is the question comments: ',)
     data_manager.view_number_increase(question_id)
+    if tag:
+        tag = tag[0]
 
     if request.method == "POST":
         return render_template('question-comment.html', questions=question, )
 
-    return render_template('q-and-a.html',tag=tag[0], questions=question, answers=my_a, question_comments=question_comment)
+    return render_template('q-and-a.html', tag=tag, questions=question, answers=my_a,
+                           question_comments=question_comment)
 
 
 @app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
 def question_comment(question_id):
     comment = request.form.get('comment')
     my_q = data_manager.get_q_by_id(question_id)
-    print(my_q[0][0])
     my_a = data_manager.get_answer_by_q(question_id)
     if request.method == "POST":
         data_manager.new_q_comment(comment, question_id)
@@ -106,7 +106,6 @@ def question_comment(question_id):
         return redirect('/')
 
     return render_template("question-comment.html", q=my_q[0][0])
-
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
@@ -150,7 +149,6 @@ def answer_comment(answer_id):
 def edit_answer(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
     answer = data_manager.get_the_choosen_answer(answer_id)
-    print(comments)
     if request.method == 'POST':
         answer_message = request.form.get('edit-answer')
         data_manager.editing_answer(answer_id, answer_message)
@@ -202,9 +200,7 @@ def delete_answer(id):
 
 @app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
 def edit_comment(id):
-    print(id)
-    initial_comment = data_manager.get_tag(id)
-    print(initial_comment)
+    initial_comment = data_manager.get_q_comments(id)
     if request.method == 'POST':
         new_comment = request.form.get('edit-comment')
         data_manager.editing_comment(id, new_comment)
@@ -215,7 +211,7 @@ def edit_comment(id):
 @app.route('/add-question', methods=['POST', 'GET'])
 def tags():
     if request.method == 'POST':
-        tag = request.form.get( 'tags' )
+        tag = request.form.get('tags')
         data_manager.add_tags(tag)
 
         return redirect('/')
@@ -226,6 +222,48 @@ def tags():
 @app.route('/home')
 def home():
     return render_template('main_home.html')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    username = request.form.get('username')
+    pw = request.form.get('pw')
+    if request.method == 'POST':
+        validity = data_manager.check_existing_username(username)
+        if validity is None:
+            data_manager.register(username, pw)
+            return redirect('/')
+
+        else:
+            if data_manager.check_existing_username(username)['id'] == username:
+                return render_template('regitry.html', taken=True)
+            else:
+                data_manager.register(username, pw)
+                return redirect('/')
+
+    return render_template('regitry.html', taken=False)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = request.form.get('login_username')
+        plain_password = request.form.get('login_password')
+        if (data_manager.check_existing_username(user)['id'] == user) \
+                and (util.verify_password(plain_password,
+                                          data_manager.get_user_hash(user)['hashed_pw']) is True):
+            session['username'] = user
+            return render_template('home.html')
+        else:
+            return render_template('home.html')
+
+    return render_template('regitry.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return render_template('home.html')
 
 
 if __name__ == "__main__":
