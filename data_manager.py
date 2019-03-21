@@ -120,12 +120,13 @@ def search_for_q(cursor, search_for):
 
 
 @connection.connection_handler
-def new_q_comment(cursor, comment, question_id):
+def new_q_comment(cursor, comment, question_id, user):
     st = util.get_submission_time()
     cursor.execute("""
-    insert into comment (submission_time, question_id, message, edited_count)
-    values (%(submission_time)s, %(question_id)s, %(message)s, %(edited_count)s);""",
-                   {'submission_time': st, 'question_id': question_id, 'message': comment, 'edited_count': 0})
+    insert into comment (submission_time, question_id, message, edited_count, session_id)
+    values (%(submission_time)s, %(question_id)s, %(message)s, %(edited_count)s, %(user)s);""",
+                   {'submission_time': st, 'question_id': question_id, 'message': comment, 'edited_count': 0,
+                    'user': user})
     return cursor
 
 
@@ -137,7 +138,6 @@ def get_q_comments(cursor, q_id):
     """,
                    {'_id': q_id})
     comments = cursor.fetchall()
-    print(comments)
     return comments
 
 
@@ -249,7 +249,7 @@ def get_answer_comments(cursor, answer_id):
 
 
 @connection.connection_handler
-def new_comment(cursor, id, new_a_comment):
+def new_comment(cursor, id, new_a_comment, user):
     st = util.get_submission_time()
     edited_count = 0
     cursor.execute("""
@@ -261,10 +261,11 @@ def new_comment(cursor, id, new_a_comment):
     qid_and_aid = cursor.fetchall()
     ids = qid_and_aid[0]
     cursor.execute("""
-    insert into comment(question_id, answer_id, message, submission_time, edited_count)
+    insert into comment(question_id, answer_id, message, submission_time, edited_count, session_id)
     values (null, %(ans_id)s, %(message)s, %(submission_t)s, %(edited_c)s);
     """,
-                   {'ans_id': ids['id'], 'message': new_a_comment, 'submission_t': st, 'edited_c': edited_count})
+                   {'ans_id': ids['id'], 'message': new_a_comment, 'submission_t': st, 'edited_c': edited_count,
+                    'user': user})
     return cursor
 
 

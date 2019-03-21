@@ -101,7 +101,7 @@ def question_comment(question_id):
     my_q = data_manager.get_q_by_id(question_id)
     my_a = data_manager.get_answer_by_q(question_id)
     if request.method == "POST":
-        data_manager.new_q_comment(comment, question_id)
+        data_manager.new_q_comment(comment, question_id, session['username'])
 
         return redirect('/')
 
@@ -244,17 +244,18 @@ def fityma():
 def register():
     username = request.form.get('username')
     pw = request.form.get('pw')
+    taken = False
     if request.method == 'POST':
         validity = data_manager.check_existing_username(username)
         if validity is None:
             data_manager.register(username, pw)
             return redirect('/')
-    else:
-        if data_manager.check_existing_username(username)['id'] == username:
-            return render_template('regitry.html', taken=True)
         else:
-            data_manager.register(username, pw)
-            return redirect('/')
+            if data_manager.check_existing_username(username)['id'] == username:
+                return render_template('regitry.html', taken=True)
+            else:
+                data_manager.register(username, pw)
+                return redirect('/')
 
     return render_template('regitry.html', taken=False)
 
