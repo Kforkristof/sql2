@@ -30,30 +30,29 @@
 
         .th
         {
-            background-color: grey;
             color: white;
 
         }
 
         tr:nth-child(even)
         {
-            font-size: large;
+            font-size: larger;
             color: white;
             text-align: center;
-            background: rgba(305, 10, 27, 0.66);
+            background-color:rgba(242, 241, 241,0.5);
             -moz-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
-            -webkit-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
+            -webkit-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.5);
             box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
         }
 
         tr:nth-child(odd)
         {
-            font-size: large;
+            font-size: larger;
             color: white;
             text-align: center;
-            background: rgba(305, 10, 27, 0.66);
+            background-color:rgba(242, 241, 241,0.5);
             -moz-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
-            -webkit-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
+            -webkit-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.5);
             box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
         }
 
@@ -120,7 +119,7 @@
         }
 
         header{
-            background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url("https://wallpaperplay.com/walls/full/1/c/7/71467.jpg");
+            background-image:linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.95)), url("https://wallpaperplay.com/walls/full/1/c/7/71467.jpg");
             height: 100vh;
             background-size: auto;
             background-position: center;
@@ -129,7 +128,7 @@
         ul{
             float: right;
             list-style-type: none;
-            margin-top: 25px;
+            margin-top: 0%;
         }
 
         ul li{
