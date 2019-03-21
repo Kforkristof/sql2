@@ -34,9 +34,12 @@
     <div class="row">
         <ul class="main-nav">
             <header>
+                {% if session.username %}
                 <form action="/add-question">
                     <li><input type="submit" value="ADD NEW QUESTION"/></li>
                 </form>
+                {% else %}
+                <li><input type="submit" value="ADD NEW QUESTION" onclick="new_question_f()" id="question_false" ></li>
             </header>
         </ul>
     </div>

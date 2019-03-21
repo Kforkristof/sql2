@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
+<script>
+function edit_question_f() {
+  document.getElementById("edit-question-false").innerHTML = alert("YOU DON'T HAVE PERMISSION");
+}
+</script>
 <body>
     <header>
         <div class="page_name">
@@ -13,14 +18,8 @@
 
         <div>
             <ul>
-
-                <form action="/add-question">
                     <li><a href="http://127.0.0.1:5000/all-questions?">Return Questions</a></li>
-                </form>
-
-                <form action="/">
                     <li><a href="http://127.0.0.1:5000/home">Return Home</a></li>
-                </form>
             </ul>
         </div>
 
@@ -49,6 +48,7 @@
                     <th>Tags</th>
                     <th>Delete</th>
                 </tr>
+
 
                 <tr>
                     {% if session.username == question.session_id %}

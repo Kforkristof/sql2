@@ -7,6 +7,11 @@
     <meta http-equiv="refresh" content="30">
     <meta name="keywords" content="HTML, CSS, XML, JavaScript, Tech">
 </head>
+<script>
+function new_question_f() {
+  document.getElementById("question_false").innerHTML = alert("YOU DON'T HAVE PERMISSION");
+}
+</script>
 <body>
     <header>
         <div>
@@ -15,14 +20,12 @@
                     <li class="search_button"><input type="text" placeholder="Search.." name="search"></li>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
-
-                <form action="/add-question">
-                    <li><a href="http://127.0.0.1:5000/add-question?">Add Question</a></li>
-                </form>
-
-                <form action="/">
+                {% if session.username %}
+                    <li><a href="http://127.0.0.1:5000/add-question?">add question</a></li>
+                {% else %}
+                <li><input type="submit" value="ADD NEW QUESTION" onclick="new_question_f()" id="question_false" ></li>
+                {% endif %}
                     <li><a href="http://127.0.0.1:5000/home">Return Home</a></li>
-                </form>
             </ul>
         </div>
 
