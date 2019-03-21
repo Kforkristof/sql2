@@ -26,6 +26,8 @@
         {
             padding: 5px;
             text-align: center;
+            font-size: large;
+            font-weight: bolder;
         }
 
         .th
@@ -193,7 +195,90 @@
             border-bottom-color: black;
         }
 
-        .page_name h1{
+         #user_background {
+            background-image: url(http://www.add.co.il/wp-content/uploads/2015/05/bg-slideshow31.jpg);
+             /* Used if the image is unavailable */
+         /* You must set a specified height */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-size: cover; /* Resize the background image to cover the entire container */
+        }
+
+        #Userpageheader {
+            text-align: center;
+            font-size: 5rem;
+            letter-spacing: 0.9rem;
+            font-family: Dialog;
+            font-style: oblique;
+            color: #444444;
+            opacity: 0.4;
+            transition:  color 2s;
+            margin-top: 29px;
+
+            transition-delay: 0.08s;
+
+
+        }
+
+        #Userpageheader:hover {
+            color: #30799B;
+            transition-timing-function: ease-in-out;
+
+
+
+
+
+
+        }
+
+        .userh2 {
+            text-align: center;
+        }
+
+        .tartalom {
+            text-align: center;
+        }
+
+        #username {
+            position: sticky;
+            top: 0;
+            left: 0;
+            font-weight: bolder;
+            font-size: 3rem;
+            letter-spacing: 0.6rem;
+            opacity: 0.3;
+
+        }
+
+        #userback {
+            position: absolute;
+            top:0;
+            right:0;
+            size: 2rem;
+            cursor: pointer;
+            padding: 16px 32px;
+            color:black;
+            background-color: ghostwhite;
+            border-radius: 7px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-right: 1rem;
+            opacity: 0.4;
+            transition: color 2s;
+            transition: background-color 2s;
+            transition: opacity 2s;
+
+
+        }
+
+        #userback:hover {
+            color: #dddddd;
+            background-color: dimgray;
+            opacity: 0.9;
+            transition: ease-in-out;
+        }
+.page_name h1{
             font-size: 100px;
             color: white;
             text-align: center;
