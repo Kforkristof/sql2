@@ -6,43 +6,61 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 
 </head>
-    <body><form action='/add-question' method="post">
-        <table align="center">
-            <tr>
-                <td><h1>Add Question:</h1></td>
-            </tr>
+    <body>
+        <header>
+            <div>
+                <ul>
+                    <form action="/add-question">
+                        <li><a href="http://127.0.0.1:5000/all-questions?">Return Questions</a></li>
+                    </form>
 
-            <tr>
-                <th><label for="title">Title:</label></th>
-            </tr>
+                    <form action="/">
+                        <li><a href="http://127.0.0.1:5000/home">Back Home</a></li>
+                    </form>
+                </ul>
+            </div>
 
-            <tr>
-                <th><input id="title" name="title" required size="100"></th>
-            </tr>
+            <div class="logo">
+                <h1>@AskMate</h1>
+            </div>
 
-            <tr>
-                <th><label for="message">Story:</label></th>
-            </tr>
+            <div class="add_q"></div>
+            <form action='/add-question' method="post">
+                <table align="center">
+                     <tr>
+                        <td><h1>Add Question:</h1></td>
+                     </tr>
 
-            <tr>
-                    <th><textarea id="message" name="message" rows="10" cols=100" required></textarea></th>
-            </tr>
+                    <tr>
+                        <th><label for="title">Title:</label></th>
+                    </tr>
 
-            <tr>
-                <th><label for="tags">Tags:</label></th>
-            </tr>
+                    <tr>
+                        <th><input id="title" name="title" required size="100"></th>
+                    </tr>
 
-            <tr>
-                <th><input id="tags" name="tags" required size="100"></th>
-            </tr>
+                    <tr>
+                        <th><label for="message">Story:</label></th>
+                    </tr>
 
-            <tr>
-                <th><input type="submit" value="Submit"></th>
-            </tr>
+                    <tr>
+                        <th><textarea id="message" name="message" rows="10" cols=100" required></textarea></th>
+                    </tr>
 
+                    <tr>
+                        <th><label for="tags">Tags:</label></th>
+                    </tr>
 
-        </table></form>
+                    <tr>
+                        <th><input id="tags" name="tags" required size="100"></th>
+                    </tr>
 
-    <form action="/deltag"><input type="submit" value="del tag with id=4,5,6,7,8,9"></form>
+                    <tr>
+                        <th><input type="submit" value="Submit"></th>
+                    </tr>
+                </table>
+            </form>
+            </div>
+        </header>
     </body>
 </html>

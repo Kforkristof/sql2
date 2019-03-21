@@ -1,39 +1,24 @@
 <!DOCtype html>
 <html>
-<head>
-    <title>Q&A</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
-</head>
-
-    <body>
-        <h1>Question&Answers</h1>
+<body>
+    <header>
+        <div class="page_name">
+            <h1>Question&Answers</h1>
+        </div>
 
         {% for question in questions %}
 
-            <form action='/delete-question/{{ question['id'] }}'>
-                <div class="row">
-                    <ul class="main-nav">
-                    <header>
-                        <li><input type="submit" value="DELETE QUESTION"/></li>
-                    </header>
-                </ul>
-            </div>
-        </form>
+        <div class="main">
+            <ul>
+                <form action="/question/{{ questions[0]['id'] }}/question-comment">
+                    <li><a href="http://127.0.0.1:5000/question/2/question-comment?">Add new Comment</a></li>
+                </form>
 
-            <form action='/question/{{ question['id'] }}/new-answer'>
-    <div class="row">
-            <ul class="main-nav">
-                <header>
-                    <li><input type="submit" value="NEW ANSWER"/></li>
-                </header>
+                <form action='/question/{{ question['id'] }}/new-answer'>
+                    <li><a href="http://127.0.0.1:5000/question/2/new-answer?">Add new Answer</a></li>
+                </form>
             </ul>
         </div>
-    </form>
-
 
     <div class="question-block">
     <table>
@@ -45,36 +30,33 @@
         <th>Title</th>
         <th>Message</th>
         <th>Tags</th>
+        <th>Delete</th>
     </tr>
 
     <tr>
 
-            <td>{{ question['id'] }}</td>
+    <td>{{ question['id'] }}</td>
     <td>
-        <form action="/question/{{ question['id'] }}/edit-question" method="GET"><input type="submit"
-                                                                                        value="{{ question['submission_time'] }}">
+        <form action="/question/{{ question['id'] }}/edit-question" method="GET">
+            <input type="submit" value="{{ question['submission_time'] }}">
         </form>
     </td>
-            <td>{{ question['view_number'] }}</td>
-            <td>{{ question['vote_number'] }}</td>
-            <td>{{ question['title'] }}</td>
-            <td>{{ question['message'] }}</td>
-            <td>{{ tag['tagname'] }}</td>
+    <td>{{ question['view_number'] }}</td>
+    <td>{{ question['vote_number'] }}</td>
+    <td>{{ question['title'] }}</td>
+    <td>{{ question['message'] }}</td>
+    <td>{{ tag['tagname'] }}</td>
+    <td>
+        <form action='/delete-question/{{ question['id'] }}'>
+            <input class="trash" type="submit" value="&#x1F6AE;" height="10" />
+        </form>
+    </td>
 {% endfor %}
 
 </tr>
 </table>
 </div><h3>Question comments:</h3>
 
-        <form action="/question/{{ questions[0]['id'] }}/question-comment">
-    <div class="row">
-        <ul class="main-nav">
-            <header>
-                <li><input type="submit" value="NEW COMMENT"/></li>
-            </header>
-        </ul>
-    </div>
-</form>
 <div id="question-comments">
 
     <table>
@@ -89,8 +71,8 @@
             <tr>
                 <td>{{ comment['id'] }}</td>
                 <td><form action="/comment/{{ comment['id'] }}/edit-commit"><input type="submit"
-                                                                               value="{{ comment['submission_time'] }}">
-                    </form></td>
+                                                                                   value="{{ comment['submission_time'] }}">
+                </form></td>
                 <td>{{ comment['message'] }}</td>
                 <td>{{ comment['edited_count'] }}</td>
                 <td><form action="/delete/{{ comment.id }}"><button type="submit" value="delete">delete</button></form></td></tr>
@@ -102,33 +84,38 @@
 </div>
 <div class="answerblock">
     <h2>Answers:</h2>
-        <table>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Vote</th>
+            <th>Question id</th>
+            <th>Answer</th>
+            <th>Delete</th>
+
+        </tr>
+
+        {% for answer in answers %}
             <tr>
-                <th>Date</th>
-                <th>Vote</th>
-                <th>Question id</th>
-                <th>Answer</th>
-                <th>Delete</th>
-
+                <td>
+                    <form action="/answer/{{ answer['id'] }}/edit-answer"><input type="submit"
+                                                                                 value="{{ answer['submission_time'] }}">
+                    </form>
+                </td>
+                <td>{{ answer['vote_number'] }}</td>
+                <td>{{ answer['question_id'] }}</td>
+                <td>{{ answer['message'] }}</td>
+                <td>
+                    <form action="/delete-answer/{{ answer.id }}">
+                        <button type="submit" value="delete">delete</button>
+                    </form>
+                </td>
             </tr>
-
-            {% for answer in answers %}
-                <tr>
-                    <td>
-                        <form action="/answer/{{ answer['id'] }}/edit-answer"><input type="submit"
-                                                                                     value="{{ answer['submission_time'] }}">
-                        </form>
-                    </td>
-                    <td>{{ answer['vote_number'] }}</td>
-                    <td>{{ answer['question_id'] }}</td>
-                    <td>{{ answer['message'] }}</td>
-                    <td>
-                        <form action="/delete-answer/{{ answer.id }}">
-                            <button type="submit" value="delete">delete</button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
+        {% endfor %}
+    </table>
+</div>
 </body>
+<head>
+    <title>Q&A</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
