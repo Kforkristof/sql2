@@ -402,3 +402,15 @@ def get_user_hash(cursor, user_id):
 
     result = cursor.fetchone()
     return result
+
+@connection.connection_handler
+def bind_question(cursor, username):
+    cursor.execute("""
+                   SELECT question.submission_time, question.title FROM question
+                   JOIN sessions
+                   ON sessions.id=question.id
+                   WHERE sessions.id = %(username)s;
+                   """,
+                   {'username': username})
+    result = cursor.fetchone()
+    return result

@@ -286,7 +286,6 @@
         }
 
         td input.trash{
-            content: "&#x1F5D1;";
             font-size: 50px;
             vertical-align: middle;
         }

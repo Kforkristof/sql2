@@ -39,53 +39,45 @@
         </div>
 
         <div class="question-block">
-        <table>
-        <tr>
-            <th>ID</th>
-            <th>Time</th>
-            <th>Viewed</th>
-            <th>Vote</th>
-            <th>Title</th>
-            <th>Message</th>
-            <th>Tags</th>
-            <th>Delete</th>
-        </tr>
+            <table>
+                <tr>
+                    <th>Time</th>
+                    <th>Viewed</th>
+                    <th>Vote</th>
+                    <th>Title</th>
+                    <th>Message</th>
+                    <th>Tags</th>
+                    <th>Delete</th>
+                </tr>
 
-        <tr>
+                <tr>
+                    <td><form action="/question/{{ question['id'] }}/edit-question" method="GET">
+                            <input type="submit" value="{{ question['submission_time'] }}">
+                        </form></td>
+                    <td>{{ question['view_number'] }}</td>
+                    <td>{{ question['vote_number'] }}</td>
+                    <td>{{ question['title'] }}</td>
+                    <td>{{ question['message'] }}</td>
+                    <td>{{ tag['tagname'] }}</td>
+                    <td><form action='/delete-question/{{ question['id'] }}'>
+                            <input class="trash" type="submit" value="&#128465;"/>
+                        </form></td>
+                    {% endfor %}
+                </tr>
+            </table>
+        </div>
 
-        <td>{{ question['id'] }}</td>
-        <td>
-            <form action="/question/{{ question['id'] }}/edit-question" method="GET">
-                <input type="submit" value="{{ question['submission_time'] }}">
-            </form>
-        </td>
-        <td>{{ question['view_number'] }}</td>
-        <td>{{ question['vote_number'] }}</td>
-        <td>{{ question['title'] }}</td>
-        <td>{{ question['message'] }}</td>
-        <td>{{ tag['tagname'] }}</td>
-        <td>
-            <form action='/delete-question/{{ question['id'] }}'>
-                <input class="trash" type="submit" value="&#x1F6AE;" height="10" />
-            </form>
-        </td>
-        {% endfor %}
-
-        </tr>
-        </table>
-        </div><h3>Question comments:</h3>
 
         <div id="question-comments">
             <table>
                 <tr>
-                    <th>ID</th>
+                    <h3>Question comments:</h3>
                     <th>Time</th>
                     <th>Comment</th>
                     <th>Edited counter</th>
                 </tr>
                 {% for comment in question_comments %}
                     <tr>
-                        <td>{{ comment['id'] }}</td>
                         <td><form action="/comment/{{ comment['id'] }}/edit-commit">
                             <input type="submit" value="{{ comment['submission_time'] }}">
                         </form></td>
@@ -111,17 +103,17 @@
             </tr>
 
             {% for answer in answers %}
-                <tr>
-                    <td><form action="/answer/{{ answer['id'] }}/edit-answer">
-                            <input type="submit" value="{{ answer['submission_time'] }}">
-                        </form></td>
-                    <td>{{ answer['vote_number'] }}</td>
-                    <td>{{ answer['question_id'] }}</td>
-                    <td>{{ answer['message'] }}</td>
-                    <td><form action="/delete-answer/{{ answer.id }}">
-                            <button type="submit" value="delete">delete</button>
-                        </form></td>
-                </tr>
+            <tr>
+                <td><form action="/answer/{{ answer['id'] }}/edit-answer">
+                        <input type="submit" value="{{ answer['submission_time'] }}">
+                    </form></td>
+                <td>{{ answer['vote_number'] }}</td>
+                <td>{{ answer['question_id'] }}</td>
+                <td>{{ answer['message'] }}</td>
+                <td><form action="/delete-answer/{{ answer.id }}">
+                        <button type="submit" value="delete">delete</button>
+                    </form></td>
+            </tr>
             {% endfor %}
         </table>
     </div>

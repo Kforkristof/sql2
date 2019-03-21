@@ -3,71 +3,72 @@
     <meta charset="UTF-8">
     <title>Login / Register</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
-
 </head>
 <body>
-<form action="{{ url_for('login') }}" method="POST">
+    <header>
 
-    <table align="left">
-        <tr>
-            <td><h1>Existing user:</h1></td>
-        </tr>
+        <div action="{{ url_for('login') }}" method="POST">
+            <table align="left">
+                <tr>
+                    <td><h1>Existing user:</h1></td>
+                </tr>
 
+                <tr>
+                    <th><label for="login_username">Username:</label></th>
+                </tr>
 
-        <tr>
-            <th><label for="login_username">Username:</label></th>
-        </tr>
+                <tr>
+                    <th><input id="login_username" name="login_username" required size="60"></th>
+                </tr>
 
-        <tr>
-            <th><input id="login_username" name="login_username" required size="60"></th>
-        </tr>
+                <tr>
+                    <th><label for="login_password">Password:</label></th>
+                </tr>
 
-        <tr>
-            <th><label for="login_password">Password:</label></th>
-        </tr>
+                <tr>
+                    <th><input type="password" id="login_password" name="login_password"></th>
+                </tr>
 
-        <tr>
-            <th><input type="password" id="login_password" name="login_password"></th>
-        </tr>
+                <tr>
+                    <th><input type="submit" value="Submit"></th>
+                </tr>
 
-        <tr>
-            <th><input type="submit" value="Submit"></th>
-        </tr>
-
-    </table>
-</form>
+            </table>
+        </div>
+        </form>
 {% if taken==True %}
     <script type="text/javascript">
         console.alert('This username is already taken');
     </script>
 {% endif %}
-<form action="{{ url_for('register') }}" method="POST">
-    <table align="right">
-        <tr>
-            <td><h1>Register a new user:</h1></td>
-        </tr>
+        <div>
+        <form action="{{ url_for('register') }}" method="POST">
+            <table align="right">
+                <tr>
+                    <td><h1>Register a new user:</h1></td>
+                </tr>
 
+                <tr>
+                    <th><label for="username">Username:</label></th>
+                </tr>
 
-        <tr>
-            <th><label for="username">Username:</label></th>
-        </tr>
+                <tr>
+                    <th><input id="username" name="username" required size="60"></th>
+                </tr>
 
-        <tr>
-            <th><input id="username" name="username" required size="60"></th>
-        </tr>
+                <tr>
+                    <th><label for="pw">Password:</label></th>
+                </tr>
 
-        <tr>
-            <th><label for="pw">Password:</label></th>
-        </tr>
-
-        <tr>
-            <th><input type="password" id="pw" name="pw"></th>
-        </tr>
-        <tr>
-            <th><input type="submit" value="Submit"></th>
-        </tr>
-
-    </table>
-</form>
+                <tr>
+                    <th><input type="password" id="pw" name="pw"></th>
+                </tr>
+                <tr>
+                    <th><input type="submit" value="Submit"></th>
+                </tr>
+            </table>
+        </form>
+        </div>
+    </header>
 </body>
 </html>
