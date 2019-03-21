@@ -467,4 +467,11 @@ FROM
 
     return message, comments
 
+@connection.connection_handler
+def get_all_user(cursor):
+    cursor.execute("""
+    select * from sessions""")
+    users = cursor.fetchall()
+    return users
+
 
