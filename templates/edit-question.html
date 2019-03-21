@@ -7,24 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
-<body>
-<h1 id="edit_question">Edit question</h1>
-<div id="edit_question">
-    <form method="POST">
+    <body>
+        <header>
+            <table>
+                <div>
+                    <ul>
+                        <li><a href="http://127.0.0.1:5000/all-questions?">Return Questions</a></li>
+                        <li><a href="http://127.0.0.1:5000/home">Back Home</a></li>
+                    </ul>
+                </div>
 
-        <p>
-            <label for="edit-question">Write your question:</label>
-        </p>
+                <div class="logo">
+                    <h1>@AskMate</h1>
+                </div>
 
+                <div id="edit_question">
+                    <h1 id="edit_question">Edit question</h1>
+                    <form method="POST">
+                        <p>
+                            <label for="edit-question">Write your question:</label>
+                        </p>
 
-        <textarea id="edit-question" name="edit-question" rows="15" cols=100"
-                  required>{{ question[0]["message"] }}</textarea>
+                        <textarea id="edit-question" name="edit-question" rows="15" cols=100"
+                                  required>{{ question[0]["message"] }}</textarea>
 
-
-        <input type="submit" value="Submit">
-
-
-    </form>
-</div>
-</body>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </table>
+        <header>
+    </body>
 </html>

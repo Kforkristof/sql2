@@ -4,32 +4,41 @@
     <title>Add new Answer</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
-<body><form action="/question/{{ q['id'] }}/question-comment" method="post">
-<table align="center">
+<body>
+    <header>
+         <div>
+            <ul>
+                <form action="/add-question">
+                    <li><a href="http://127.0.0.1:5000/all-questions?">Return Questions</a></li>
+                </form>
 
-    <tr>
-        <td><h1>Add new comment:</h1></td>
-    </tr>
+                <form action="/">
+                    <li><a href="http://127.0.0.1:5000/home">Back Home</a></li>
+                </form>
+            </ul>
+        </div>
 
+        <div class="logo">
+                <h1>@AskMate</h1>
+        </div>
 
+        <div class="add_q">
+            <form action="/question/{{ q['id'] }}/question-comment" method="post">
+                <table align="center">
+                <tr>
+                    <td><h1>Add new comment:</h1></td>
+                </tr>
 
-        <p>
-            <label for="comment">Story:</label>
-        </p>
+                <tr>
+                    <th><textarea id="comment" name="comment" rows="10" cols=100" required></textarea></th>
+                </tr>
 
-        <tr>
-            <th><label for="comment">Story:</label></th>
-        </tr>
-
-        <tr>
-            <th><textarea id="comment" name="comment" rows="10" cols=100" required></textarea></th>
-        </tr>
-
-        <tr>
-            <th><input type="submit" value="Submit"></th>
-        </tr>
-
-
-</table></form>
+                <tr>
+                    <th><input type="submit" value="Submit"></th>
+                </tr>
+                </table>
+            </form>
+        </div>
+    </header>
 </body>
 </html>
