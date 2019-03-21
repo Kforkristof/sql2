@@ -286,7 +286,19 @@
         }
 
         td input.trash{
-            content: "&#x1F5D1;";
             font-size: 50px;
             vertical-align: middle;
+        }
+
+        #center {
+            margin: auto;
+            width: 50%;
+            height: auto;
+            text-align: center;
+            font-size: 2rem;
+            background-color: #dddddd;
+        }
+
+        .listuser {
+            background-color: #cccccc;
         }

@@ -34,29 +34,23 @@
             <th>Delete</th>
         </tr>
 
-        <tr>
+                <tr>
+                    <td><form action="/question/{{ question['id'] }}/edit-question" method="GET">
+                            <input type="submit" value="{{ question['submission_time'] }}">
+                        </form></td>
+                    <td>{{ question['view_number'] }}</td>
+                    <td>{{ question['vote_number'] }}</td>
+                    <td>{{ question['title'] }}</td>
+                    <td>{{ question['message'] }}</td>
+                    <td>{{ tag['tagname'] }}</td>
+                    <td><form action='/delete-question/{{ question['id'] }}'>
+                            <input class="trash" type="submit" value="&#128465;"/>
+                        </form></td>
+                    {% endfor %}
+                </tr>
+            </table>
+        </div>
 
-        <td>{{ question['id'] }}</td>
-        <td>
-            <form action="/question/{{ question['id'] }}/edit-question" method="GET">
-                <input type="submit" value="{{ question['submission_time'] }}">
-            </form>
-        </td>
-        <td>{{ question['view_number'] }}</td>
-        <td>{{ question['vote_number'] }}</td>
-        <td>{{ question['title'] }}</td>
-        <td>{{ question['message'] }}</td>
-        <td>{{ tag['tagname'] }}</td>
-        <td>
-            <form action='/delete-question/{{ question['id'] }}'>
-                <input class="trash" type="submit" value="&#x1F6AE;" height="10"/>
-            </form>
-        </td>
-    {% endfor %}
-
-    </tr>
-    </table>
-    </div><h3>Question comments:</h3>
 
     <div id="question-comments">
 
@@ -99,7 +93,6 @@
                 <th>Question id</th>
                 <th>Answer</th>
                 <th>Delete</th>
-
             </tr>
 
             {% for answer in answers %}
@@ -121,5 +114,5 @@
             {% endfor %}
         </table>
     </div>
+    </header>
 </body>
-

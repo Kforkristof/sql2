@@ -13,6 +13,8 @@ app.secret_key = b'420hoki420/'
 def home_page():
     search_for = request.form.get('search')
     all_qs = data_manager.get_questions_desc('submission_time')
+    if request.path == '/':
+        return render_template('home.html', questions=all_qs)
 
     return render_template('allquestions.html', questions=all_qs, search_for=search_for)
 
@@ -117,7 +119,7 @@ def delete_question(question_id):
 
     all_qs = data_manager.get_questions_desc('submission_time')
 
-    return render_template('allquestions.html', questions=all_qs)
+    return render_template('home.html', questions=all_qs)
 
 
 @app.route('/question/<int:question_id>/answer-comment')
@@ -215,8 +217,8 @@ def starting_page():
 
 
 @app.route('/userpage/<name>')
-def userpage():
-    name = session['username']
+def userpage(name):
+
     questions = data_manager.get_loggeduser_q(name)
     answer_q, answers = data_manager.get_loggeduser_a_q(name)
     q_or_a, comments = data_manager.get_loggeduser_q_a_for_c(name)
@@ -264,6 +266,14 @@ def login():
 def logout():
     session.pop('username', None)
     return render_template('main_home.html')
+
+@app.route('/users')
+def users():
+    all_user = data_manager.get_all_user()
+    print(all_user)
+    return render_template('list_users.html', session=all_user)
+
+
 
 
 if __name__ == "__main__":
