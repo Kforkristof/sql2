@@ -8,27 +8,47 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-<table align="center">
-    <tr>
-        <td colspan="6"><h1>Search results for {{ search_for }}</h1></td>
-    </tr>
+    <header>
+        <div>
+            <ul>
+                <form action="/add-question">
+                    <li><a href="http://127.0.0.1:5000/all-questions?">Return Questions</a></li>
+                </form>
 
-    <tr>
-        <th>Title</th>
-        <th>View number</th>
-        <th>Vote number</th>
-        <th>Submission time</th>
-    </tr>
+                <form action="/">
+                    <li><a href="http://127.0.0.1:5000/home">Back Home</a></li>
+                </form>
+            </ul>
+        </div>
 
-    {% for question in results %}
-        <tr>
-            <td><a href="/question/{{ question.id }}"> {{ question.title }}</a></td>
-            <td>{{ question.view_number }}</td>
-            <td>{{ question.vote_number }}</td>
-            <td>{{ question.submission_time }}</td>
-        </tr>
-    {% endfor %}
+        <div class="logo">
+            <h1>@AskMate</h1>
+        </div>
 
-</table>
+        <table align="center">
+            <tr>
+                <td colspan="6">
+                    <h1>Search results for {{ search_for }}</h1>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Title</th>
+                <th>View number</th>
+                <th>Vote number</th>
+                <th>Submission time</th>
+            </tr>
+
+            {% for question in results %}
+                <tr>
+                    <td><a href="/question/{{ question.id }}"> {{ question.title }}</a></td>
+                    <td>{{ question.view_number }}</td>
+                    <td>{{ question.vote_number }}</td>
+                    <td>{{ question.submission_time }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </header>
 </body>
 </html>

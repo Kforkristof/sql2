@@ -42,10 +42,10 @@
             font-size: large;
             color: white;
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
-            -moz-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
-            -webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
+            background: rgba(305, 10, 27, 0.66);
+            -moz-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
+            -webkit-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
         }
 
         tr:nth-child(odd)
@@ -53,10 +53,10 @@
             font-size: large;
             color: white;
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
-            -moz-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
-            -webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);
+            background: rgba(305, 10, 27, 0.66);
+            -moz-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
+            -webkit-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
         }
 
         i
@@ -278,4 +278,15 @@
             background-color: dimgray;
             opacity: 0.9;
             transition: ease-in-out;
+        }
+.page_name h1{
+            font-size: 100px;
+            color: white;
+            text-align: center;
+        }
+
+        td input.trash{
+            content: "&#x1F5D1;";
+            font-size: 50px;
+            vertical-align: middle;
         }
