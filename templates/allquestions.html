@@ -16,13 +16,9 @@
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
 
-                <form action="/add-question">
-                    <li><a href="http://127.0.0.1:5000/add-question?">Add Question</a></li>
-                </form>
+                <li><a href="{{ url_for('add_question') }}">Add Question</a></li>
 
-                <form action="/">
-                    <li><a href="http://127.0.0.1:5000/home">Return Home</a></li>
-                </form>
+                <li><a href="{{ url_for('starting_page') }}">Return Home</a></li>
             </ul>
         </div>
 
