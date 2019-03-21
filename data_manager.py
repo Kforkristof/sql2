@@ -120,12 +120,13 @@ def search_for_q(cursor, search_for):
 
 
 @connection.connection_handler
-def new_q_comment(cursor, comment, question_id):
+def new_q_comment(cursor, comment, question_id, user):
     st = util.get_submission_time()
     cursor.execute("""
-    insert into comment (submission_time, question_id, message, edited_count)
-    values (%(submission_time)s, %(question_id)s, %(message)s, %(edited_count)s);""",
-                   {'submission_time': st, 'question_id': question_id, 'message': comment, 'edited_count': 0})
+    insert into comment (submission_time, question_id, message, edited_count, session_id)
+    values (%(submission_time)s, %(question_id)s, %(message)s, %(edited_count)s, %(user)s);""",
+                   {'submission_time': st, 'question_id': question_id, 'message': comment, 'edited_count': 0,
+                    'user': user})
     return cursor
 
 
@@ -137,7 +138,6 @@ def get_q_comments(cursor, q_id):
     """,
                    {'_id': q_id})
     comments = cursor.fetchall()
-    print(comments)
     return comments
 
 
@@ -249,7 +249,7 @@ def get_answer_comments(cursor, answer_id):
 
 
 @connection.connection_handler
-def new_comment(cursor, id, new_a_comment):
+def new_comment(cursor, id, new_a_comment, user):
     st = util.get_submission_time()
     edited_count = 0
     cursor.execute("""
@@ -261,10 +261,11 @@ def new_comment(cursor, id, new_a_comment):
     qid_and_aid = cursor.fetchall()
     ids = qid_and_aid[0]
     cursor.execute("""
-    insert into comment(question_id, answer_id, message, submission_time, edited_count)
+    insert into comment(question_id, answer_id, message, submission_time, edited_count, session_id)
     values (null, %(ans_id)s, %(message)s, %(submission_t)s, %(edited_c)s);
     """,
-                   {'ans_id': ids['id'], 'message': new_a_comment, 'submission_t': st, 'edited_c': edited_count})
+                   {'ans_id': ids['id'], 'message': new_a_comment, 'submission_t': st, 'edited_c': edited_count,
+                    'user': user})
     return cursor
 
 
@@ -402,6 +403,72 @@ def get_user_hash(cursor, user_id):
 
     result = cursor.fetchone()
     return result
+
+
+@connection.connection_handler
+def get_loggeduser_q(cursor, name):
+    cursor.execute("""
+    select * from question
+    where session_id = %(s_id)s;
+    """,
+                   {'s_id': name})
+    logged_user_questions = cursor.fetchall()
+    return logged_user_questions
+
+
+@connection.connection_handler
+def get_loggeduser_a_q(cursor, name):
+    cursor.execute("""
+    select * from question
+    left outer join answer
+    on question.id = answer.question_id
+    where answer.session_id = %(sid)s;
+    """,
+                   {'sid': name})
+    question_for_the_answers = cursor.fetchall()
+    cursor.execute("""
+    select * from answer
+    where session_id = %(s_id)s;
+    """,
+                   {'s_id': name})
+    answers = cursor.fetchall()
+    return question_for_the_answers, answers
+
+
+@connection.connection_handler
+def get_loggeduser_q_a_for_c(cursor, name):
+    cursor.execute("""
+    SELECT
+  CASE
+    WHEN
+      comment.question_id is not Null
+        THEN
+          question.message
+    
+    ELSE
+      answer.message
+      END AS locale
+  
+FROM
+  answer
+    join comment
+    on answer.id = comment.answer_id
+    join question
+    on comment.question_id = question.id
+    where comment.session_id = %(_id)s;
+    """,
+                   {'_id': name})
+    message = cursor.fetchall()
+
+    cursor.execute("""
+    select message from comment
+    where session_id = %(id)s;
+    """,
+                   {'id': name})
+    comments= cursor.fetchall()
+
+    return message, comments
+
 
 @connection.connection_handler
 def bind_question(cursor, username):
