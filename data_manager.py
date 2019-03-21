@@ -46,13 +46,13 @@ def get_questions_asc(cursor, base):
 
 
 @connection.connection_handler
-def new_question(cursor, title, message):
+def new_question(cursor, title, message, session_id, user):
     st = util.get_submission_time()
     cursor.execute('''
-    INSERT INTO question (submission_time, view_number, vote_number, title, message)
-    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s);''',
+    INSERT INTO question (submission_time, view_number, vote_number, title, message, session_id)
+    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(session_id)s);''',
                    {'submission_time': st, 'view_number': 0, 'vote_number': 0, 'title': title,
-                    'message': message})
+                    'message': message, 'session_id': session_id, 'user': user})
     return cursor
 
 
@@ -471,13 +471,15 @@ FROM
 
 
 @connection.connection_handler
-def bind_question(cursor, username):
+def bind_question(cursor, question, question_id, username):
     cursor.execute("""
-                   SELECT question.submission_time, question.title FROM question
-                   JOIN sessions
-                   ON sessions.id=question.id
-                   WHERE sessions.id = %(username)s;
+                   INSERT INTO question (submission_time, 
+                                        view_number, 
+                                        vote_number, 
+                                        title, 
+                                        message,
+                                        session_id)  
+                   VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(session_id)s)
                    """,
-                   {'username': username})
-    result = cursor.fetchone()
-    return result
+                   {'question': question, 'question_id': question_id, 'username': username})
+    return cursor

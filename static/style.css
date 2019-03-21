@@ -45,6 +45,7 @@
             -moz-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
             -webkit-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.5);
             box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+            transition: 0.8s ease;
         }
 
         tr:nth-child(odd)
@@ -56,6 +57,7 @@
             -moz-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
             -webkit-box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.5);
             box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+            transition: 0.8s ease;
         }
 
         i
@@ -182,14 +184,13 @@
             border: 1px solid transparent;
             transition: 0.8s ease;
             text-transform: capitalize;
-            text-transform: uppercase;
         }
 
         ul li input:hover{
             background-color: white;
             color: #000;
         }
-        ul li.search_button input{
+        ul form input .search_button {
             background-color: -moz-default-background-color;
             color: #000000;
             border-bottom-color: black;
@@ -214,21 +215,13 @@
             opacity: 0.4;
             transition:  color 2s;
             margin-top: 29px;
-
             transition-delay: 0.08s;
-
 
         }
 
         #Userpageheader:hover {
             color: #30799B;
             transition-timing-function: ease-in-out;
-
-
-
-
-
-
         }
 
         .userh2 {
@@ -278,14 +271,23 @@
             opacity: 0.9;
             transition: ease-in-out;
         }
-.page_name h1{
+        .page_name h1{
             font-size: 100px;
             color: white;
             text-align: center;
-    margin-top: auto;
+            margin-top: auto;
         }
 
         td input.trash{
             font-size: 50px;
             vertical-align: middle;
+        }
+
+        .comment{
+            text-decoration: none;
+            color: white;
+            padding: 20px 40px;
+            border: 1px solid transparent;
+            transition: 0.8s ease;
+            text-transform: capitalize;
         }
