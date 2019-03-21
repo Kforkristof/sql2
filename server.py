@@ -1,3 +1,5 @@
+from typing import Dict, List, Union
+
 from flask import Flask, render_template, redirect, request
 import util
 import data_manager
@@ -229,6 +231,16 @@ def deltag():
     data_manager.delete_the_wrong_tags()
     return redirect('/')
 
+@app.route('/fityma')
+def fityma():
+    name = "John Doe"
+    questions = [{'id': 2, 'submission_time': '2018.12.21 12:23', 'view_number': 31, 'vote_number': 11, 'title': 'Cat', 'message': 'How many lifes the cats has?'}]
+    answer_q = [{'id': 987, 'submission_time': '2013.11.21 11:29', 'view_number': 38, 'vote_number': 51, 'title': 'Lion', 'message': 'How many lifes the lion has?'}]
+    answers = [{'id': 44, 'submission_time': '2019.03.12 12:56', 'vote_number': 68, 'question_id': 987, 'message': 'The answer is 5', 'image':None}]
+    q_or_a_for_c = [{"message": "123"}, {'message': '456'}]
+    comments = [{'message': 'egykéthá'}, {'message': 'négyöthat'}]
+    return render_template('user_page.html', questions=questions, answer_q=answer_q, answers=answers, q_or_a_for_c=q_or_a_for_c, comments=comments, name=name)
+
 
 if __name__ == "__main__":
     app.run(
@@ -236,3 +248,5 @@ if __name__ == "__main__":
         port=5000,
         debug=True,
     )
+
+
