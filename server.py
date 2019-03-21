@@ -16,8 +16,7 @@ def home_page():
     if request.path == '/':
         return render_template('home.html', questions=all_qs)
 
-    if request.path == '/all-questions':
-        return render_template('allquestions.html', questions=all_qs, search_for=search_for)
+    return render_template('allquestions.html', questions=all_qs, search_for=search_for)
 
 
 @app.route('/vote/<question_id>/<up_or_down>', methods=['GET', 'POST'])
@@ -48,13 +47,6 @@ def search_route():
     results = data_manager.search_for_q(search_string)
 
     return render_template('search.html', results=results, search_for=search_string)
-
-
-@app.route('/all-questions')
-def all_questions():
-    all_qs = data_manager.get_questions_desc('submission_time')
-
-    return render_template('allquestions.html', questions=all_qs)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -91,7 +83,7 @@ def question_page(question_id):
         return render_template('question-comment.html', questions=question, )
 
     return render_template('q-and-a.html', tag=tag, questions=question, answers=my_a,
-                           question_comments=question_comment)
+                           question_comment=question_comment)
 
 
 @app.route('/question/<int:question_id>/question-comment', methods=['GET', 'POST'])
@@ -199,7 +191,7 @@ def delete_answer(id):
 
 @app.route('/comment/<int:id>/edit-commit', methods=['GET', 'POST'])
 def edit_comment(id):
-    initial_comment = data_manager.get_q_comments(id)
+    initial_comment = data_manager.get_comment_by_id(id)
     if request.method == 'POST':
         new_comment = request.form.get('edit-comment')
         data_manager.editing_comment(id, new_comment)
@@ -220,13 +212,13 @@ def tags():
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home')
-def home():
+def starting_page():
     return render_template('main_home.html')
 
 
 @app.route('/userpage/<name>')
-def userpage():
-    name = session['username']
+def userpage(name):
+
     questions = data_manager.get_loggeduser_q(name)
     answer_q, answers = data_manager.get_loggeduser_a_q(name)
     q_or_a, comments = data_manager.get_loggeduser_q_a_for_c(name)
@@ -239,7 +231,6 @@ def userpage():
 def register():
     username = request.form.get('username')
     pw = request.form.get('pw')
-    taken = False
     if request.method == 'POST':
         validity = data_manager.check_existing_username(username)
         if validity is None:
@@ -264,9 +255,9 @@ def login():
                 and (util.verify_password(plain_password,
                                           data_manager.get_user_hash(user)['hashed_pw']) is True):
             session['username'] = user
-            return render_template('home.html')
+            return render_template('allquestions.html')
         else:
-            return render_template('home.html')
+            return render_template('allquestions.html')
 
     return render_template('regitry.html')
 
@@ -274,7 +265,13 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return render_template('home.html')
+    return render_template('main_home.html')
+
+@app.route('/users')
+def users():
+    all_user = data_manager.get_all_user()
+    print(all_user)
+    return render_template('list_users.html', session=all_user)
 
 
 if __name__ == "__main__":

@@ -291,3 +291,17 @@
             transition: 0.8s ease;
             text-transform: capitalize;
         }
+
+
+        #center {
+            margin: auto;
+            width: 50%;
+            height: auto;
+            text-align: center;
+            font-size: 2rem;
+            background-color: #dddddd;
+        }
+
+        .listuser {
+            background-color: #cccccc;
+        }
