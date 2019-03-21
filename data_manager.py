@@ -405,7 +405,6 @@ def get_user_hash(cursor, user_id):
     return result
 
 
-#these four call for the userpage
 @connection.connection_handler
 def get_loggeduser_q(cursor, name):
     cursor.execute("""
@@ -415,6 +414,7 @@ def get_loggeduser_q(cursor, name):
                    {'s_id': name})
     logged_user_questions = cursor.fetchall()
     return logged_user_questions
+
 
 @connection.connection_handler
 def get_loggeduser_a_q(cursor, name):
@@ -433,6 +433,7 @@ def get_loggeduser_a_q(cursor, name):
                    {'s_id': name})
     answers = cursor.fetchall()
     return question_for_the_answers, answers
+
 
 @connection.connection_handler
 def get_loggeduser_q_a_for_c(cursor, name):
@@ -479,4 +480,15 @@ def get_all_user(cursor):
 
 
 
+@connection.connection_handler
+def bind_question(cursor, username):
+    cursor.execute("""
+                   SELECT question.submission_time, question.title FROM question
+                   JOIN sessions
+                   ON sessions.id=question.id
+                   WHERE sessions.id = %(username)s;
+                   """,
+                   {'username': username})
+    result = cursor.fetchone()
+    return result
 
