@@ -403,3 +403,72 @@ def get_user_hash(cursor, user_id):
 
     result = cursor.fetchone()
     return result
+
+
+#these four call for the userpage
+@connection.connection_handler
+def get_loggeduser_q(cursor, name):
+    cursor.execute("""
+    select * from question
+    where session_id = %(s_id)s;
+    """,
+                   {'s_id': name})
+    logged_user_questions = cursor.fetchall()
+    return logged_user_questions
+
+@connection.connection_handler
+def get_loggeduser_a_q(cursor, name):
+    cursor.execute("""
+    select * from question
+    left outer join answer
+    on question.id = answer.question_id
+    where answer.session_id = %(sid)s;
+    """,
+                   {'sid': name})
+    question_for_the_answers = cursor.fetchall()
+    cursor.execute("""
+    select * from answer
+    where session_id = %(s_id)s;
+    """,
+                   {'s_id': name})
+    answers = cursor.fetchall()
+    return question_for_the_answers, answers
+
+@connection.connection_handler
+def get_loggeduser_q_a_for_c(cursor, name):
+    cursor.execute("""
+    SELECT
+  CASE
+    WHEN
+      comment.question_id is not Null
+        THEN
+          question.message
+    
+    ELSE
+      answer.message
+      END AS locale
+  
+FROM
+  answer
+    join comment
+    on answer.id = comment.answer_id
+    join question
+    on comment.question_id = question.id
+    where comment.session_id = %(_id)s;
+    """,
+                   {'_id': name})
+    message = cursor.fetchall()
+
+    cursor.execute("""
+    select message from comment
+    where session_id = %(id)s;
+    """,
+                   {'id': name})
+    comments= cursor.fetchall()
+
+    return message, comments
+
+
+
+
+

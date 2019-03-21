@@ -1,9 +1,27 @@
 <!DOCtype html>
 <html>
+<head>
+    <title>Q&A</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
 <body>
     <header>
         <div class="page_name">
             <h1>Question&Answers</h1>
+        </div>
+
+        <div>
+            <ul>
+
+                <form action="/add-question">
+                    <li><a href="http://127.0.0.1:5000/all-questions?">Return Questions</a></li>
+                </form>
+
+                <form action="/">
+                    <li><a href="http://127.0.0.1:5000/home">Return Home</a></li>
+                </form>
+            </ul>
         </div>
 
         {% for question in questions %}
@@ -20,102 +38,92 @@
             </ul>
         </div>
 
-    <div class="question-block">
-    <table>
-    <tr>
-        <th>ID</th>
-        <th>Time</th>
-        <th>Viewed</th>
-        <th>Vote</th>
-        <th>Title</th>
-        <th>Message</th>
-        <th>Tags</th>
-        <th>Delete</th>
-    </tr>
-
-    <tr>
-
-    <td>{{ question['id'] }}</td>
-    <td>
-        <form action="/question/{{ question['id'] }}/edit-question" method="GET">
-            <input type="submit" value="{{ question['submission_time'] }}">
-        </form>
-    </td>
-    <td>{{ question['view_number'] }}</td>
-    <td>{{ question['vote_number'] }}</td>
-    <td>{{ question['title'] }}</td>
-    <td>{{ question['message'] }}</td>
-    <td>{{ tag['tagname'] }}</td>
-    <td>
-        <form action='/delete-question/{{ question['id'] }}'>
-            <input class="trash" type="submit" value="&#x1F6AE;" height="10" />
-        </form>
-    </td>
-{% endfor %}
-
-</tr>
-</table>
-</div><h3>Question comments:</h3>
-
-<div id="question-comments">
-
-    <table>
-
+        <div class="question-block">
+        <table>
         <tr>
             <th>ID</th>
             <th>Time</th>
-            <th>Comment</th>
-            <th>Edited counter</th>
-        </tr>
-        {% for comment in question_comments %}
-            <tr>
-                <td>{{ comment['id'] }}</td>
-                <td><form action="/comment/{{ comment['id'] }}/edit-commit"><input type="submit"
-                                                                                   value="{{ comment['submission_time'] }}">
-                </form></td>
-                <td>{{ comment['message'] }}</td>
-                <td>{{ comment['edited_count'] }}</td>
-                <td><form action="/delete/{{ comment.id }}"><button type="submit" value="delete">delete</button></form></td></tr>
-
-
-            </tr>
-        {% endfor %}
-    </table>
-</div>
-<div class="answerblock">
-    <h2>Answers:</h2>
-    <table>
-        <tr>
-            <th>Date</th>
+            <th>Viewed</th>
             <th>Vote</th>
-            <th>Question id</th>
-            <th>Answer</th>
+            <th>Title</th>
+            <th>Message</th>
+            <th>Tags</th>
             <th>Delete</th>
-
         </tr>
 
-        {% for answer in answers %}
-            <tr>
-                <td>
-                    <form action="/answer/{{ answer['id'] }}/edit-answer"><input type="submit"
-                                                                                 value="{{ answer['submission_time'] }}">
-                    </form>
-                </td>
-                <td>{{ answer['vote_number'] }}</td>
-                <td>{{ answer['question_id'] }}</td>
-                <td>{{ answer['message'] }}</td>
-                <td>
-                    <form action="/delete-answer/{{ answer.id }}">
-                        <button type="submit" value="delete">delete</button>
-                    </form>
-                </td>
-            </tr>
+        <tr>
+
+        <td>{{ question['id'] }}</td>
+        <td>
+            <form action="/question/{{ question['id'] }}/edit-question" method="GET">
+                <input type="submit" value="{{ question['submission_time'] }}">
+            </form>
+        </td>
+        <td>{{ question['view_number'] }}</td>
+        <td>{{ question['vote_number'] }}</td>
+        <td>{{ question['title'] }}</td>
+        <td>{{ question['message'] }}</td>
+        <td>{{ tag['tagname'] }}</td>
+        <td>
+            <form action='/delete-question/{{ question['id'] }}'>
+                <input class="trash" type="submit" value="&#x1F6AE;" height="10" />
+            </form>
+        </td>
         {% endfor %}
-    </table>
-</div>
+
+        </tr>
+        </table>
+        </div><h3>Question comments:</h3>
+
+        <div id="question-comments">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Time</th>
+                    <th>Comment</th>
+                    <th>Edited counter</th>
+                </tr>
+                {% for comment in question_comments %}
+                    <tr>
+                        <td>{{ comment['id'] }}</td>
+                        <td><form action="/comment/{{ comment['id'] }}/edit-commit">
+                            <input type="submit" value="{{ comment['submission_time'] }}">
+                        </form></td>
+                        <td>{{ comment['message'] }}</td>
+                        <td>{{ comment['edited_count'] }}</td>
+                        <td><form action="/delete/{{ comment.id }}">
+                            <button type="submit" value="delete">delete</button>
+                        </form></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    <div class="answerblock">
+        <h2>Answers:</h2>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Vote</th>
+                <th>Question id</th>
+                <th>Answer</th>
+                <th>Delete</th>
+            </tr>
+
+            {% for answer in answers %}
+                <tr>
+                    <td><form action="/answer/{{ answer['id'] }}/edit-answer">
+                            <input type="submit" value="{{ answer['submission_time'] }}">
+                        </form></td>
+                    <td>{{ answer['vote_number'] }}</td>
+                    <td>{{ answer['question_id'] }}</td>
+                    <td>{{ answer['message'] }}</td>
+                    <td><form action="/delete-answer/{{ answer.id }}">
+                            <button type="submit" value="delete">delete</button>
+                        </form></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    </header>
 </body>
-<head>
-    <title>Q&A</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
-</head>
