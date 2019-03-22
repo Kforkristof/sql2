@@ -105,7 +105,7 @@ def give_answer(question_id):
     image = request.form.get('image')
     name = session['username']
     if request.method == 'POST':
-        data_manager.new_answer(question_id, my_answer, image, name)
+        data_manager.new_answer(question_id, my_answer, image, session['username'])
         return redirect('/')
 
     return render_template('answer.html', message=my_answer, image=image, question_id=question_id)

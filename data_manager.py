@@ -61,7 +61,7 @@ def new_answer(cursor, question_id, message, image, name):
     submission_time = util.get_submission_time()
     cursor.execute('''
     INSERT INTO answer (question_id, vote_number, message, image, submission_time, session_id)
-    VALUES (%(question_id)s, %(vote_number)s, %(message)s, %(image)s, %(submission_time)s, %(s_id)s;''',
+    VALUES (%(question_id)s, %(vote_number)s, %(message)s, %(image)s, %(submission_time)s, %(s_id)s);''',
                    {'question_id': question_id, 'vote_number': 0, 'message': message, 'image': image,
                     'submission_time': submission_time, 's_id': name})
 
