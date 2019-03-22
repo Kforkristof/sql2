@@ -103,9 +103,9 @@ def question_comment(question_id):
 def give_answer(question_id):
     my_answer = request.form.get('message')
     image = request.form.get('image')
-
+    name = session['username']
     if request.method == 'POST':
-        data_manager.new_answer(question_id, my_answer, image)
+        data_manager.new_answer(question_id, my_answer, image, name)
         return redirect('/')
 
     return render_template('answer.html', message=my_answer, image=image, question_id=question_id)
