@@ -30,7 +30,7 @@
                 <td>{{ question.vote_number }}</td>
                 <td>{{ question.title }}</td>
                 <td>{{ question.message }}</td>
-            </tr>{% endfor %}</table></div>{% else %}<p>No Answers yet</p>
+            </tr>{% endfor %}</table></div>{% else %}<p style="background-color: snow;">No Answers yet</p>
 
     {% endif %}
     </div>
@@ -61,12 +61,12 @@
                 <th>QUESTION ID</th>
                 <th>ANSWER</th>
             </tr>{% for answer in answer_q %}
-            <td>answer.id</td>
-            <td>answer.submission_time</td>
-            <td>answer.vote</td>
-            <td>answer.question_id</td>
-            <td>answer.message</td></tr>{% endfor %}</table>
-        </div>{% else %}<p>No Answers yet</p>{% endif %}
+            <td>{{ answer.id }}</td>
+            <td>{{ answer.submission_time }}</td>
+            <td>{{ answer.vote }}</td>
+            <td>{{ answer.question_id }}</td>
+            <td>{{ answer.message }}</td></tr>{% endfor %}</table>
+        </div>{% else %}<p style="background-color: snow;">No Answers yet</p>{% endif %}
     <h2 class="userh2">Comments you wrote:</h2>
     <div class="tartalom">{% if comments %}
         <table>
@@ -82,7 +82,7 @@
             </tr>{% for comment in comments %}
             <tr>
                 <td>{{ comment.message }}</td>
-            </tr>{% endfor %}</table>{% else %}<p>No comments yet</p>{% endif %}</div>
+            </tr>{% endfor %}</table>{% else %}<p style="background-color: snow;">No comments yet</p>{% endif %}</div>
 
 </div>
 </body>
