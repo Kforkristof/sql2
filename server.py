@@ -251,13 +251,16 @@ def login():
     if request.method == 'POST':
         user = request.form.get('login_username')
         plain_password = request.form.get('login_password')
-        if (data_manager.check_existing_username(user)['id'] == user) \
-                and (util.verify_password(plain_password,
-                                          data_manager.get_user_hash(user)['hashed_pw']) is True):
-            session['username'] = user
-            return render_template('allquestions.html')
+        if data_manager.check_existing_username(user) is not None:
+            if (data_manager.check_existing_username(user)['id'] == user) \
+                    and (util.verify_password(plain_password,
+                                              data_manager.get_user_hash(user)['hashed_pw']) is True):
+                session['username'] = user
+                return render_template('allquestions.html')
         else:
-            return render_template('allquestions.html')
+            return render_template('regitry.html', incorrect_data=True)
+
+
 
     return render_template('regitry.html')
 
@@ -271,7 +274,6 @@ def logout():
 @app.route('/users')
 def users():
     all_user = data_manager.get_all_user()
-    print(all_user)
     return render_template('list_users.html', session=all_user)
 
 

@@ -234,7 +234,7 @@
 
         #username {
             position: sticky;
-            top: 0;
+            top: 40;
             left: 0;
             font-weight: bolder;
             font-size: 3rem;
