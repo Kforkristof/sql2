@@ -57,7 +57,7 @@ def add_question():
 
         tag = request.form.get('tags')
 
-        data_manager.new_question(title, message)
+        data_manager.new_question(title, message, session['username'])
 
         question_id = data_manager.get_latest_question_id()
 
